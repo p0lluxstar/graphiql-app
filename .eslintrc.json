@@ -37,7 +37,7 @@
     "react/react-in-jsx-scope": "off",
     "no-console": "error",
     "@typescript-eslint/explicit-function-return-type": "error",
-    "react-refresh/only-export-components": ["warn"]
+    "react-refresh/only-export-components": "off"
   },
   "settings": {
     "react": {
