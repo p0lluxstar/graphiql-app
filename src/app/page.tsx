@@ -1,9 +1,9 @@
-import styles from '../styles/page.module.css';
+import Main from '@/components/Main';
 
 export default function Home(): JSX.Element {
   return (
-    <main className={styles.main}>
-      <h1>GRAPHIQL-APP</h1>
-    </main>
+    <>
+      <Main />
+    </>
   );
 }

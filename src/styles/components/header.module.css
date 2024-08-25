@@ -1,0 +1,32 @@
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  background: #2d444d;
+}
+
+.headerMenu {
+  display: flex;
+  gap: 20px;
+  list-style-type: none;
+}
+
+.headerMenuItem {
+  padding: 10px 20px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: bold;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+}
+
+.headerMenuItem:hover {
+  opacity: 0.9;
+}
+
+.active {
+  color: #2d444d;
+  background: #ffffff;
+}

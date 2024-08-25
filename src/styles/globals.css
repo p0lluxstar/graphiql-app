@@ -11,3 +11,12 @@ body {
   margin: 0;
   font-family: 'Exo 2', 'Lato', 'Helvetica Neue', sans-serif;
 }
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #90bac7;
+  min-height: calc(100vh - 240px);
+  color: #ffffff;
+}
