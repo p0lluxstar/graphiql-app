@@ -34,6 +34,10 @@ export default function Header(): JSX.Element {
           </Link>
         </li>
       </ul>
+      <div>
+        <Link href="/login">Login</Link>
+        <Link href="/registration">Registration</Link>
+      </div>
     </header>
   );
 }
