@@ -1,0 +1,8 @@
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #90bac7;
+  min-height: calc(100vh - 240px);
+  color: #ffffff;
+}
