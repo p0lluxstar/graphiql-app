@@ -3,30 +3,32 @@
 import styles from '../styles/components/registration.module.css';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import yupRegistratonSchema from '@/utils/yupRegistrationSchema';
+import useRegistrationSchema from '@/hooks/yupRegistrationSchema';
 import { FormRegistratonValues } from '@/types/interfaces';
+import { useTranslations } from 'next-intl';
 
 export default function Registration(): JSX.Element {
+  const t = useTranslations();
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<FormRegistratonValues>({
     mode: 'onChange',
-    resolver: yupResolver(yupRegistratonSchema),
+    resolver: yupResolver(useRegistrationSchema()),
   });
 
   const onSubmit = (): void => {};
 
   return (
     <div className={styles.registration}>
-      <h1>Registration</h1>
+      <h1>{t('registration')}</h1>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.name}>
           <input
             {...register('name')}
             id="name"
-            placeholder="Name"
+            placeholder={t('name')}
             type="text"
           />
           {errors.name && <p className={styles.error}>{errors.name.message}</p>}
@@ -35,7 +37,7 @@ export default function Registration(): JSX.Element {
           <input
             {...register('email')}
             id="email"
-            placeholder="Email"
+            placeholder={t('email')}
             type="string"
           />
           {errors.email && (
@@ -45,7 +47,7 @@ export default function Registration(): JSX.Element {
         <div className={styles.password}>
           <input
             {...register('password')}
-            placeholder="Password"
+            placeholder={t('password')}
             type="password"
           />
           {errors.password && (
@@ -55,7 +57,7 @@ export default function Registration(): JSX.Element {
         <div className={styles.confirmPassword}>
           <input
             {...register('confirmPassword')}
-            placeholder="Confirm password"
+            placeholder={t('currentPassword')}
             type="password"
           />
           {errors.confirmPassword && (
@@ -64,7 +66,7 @@ export default function Registration(): JSX.Element {
         </div>
         <div className={styles.btn}>
           <button disabled={!isValid} type="submit">
-            Registration
+            {t('registration')}
           </button>
         </div>
       </form>

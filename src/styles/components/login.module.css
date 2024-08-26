@@ -6,6 +6,10 @@
   gap: 15px;
 }
 
+.form h1 {
+  text-align: center;
+}
+
 .form input {
   margin: 5px 0px 2px 0px;
   display: block;
@@ -37,7 +41,7 @@
   border: 1px solid #bdbdbd;
   border-radius: 0.25rem;
   cursor: pointer;
-  width: 120px;
+  width: 130px;
 }
 
 .btn {

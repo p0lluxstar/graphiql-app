@@ -5,3 +5,7 @@
   min-height: calc(100vh - 240px);
   color: #ffffff;
 }
+
+.main h1 {
+  text-align: center;
+}

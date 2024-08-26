@@ -3,30 +3,32 @@
 import styles from '../styles/components/login.module.css';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import yupLoginSchema from '@/utils/yupLoginSchema';
 import { FormLoginValues } from '@/types/interfaces';
+import { useTranslations } from 'next-intl';
+import useLoginSchema from '@/hooks/useLoginSchema';
 
 export default function Login(): JSX.Element {
+  const t = useTranslations();
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<FormLoginValues>({
     mode: 'onChange',
-    resolver: yupResolver(yupLoginSchema),
+    resolver: yupResolver(useLoginSchema()),
   });
 
   const onSubmit = (): void => {};
 
   return (
     <div className={styles.login}>
-      <h1>Login</h1>
+      <h1>{t('login')}</h1>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.email}>
           <input
             {...register('email')}
             id="email"
-            placeholder="Email"
+            placeholder={t('email')}
             type="string"
           />
           {errors.email && (
@@ -36,7 +38,7 @@ export default function Login(): JSX.Element {
         <div className={styles.password}>
           <input
             {...register('password')}
-            placeholder="Password"
+            placeholder={t('password')}
             type="password"
           />
           {errors.password && (
@@ -45,7 +47,7 @@ export default function Login(): JSX.Element {
         </div>
         <div className={styles.btn}>
           <button disabled={!isValid} type="submit">
-            Login
+            {t('login')}
           </button>
         </div>
       </form>
