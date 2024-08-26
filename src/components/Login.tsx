@@ -1,23 +1,19 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
 import styles from '../styles/components/login.module.css';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import yupSchema from '@/utils/yupSchema';
-
-interface FormValues {
-  name: string;
-  password: string;
-}
+import yupLoginSchema from '@/utils/yupLoginSchema';
+import { FormLoginValues } from '@/types/interfaces';
 
 export default function Login(): JSX.Element {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<FormValues>({
+  } = useForm<FormLoginValues>({
     mode: 'onChange',
-    resolver: yupResolver(yupSchema),
+    resolver: yupResolver(yupLoginSchema),
   });
 
   const onSubmit = (): void => {};
@@ -26,14 +22,16 @@ export default function Login(): JSX.Element {
     <div className={styles.login}>
       <h1>Login</h1>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.name}>
+        <div className={styles.email}>
           <input
-            {...register('name')}
-            id="name"
-            placeholder="Name"
-            type="text"
+            {...register('email')}
+            id="email"
+            placeholder="Email"
+            type="string"
           />
-          {errors.name && <p className={styles.error}>{errors.name.message}</p>}
+          {errors.email && (
+            <p className={styles.error}>{errors.email.message}</p>
+          )}
         </div>
         <div className={styles.password}>
           <input
