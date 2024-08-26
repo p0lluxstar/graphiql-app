@@ -1,39 +1,45 @@
 'use client';
 
 import Link from 'next/link';
-import styles from '../styles/components/header.module.css';
 import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import styles from '../styles/components/header.module.css';
+import LocaleSwitcher from './LocaleSwitcher';
 
 export default function Header(): JSX.Element {
+  const t = useTranslations();
   const pathname = usePathname();
+  const currentLocale = pathname.split('/')[1];
+
   return (
     <header className={styles.header}>
       <ul className={styles.headerMenu}>
         <li>
           <Link
-            href="/"
-            className={`${styles.headerMenuItem} ${pathname === '/' ? styles.active : ''}`}
+            href={`/${currentLocale}/`}
+            className={`${styles.headerMenuItem} ${pathname === `/${currentLocale}/` ? styles.active : ''}`}
           >
-            Main
+            {t('main')}
           </Link>
         </li>
         <li>
           <Link
-            href="/restfull"
-            className={`${styles.headerMenuItem} ${pathname === '/restfull' ? styles.active : ''}`}
+            href={`/${currentLocale}/restfull`}
+            className={`${styles.headerMenuItem} ${pathname === `/${currentLocale}/restfull` ? styles.active : ''}`}
           >
-            RESTfull
+            {t('restfull')}
           </Link>
         </li>
         <li>
           <Link
-            href="/graphiql"
-            className={`${styles.headerMenuItem} ${pathname === '/graphiql' ? styles.active : ''}`}
+            href={`/${currentLocale}/graphiql`}
+            className={`${styles.headerMenuItem} ${pathname === `/${currentLocale}/graphiql` ? styles.active : ''}`}
           >
-            GraphiQL
+            {t('graphiql')}
           </Link>
         </li>
       </ul>
+      <LocaleSwitcher currentLocale={currentLocale} />
     </header>
   );
 }
