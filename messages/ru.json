@@ -1,0 +1,9 @@
+{
+  "title": "ГрафикQL",
+  "description": "Создано с помощью Next.js.",
+  "main": "Главная",
+  "restfull": "RESTfull",
+  "graphiql": "ГрафикQL",
+  "footer": "Подвал",
+  "notFound": "Ошибка 404. Страница не найдена!"
+}
