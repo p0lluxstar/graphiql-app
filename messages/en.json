@@ -5,6 +5,25 @@
     "restfull": "RESTfull",
     "graphiql": "GraphiQL",
     "footer": "Footer",
-    "notFound": "Error 404. Page Not Found!"
+    "notFound": "Error 404. Page Not Found!",
+    "login": "Login",
+    "registration": "Registration",
+    "name": "Name",
+    "email":"Email",
+    "password": "Password",
+    "currentPassword": "Current password",
+    "errNameRequired": "Name is required", 
+    "errNameLettersAndNumbers": "Name must contain only Latin letters and numbers",
+    "errNameMinLength": "Name must be at least 3 characters long",
+    "errEmailRequired": "The email is required",
+    "errEmailFormat": "The email must contain the '@' and the domain name",
+    "errPasswordRequired": "The password is required",
+    "errPasswordCapitalLetter": "The password must contain one capital letter",
+    "errPasswordLowercaseLetter": "The password must contain one lowercase letter",
+    "errPasswordOneDigit": "The password must contain one digit",
+    "errPasswordSpecialSymbol": "The password must contain one special symbol",
+    "errPasswordMinLength": "The password must be at least 8 characters",
+    "errConfirmPasswordRequired": "Confirm password is required",
+    "errConfirmPasswordMatch": "Passwords must match"
   }
   

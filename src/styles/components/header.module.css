@@ -6,23 +6,28 @@
   background: #2d444d;
 }
 
-.headerMenu {
+.mainMenu ul,
+.accountMenu,
+.userAuth ul {
   display: flex;
+  align-items: center;
   gap: 20px;
   list-style-type: none;
 }
 
-.headerMenuItem {
-  padding: 10px 20px;
+.headerMenuItem,
+.userAuthItem {
+  padding: 8px 16px;
   color: #ffffff;
   text-decoration: none;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: bold;
   border: 1px solid #ffffff;
   border-radius: 5px;
 }
 
-.headerMenuItem:hover {
+.headerMenuItem:hover,
+.userAuthItem:hover {
   opacity: 0.9;
 }
 
