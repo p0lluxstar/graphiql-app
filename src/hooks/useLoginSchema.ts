@@ -1,8 +1,8 @@
 import * as yup from 'yup';
 import { useTranslations } from 'next-intl';
-import { FormLoginValues } from '@/types/interfaces';
+import { IFormLoginValues } from '@/types/interfaces';
 
-const useLoginSchema = (): yup.ObjectSchema<FormLoginValues> => {
+const useLoginSchema = (): yup.ObjectSchema<IFormLoginValues> => {
   const t = useTranslations();
 
   return yup.object().shape({

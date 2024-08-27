@@ -5,11 +5,15 @@ import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import styles from '../styles/components/header.module.css';
 import LocaleSwitcher from './LocaleSwitcher';
+import Logout from './Logout';
+import useAuth from '../hooks/useAuth';
+import UserAuth from './UserAuth';
 
 export default function Header(): JSX.Element {
   const t = useTranslations();
   const pathname = usePathname();
   const currentLocale = pathname.split('/')[1];
+  const { user } = useAuth();
 
   return (
     <header className={styles.header}>
@@ -23,46 +27,31 @@ export default function Header(): JSX.Element {
               {t('main')}
             </Link>
           </li>
-          <li>
-            <Link
-              href={`/${currentLocale}/restfull`}
-              className={`${styles.headerMenuItem} ${pathname === `/${currentLocale}/restfull` ? styles.active : ''}`}
-            >
-              {t('restfull')}
-            </Link>
-          </li>
-          <li>
-            <Link
-              href={`/${currentLocale}/graphiql`}
-              className={`${styles.headerMenuItem} ${pathname === `/${currentLocale}/graphiql` ? styles.active : ''}`}
-            >
-              {t('graphiql')}
-            </Link>
-          </li>
+          {user && (
+            <>
+              <li>
+                <Link
+                  href={`/${currentLocale}/restfull`}
+                  className={`${styles.headerMenuItem} ${pathname === `/${currentLocale}/restfull` ? styles.active : ''}`}
+                >
+                  {t('restfull')}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={`/${currentLocale}/graphiql`}
+                  className={`${styles.headerMenuItem} ${pathname === `/${currentLocale}/graphiql` ? styles.active : ''}`}
+                >
+                  {t('graphiql')}
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       </div>
       <div className={styles.accountMenu}>
         <LocaleSwitcher currentLocale={currentLocale} />
-        <div className={styles.userAuth}>
-          <ul>
-            <li>
-              <Link
-                href={`/${currentLocale}/login`}
-                className={`${styles.userAuthItem} ${pathname === `/${currentLocale}/login` ? styles.active : ''}`}
-              >
-                {t('login')}
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={`/${currentLocale}/registration`}
-                className={`${styles.userAuthItem} ${pathname === `/${currentLocale}/registration` ? styles.active : ''}`}
-              >
-                {t('registration')}
-              </Link>
-            </li>
-          </ul>
-        </div>
+        {!user ? <UserAuth currentLocale={currentLocale} /> : <Logout />}
       </div>
     </header>
   );

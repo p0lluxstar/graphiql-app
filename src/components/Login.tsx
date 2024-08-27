@@ -3,22 +3,46 @@
 import styles from '../styles/components/login.module.css';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FormLoginValues } from '@/types/interfaces';
+import { IFormLoginValues } from '@/types/interfaces';
 import { useTranslations } from 'next-intl';
 import useLoginSchema from '@/hooks/useLoginSchema';
+import {
+  setPersistence,
+  signInWithEmailAndPassword,
+  browserLocalPersistence,
+} from 'firebase/auth';
+import { auth } from '../../firebase.config';
+import { useRouter } from 'next/navigation';
 
 export default function Login(): JSX.Element {
   const t = useTranslations();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<FormLoginValues>({
+  } = useForm<IFormLoginValues>({
     mode: 'onChange',
     resolver: yupResolver(useLoginSchema()),
   });
 
-  const onSubmit = (): void => {};
+  const onSubmit = async (data: IFormLoginValues): Promise<void> => {
+    const { email, password } = data;
+    try {
+      await setPersistence(auth, browserLocalPersistence);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      // eslint-disable-next-line no-console
+      console.log('User signed in:', userCredential.user);
+      router.replace(`/`);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error signing in:', error);
+    }
+  };
 
   return (
     <div className={styles.login}>

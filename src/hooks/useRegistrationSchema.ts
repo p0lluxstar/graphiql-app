@@ -1,8 +1,8 @@
 import * as yup from 'yup';
 import { useTranslations } from 'next-intl';
-import { FormRegistratonValues } from '@/types/interfaces';
+import { IFormRegistratonValues } from '@/types/interfaces';
 
-const useRegistrationSchema = (): yup.ObjectSchema<FormRegistratonValues> => {
+const useRegistrationSchema = (): yup.ObjectSchema<IFormRegistratonValues> => {
   const t = useTranslations();
 
   return yup.object().shape({
