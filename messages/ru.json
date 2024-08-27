@@ -8,6 +8,7 @@
   "notFound": "Ошибка 404. Страница не найдена!",
   "login": "Вход",
   "registration": "Регистрация",
+  "logout": "Выход",
   "name": "Имя",
   "email":"Эл. почта",
   "password": "Пароль",
@@ -24,5 +25,7 @@
   "errPasswordSpecialSymbol": "Пароль должен содержать один специальный символ",
   "errPasswordMinLength": "Пароль должен содержать не менее 8 символов",
   "errConfirmPasswordRequired": "Требуется подтвердить пароль",
-  "errConfirmPasswordMatch": "Пароли должны совпадать"
+  "errConfirmPasswordMatch": "Пароли должны совпадать",
+  "invalidCredentials": "Введен неверный адрес эл.почты или пароль",
+  "invalidUser": "Пользователь с указанным адресом эл. почты уже зарегистрирован"
 }

@@ -13,10 +13,13 @@ import {
 } from 'firebase/auth';
 import { auth } from '../../firebase.config';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function Registration(): JSX.Element {
   const t = useTranslations();
   const router = useRouter();
+  const [authError, setAuthError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -41,7 +44,12 @@ export default function Registration(): JSX.Element {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Error signing in:', error);
+      setAuthError(t('invalidUser'));
     }
+  };
+
+  const handleInput = (): void => {
+    setAuthError(null);
   };
 
   return (
@@ -54,9 +62,12 @@ export default function Registration(): JSX.Element {
             id="name"
             placeholder={t('name')}
             type="text"
+            onInput={handleInput}
             value="Jonh"
           />
-          {errors.name && <p className={styles.error}>{errors.name.message}</p>}
+          {errors.name && (
+            <p className={styles.errorInput}>{errors.name.message}</p>
+          )}
         </div>
         <div className={styles.email}>
           <input
@@ -64,9 +75,10 @@ export default function Registration(): JSX.Element {
             id="email"
             placeholder={t('email')}
             type="string"
+            onInput={handleInput}
           />
           {errors.email && (
-            <p className={styles.error}>{errors.email.message}</p>
+            <p className={styles.errorInput}>{errors.email.message}</p>
           )}
         </div>
         <div className={styles.password}>
@@ -74,10 +86,11 @@ export default function Registration(): JSX.Element {
             {...register('password')}
             placeholder={t('password')}
             type="password"
+            onInput={handleInput}
             value="Q1w2e3r4!"
           />
           {errors.password && (
-            <p className={styles.error}>{errors.password.message}</p>
+            <p className={styles.errorInput}>{errors.password.message}</p>
           )}
         </div>
         <div className={styles.confirmPassword}>
@@ -85,16 +98,20 @@ export default function Registration(): JSX.Element {
             {...register('confirmPassword')}
             placeholder={t('currentPassword')}
             type="password"
+            onInput={handleInput}
             value="Q1w2e3r4!"
           />
           {errors.confirmPassword && (
-            <p className={styles.error}>{errors.confirmPassword.message}</p>
+            <p className={styles.errorInput}>
+              {errors.confirmPassword.message}
+            </p>
           )}
         </div>
         <div className={styles.btn}>
           <button disabled={!isValid} type="submit">
             {t('registration')}
           </button>
+          {authError && <p className={styles.errorBtn}>{authError}</p>}
         </div>
       </form>
     </div>

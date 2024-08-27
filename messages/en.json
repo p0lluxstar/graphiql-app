@@ -8,6 +8,7 @@
     "notFound": "Error 404. Page Not Found!",
     "login": "Login",
     "registration": "Registration",
+    "logout": "Logout",
     "name": "Name",
     "email":"Email",
     "password": "Password",
@@ -24,6 +25,8 @@
     "errPasswordSpecialSymbol": "The password must contain one special symbol",
     "errPasswordMinLength": "The password must be at least 8 characters",
     "errConfirmPasswordRequired": "Confirm password is required",
-    "errConfirmPasswordMatch": "Passwords must match"
+    "errConfirmPasswordMatch": "Passwords must match",
+    "invalidCredentials": "Invalid email or password entered",
+    "invalidUser": "The user with the specified email has already been registered"
   }
   

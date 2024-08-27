@@ -8,51 +8,58 @@ import LocaleSwitcher from './LocaleSwitcher';
 import Logout from './Logout';
 import useAuth from '../hooks/useAuth';
 import UserAuth from './UserAuth';
+import Loader from './Loader';
 
 export default function Header(): JSX.Element {
   const t = useTranslations();
   const pathname = usePathname();
   const currentLocale = pathname.split('/')[1];
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
   return (
     <header className={styles.header}>
-      <div className={styles.mainMenu}>
-        <ul>
-          <li>
-            <Link
-              href={`/${currentLocale}`}
-              className={`${styles.headerMenuItem} ${pathname === `/${currentLocale}` ? styles.active : ''}`}
-            >
-              {t('main')}
-            </Link>
-          </li>
-          {user && (
-            <>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <div className={styles.mainMenu}>
+            <ul>
               <li>
                 <Link
-                  href={`/${currentLocale}/restfull`}
-                  className={`${styles.headerMenuItem} ${pathname === `/${currentLocale}/restfull` ? styles.active : ''}`}
+                  href={`/${currentLocale}`}
+                  className={`${styles.headerMenuItem} ${pathname === `/${currentLocale}` ? styles.active : ''}`}
                 >
-                  {t('restfull')}
+                  {t('main')}
                 </Link>
               </li>
-              <li>
-                <Link
-                  href={`/${currentLocale}/graphiql`}
-                  className={`${styles.headerMenuItem} ${pathname === `/${currentLocale}/graphiql` ? styles.active : ''}`}
-                >
-                  {t('graphiql')}
-                </Link>
-              </li>
-            </>
-          )}
-        </ul>
-      </div>
-      <div className={styles.accountMenu}>
-        <LocaleSwitcher currentLocale={currentLocale} />
-        {!user ? <UserAuth currentLocale={currentLocale} /> : <Logout />}
-      </div>
+              {user && (
+                <>
+                  <li>
+                    <Link
+                      href={`/${currentLocale}/restfull`}
+                      className={`${styles.headerMenuItem} ${pathname === `/${currentLocale}/restfull` ? styles.active : ''}`}
+                    >
+                      {t('restfull')}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href={`/${currentLocale}/graphiql`}
+                      className={`${styles.headerMenuItem} ${pathname === `/${currentLocale}/graphiql` ? styles.active : ''}`}
+                    >
+                      {t('graphiql')}
+                    </Link>
+                  </li>
+                </>
+              )}
+            </ul>
+          </div>
+          <div className={styles.accountMenu}>
+            <LocaleSwitcher currentLocale={currentLocale} />
+            {!user ? <UserAuth currentLocale={currentLocale} /> : <Logout />}
+          </div>
+        </>
+      )}
     </header>
   );
 }

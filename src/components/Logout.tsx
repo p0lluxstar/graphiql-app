@@ -1,8 +1,11 @@
+import styles from '../styles/components/logout.module.css';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase.config';
 import useAuth from '../hooks/useAuth';
+import { useTranslations } from 'next-intl';
 
 export default function Logout(): JSX.Element {
+  const t = useTranslations();
   const { user } = useAuth();
   const handleClick = (): void => {
     signOut(auth)
@@ -19,8 +22,10 @@ export default function Logout(): JSX.Element {
     <>
       {user && (
         <>
-          <span>{user.email}</span>
-          <button onClick={handleClick}>Logout</button>
+          <span className={styles.userEmail}>{user.email}</span>
+          <button className={styles.btnLogout} onClick={handleClick}>
+            {t('logout')}
+          </button>
         </>
       )}
     </>
