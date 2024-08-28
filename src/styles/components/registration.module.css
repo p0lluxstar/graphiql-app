@@ -52,6 +52,7 @@
   position: absolute;
   color: #c2060c;
   font-size: 12px;
+  font-weight: bold;
 }
 
 .errorBtn {
@@ -59,4 +60,5 @@
   color: #c2060c;
   font-size: 12px;
   text-align: center;
+  font-weight: bold;
 }

@@ -13,12 +13,21 @@ import {
 } from 'firebase/auth';
 import { auth } from '../../firebase.config';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import useAuth from '../hooks/useAuth';
+import Loader from './Loader';
 
 export default function Registration(): JSX.Element {
   const t = useTranslations();
   const router = useRouter();
+  const { user, loading } = useAuth();
   const [authError, setAuthError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (user) {
+      router.replace(`/`);
+    }
+  }, [user, router]);
 
   const {
     register,
@@ -33,24 +42,31 @@ export default function Registration(): JSX.Element {
     const { email, password } = data;
     try {
       await setPersistence(auth, browserLocalPersistence);
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      // eslint-disable-next-line no-console
-      console.log('User signed in:', userCredential.user);
+      await createUserWithEmailAndPassword(auth, email, password);
+
       router.replace(`/`);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Error signing in:', error);
-      setAuthError(t('invalidUser'));
+      if (error instanceof Error && 'code' in error) {
+        const firebaseError = error as { code: string };
+
+        if (firebaseError.code === 'auth/email-already-in-use') {
+          setAuthError(t('invalidUser'));
+        } else {
+          setAuthError(t('unknownError'));
+        }
+      } else {
+        setAuthError(t('unknownError'));
+      }
     }
   };
 
   const handleInput = (): void => {
     setAuthError(null);
   };
+
+  if (loading || user) {
+    return <Loader />;
+  }
 
   return (
     <div className={styles.registration}>
@@ -63,7 +79,6 @@ export default function Registration(): JSX.Element {
             placeholder={t('name')}
             type="text"
             onInput={handleInput}
-            value="Jonh"
           />
           {errors.name && (
             <p className={styles.errorInput}>{errors.name.message}</p>
@@ -87,7 +102,6 @@ export default function Registration(): JSX.Element {
             placeholder={t('password')}
             type="password"
             onInput={handleInput}
-            value="Q1w2e3r4!"
           />
           {errors.password && (
             <p className={styles.errorInput}>{errors.password.message}</p>
@@ -99,7 +113,6 @@ export default function Registration(): JSX.Element {
             placeholder={t('currentPassword')}
             type="password"
             onInput={handleInput}
-            value="Q1w2e3r4!"
           />
           {errors.confirmPassword && (
             <p className={styles.errorInput}>

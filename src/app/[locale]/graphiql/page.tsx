@@ -1,4 +1,4 @@
-import { useTranslations } from 'next-intl';
+import Graphiql from '@/components/Graphiql';
 
 export const metadata = {
   title: 'GraphiQL',
@@ -6,10 +6,9 @@ export const metadata = {
 };
 
 export default function GraphiqlPage(): JSX.Element {
-  const t = useTranslations();
   return (
     <>
-      <h1>{t('graphiql')}</h1>
+      <Graphiql />
     </>
   );
 }

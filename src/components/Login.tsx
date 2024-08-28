@@ -13,7 +13,7 @@ import {
 } from 'firebase/auth';
 import { auth } from '../../firebase.config';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useAuth from '../hooks/useAuth';
 import Loader from './Loader';
 
@@ -22,6 +22,12 @@ export default function Login(): JSX.Element {
   const router = useRouter();
   const { user, loading } = useAuth();
   const [authError, setAuthError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (user) {
+      router.replace(`/`);
+    }
+  }, [user, router]);
 
   const {
     register,
@@ -36,18 +42,23 @@ export default function Login(): JSX.Element {
     const { email, password } = data;
     try {
       await setPersistence(auth, browserLocalPersistence);
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      // eslint-disable-next-line no-console
-      console.log('User signed in:', userCredential.user);
+      await signInWithEmailAndPassword(auth, email, password);
+
       router.replace(`/`);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Error signing in:', error);
-      setAuthError(t('invalidCredentials'));
+      if (error instanceof Error && 'code' in error) {
+        const firebaseError = error as { code: string };
+
+        if (firebaseError.code === 'auth/invalid-credential') {
+          setAuthError(t('invalidCredentials'));
+        } else if (firebaseError.code === 'auth/too-many-requests') {
+          setAuthError(t('tooManyRequests'));
+        } else {
+          setAuthError(t('unknownError'));
+        }
+      } else {
+        setAuthError(t('unknownError'));
+      }
     }
   };
 
@@ -55,51 +66,44 @@ export default function Login(): JSX.Element {
     setAuthError(null);
   };
 
-  if (user) {
-    router.replace(`/`);
-    return <></>;
+  if (loading || user) {
+    return <Loader />;
   }
 
   return (
     <div className={styles.login}>
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          <h1>{t('login')}</h1>
-          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-            <div className={styles.email}>
-              <input
-                {...register('email')}
-                id="email"
-                placeholder={t('email')}
-                type="string"
-                onInput={handleInput}
-              />
-              {errors.email && (
-                <p className={styles.errorInput}>{errors.email.message}</p>
-              )}
-            </div>
-            <div className={styles.password}>
-              <input
-                {...register('password')}
-                placeholder={t('password')}
-                type="password"
-                onInput={handleInput}
-              />
-              {errors.password && (
-                <p className={styles.errorInput}>{errors.password.message}</p>
-              )}
-            </div>
-            <div className={styles.btn}>
-              <button disabled={!isValid} type="submit">
-                {t('login')}
-              </button>
-              {authError && <p className={styles.errorBtn}>{authError}</p>}
-            </div>
-          </form>
-        </>
-      )}
+      <h1>{t('login')}</h1>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <div className={styles.email}>
+          <input
+            {...register('email')}
+            id="email"
+            placeholder={t('email')}
+            type="string"
+            onInput={handleInput}
+          />
+          {errors.email && (
+            <p className={styles.errorInput}>{errors.email.message}</p>
+          )}
+        </div>
+        <div className={styles.password}>
+          <input
+            {...register('password')}
+            placeholder={t('password')}
+            type="password"
+            onInput={handleInput}
+          />
+          {errors.password && (
+            <p className={styles.errorInput}>{errors.password.message}</p>
+          )}
+        </div>
+        <div className={styles.btn}>
+          <button disabled={!isValid} type="submit">
+            {t('login')}
+          </button>
+          {authError && <p className={styles.errorBtn}>{authError}</p>}
+        </div>
+      </form>
     </div>
   );
 }

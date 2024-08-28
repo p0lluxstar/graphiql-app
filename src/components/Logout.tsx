@@ -2,12 +2,14 @@ import styles from '../styles/components/logout.module.css';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase.config';
 import useAuth from '../hooks/useAuth';
-import { useTranslations } from 'next-intl';
+import { IoMdExit } from 'react-icons/io';
+import { useRouter } from 'next/navigation';
 
 export default function Logout(): JSX.Element {
-  const t = useTranslations();
   const { user } = useAuth();
+  const router = useRouter();
   const handleClick = (): void => {
+    router.replace(`/`);
     signOut(auth)
       .then(() => {
         // eslint-disable-next-line no-console
@@ -24,7 +26,7 @@ export default function Logout(): JSX.Element {
         <>
           <span className={styles.userEmail}>{user.email}</span>
           <button className={styles.btnLogout} onClick={handleClick}>
-            {t('logout')}
+            <IoMdExit className={styles.icon} />
           </button>
         </>
       )}
