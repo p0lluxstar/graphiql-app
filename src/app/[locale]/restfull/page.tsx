@@ -1,4 +1,5 @@
 import Restfull from '@/components/Restfull';
+import ProtectedRouteAuth from '@/components/ProtectedRouteAuth';
 
 export const metadata = {
   title: 'RESTfull',
@@ -8,7 +9,9 @@ export const metadata = {
 export default function RestfullPage(): JSX.Element {
   return (
     <>
-      <Restfull />
+      <ProtectedRouteAuth>
+        <Restfull />
+      </ProtectedRouteAuth>
     </>
   );
 }

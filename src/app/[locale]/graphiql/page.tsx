@@ -1,4 +1,5 @@
 import Graphiql from '@/components/Graphiql';
+import ProtectedRouteAuth from '@/components/ProtectedRouteAuth';
 
 export const metadata = {
   title: 'GraphiQL',
@@ -8,7 +9,9 @@ export const metadata = {
 export default function GraphiqlPage(): JSX.Element {
   return (
     <>
-      <Graphiql />
+      <ProtectedRouteAuth>
+        <Graphiql />
+      </ProtectedRouteAuth>
     </>
   );
 }

@@ -1,4 +1,5 @@
 import Login from '@/components/Login';
+import ProtectedRouteNoAuth from '@/components/ProtectedRouteNoAuth';
 
 export const metadata = {
   title: 'Login',
@@ -8,7 +9,9 @@ export const metadata = {
 export default function LoginPage(): JSX.Element {
   return (
     <>
-      <Login />
+      <ProtectedRouteNoAuth>
+        <Login />
+      </ProtectedRouteNoAuth>
     </>
   );
 }

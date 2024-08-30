@@ -9,17 +9,10 @@ export default function Logout(): JSX.Element {
   const { user } = useAuth();
   const router = useRouter();
   const handleClick = (): void => {
+    signOut(auth);
     router.replace(`/`);
-    signOut(auth)
-      .then(() => {
-        // eslint-disable-next-line no-console
-        console.log('User signed out.');
-      })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.error('Error signing out:', error);
-      });
   };
+
   return (
     <>
       {user && (

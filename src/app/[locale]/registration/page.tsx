@@ -1,4 +1,5 @@
 import Registration from '@/components/Registration';
+import ProtectedRouteNoAuth from '@/components/ProtectedRouteNoAuth';
 
 export const metadata = {
   title: 'Registration',
@@ -8,7 +9,9 @@ export const metadata = {
 export default function RegistrationPage(): JSX.Element {
   return (
     <>
-      <Registration />
+      <ProtectedRouteNoAuth>
+        <Registration />
+      </ProtectedRouteNoAuth>
     </>
   );
 }

@@ -13,21 +13,12 @@ import {
 } from 'firebase/auth';
 import { auth } from '../../firebase.config';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
-import useAuth from '../hooks/useAuth';
-import Loader from './Loader';
+import { useState } from 'react';
 
 export default function Login(): JSX.Element {
   const t = useTranslations();
   const router = useRouter();
-  const { user, loading } = useAuth();
   const [authError, setAuthError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (user) {
-      router.replace(`/`);
-    }
-  }, [user, router]);
 
   const {
     register,
@@ -65,10 +56,6 @@ export default function Login(): JSX.Element {
   const handleInput = (): void => {
     setAuthError(null);
   };
-
-  if (loading || user) {
-    return <Loader />;
-  }
 
   return (
     <div className={styles.login}>
