@@ -1,0 +1,44 @@
+.mainControls {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  border-bottom: 1px solid #cccc;
+  background: linear-gradient(#f7f7f7, #e2e2e2);
+  width: 100%;
+  top: 50px;
+  padding: 0 10px;
+  border-radius: 5px 5px 0 0;
+}
+
+.executeButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  border: solid 1px #999999;
+  cursor: pointer;
+  background: linear-gradient(#fdfdfd, #d2d3d6);
+}
+
+.executeButton:hover {
+  opacity: 0.8;
+}
+
+.closingButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 5px;
+  border: solid 1px #999999;
+  line-height: 32px;
+  cursor: pointer;
+  background: linear-gradient(#fdfdfd, #d2d3d6);
+  margin-left: 10px;
+  font-weight: bold;
+  color: #457c8b;
+}
+
+.closingButton:hover {
+  opacity: 0.8;
+}

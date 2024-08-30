@@ -1,13 +1,11 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import GraphiqlLayout from './graphiql/GraphiqlLayout';
 
 export default function Graphiql(): JSX.Element {
-  const t = useTranslations();
-
   return (
     <>
-      <h1>{t('graphiql')}</h1>
+      <GraphiqlLayout />
     </>
   );
 }
