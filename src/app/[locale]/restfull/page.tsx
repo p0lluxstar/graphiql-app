@@ -1,4 +1,5 @@
-import { useTranslations } from 'next-intl';
+import Restfull from '@/components/Restfull';
+import ProtectedRouteAuth from '@/components/ProtectedRouteAuth';
 
 export const metadata = {
   title: 'RESTfull',
@@ -6,10 +7,11 @@ export const metadata = {
 };
 
 export default function RestfullPage(): JSX.Element {
-  const t = useTranslations();
   return (
     <>
-      <h1>{t('restfull')}</h1>
+      <ProtectedRouteAuth>
+        <Restfull />
+      </ProtectedRouteAuth>
     </>
   );
 }

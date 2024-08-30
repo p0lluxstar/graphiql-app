@@ -8,11 +8,12 @@
   "notFound": "Ошибка 404. Страница не найдена!",
   "login": "Вход",
   "registration": "Регистрация",
+  "logout": "Выход",
   "name": "Имя",
-  "email":"Эл. почта",
+  "email": "Эл. почта",
   "password": "Пароль",
   "currentPassword": "Подтвердите пароль",
-  "errNameRequired": "Требуется указать имя", 
+  "errNameRequired": "Требуется указать имя",
   "errNameLettersAndNumbers": "Имя должно содержать только латинские буквы и цифры",
   "errNameMinLength": "Имя должна содержать не менее 3 символов",
   "errEmailRequired": "Требуется указать адрес электронной почты",
@@ -24,5 +25,9 @@
   "errPasswordSpecialSymbol": "Пароль должен содержать один специальный символ",
   "errPasswordMinLength": "Пароль должен содержать не менее 8 символов",
   "errConfirmPasswordRequired": "Требуется подтвердить пароль",
-  "errConfirmPasswordMatch": "Пароли должны совпадать"
+  "errConfirmPasswordMatch": "Пароли должны совпадать",
+  "invalidCredentials": "Введен неверный адрес эл.почты или пароль",
+  "invalidUser": "Пользователь с указанным адресом эл. почты уже зарегистрирован",
+  "unknownError": "Произошла неизвестная ошибка",
+  "tooManyRequests": "Слишком много попыток. Попробуйте войти попозже"
 }

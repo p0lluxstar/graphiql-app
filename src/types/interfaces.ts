@@ -1,11 +1,11 @@
-export interface FormRegistratonValues {
+export interface IFormRegistratonValues {
   name: string;
   email: string;
   password: string;
   confirmPassword: string;
 }
 
-export interface FormLoginValues {
+export interface IFormLoginValues {
   email: string;
   password: string;
 }

@@ -1,4 +1,5 @@
-import { useTranslations } from 'next-intl';
+import Graphiql from '@/components/Graphiql';
+import ProtectedRouteAuth from '@/components/ProtectedRouteAuth';
 
 export const metadata = {
   title: 'GraphiQL',
@@ -6,10 +7,11 @@ export const metadata = {
 };
 
 export default function GraphiqlPage(): JSX.Element {
-  const t = useTranslations();
   return (
     <>
-      <h1>{t('graphiql')}</h1>
+      <ProtectedRouteAuth>
+        <Graphiql />
+      </ProtectedRouteAuth>
     </>
   );
 }
