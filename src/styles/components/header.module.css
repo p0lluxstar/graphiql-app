@@ -4,6 +4,8 @@
   align-items: center;
   height: 120px;
   background: #2d444d;
+  position: fixed;
+  width: 100%;
 }
 
 .mainMenu ul,

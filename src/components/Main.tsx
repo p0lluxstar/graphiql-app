@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import styles from '../styles/components/main.module.css';
+import styles from '../styles/pages/main.module.css';
 
 export default function Main(): JSX.Element {
   const t = useTranslations();
@@ -10,7 +10,7 @@ export default function Main(): JSX.Element {
   const currentLocale = pathname.split('/')[1];
 
   return (
-    <main className={styles.main}>
+    <>
       <h2 className={styles.heading}>{t('welcome')}</h2>
       <p className={styles.promo}>{t('promo')}</p>
 
@@ -55,6 +55,6 @@ export default function Main(): JSX.Element {
           </ul>
         </div>
       </div>
-    </main>
+    </>
   );
 }
