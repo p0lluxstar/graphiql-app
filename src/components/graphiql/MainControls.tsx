@@ -3,12 +3,14 @@ import styles from '../../styles/components/graphiql/mainControls.module.css';
 import Image from 'next/image';
 import { RootState } from '@/redux/store';
 import { responseSectionActions } from '@/redux/slices/graphiqlResponseSectionSlice';
+import { useState } from 'react';
 
 export default function MainControls(): JSX.Element {
   const dispatch = useDispatch();
   const query = useSelector(
     (state: RootState) => state.querySectionReducer.querySectionCode
   );
+  const [urlApi, setUrlApi] = useState('');
 
   function closingButtonH(): void {}
 
@@ -18,7 +20,7 @@ export default function MainControls(): JSX.Element {
 
   const makeRequest = async (): Promise<void> => {
     try {
-      const response = await fetch('https://rickandmortyapi.graphcdn.app', {
+      const response = await fetch(`${urlApi}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -32,15 +34,24 @@ export default function MainControls(): JSX.Element {
       const result = await response.json();
       dispatch(responseSectionActions.setResponseSectionCode(result));
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
+      dispatch(responseSectionActions.setResponseSectionCode('error'));
     }
+  };
+
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    setUrlApi(event.target.value);
   };
 
   return (
     <div className={styles.mainControls}>
-      <input type="text" value="" />
-      <button>V</button>
+      <input
+        type="text"
+        value={urlApi}
+        onChange={handleInputChange}
+        placeholder={'Url api'}
+      />
       <button className={styles.executeButton} onClick={makeRequest}>
         <Image
           src="/img/execute-button.svg"
