@@ -46,5 +46,6 @@
   "invalidCredentials": "Invalid email or password entered",
   "invalidUser": "The user with the specified email has already been registered",
   "unknownError": "An unknown error has occurred",
-  "tooManyRequests": "Too many attempts. Try logging in later"
+  "tooManyRequests": "Too many attempts. Try logging in later",
+  "courseLink": "RSS Course link"
 }
