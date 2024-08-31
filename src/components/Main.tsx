@@ -16,14 +16,17 @@ export default function Main(): JSX.Element {
 
   return (
     <>
-      <h2 className={styles.heading}>{t('welcome')}</h2>
+      {user ? (
+        <h3 className={styles.heading}>
+          {t('greeting')}, {user.email?.split('@')[0]}
+        </h3>
+      ) : (
+        <h2 className={styles.heading}>{t('welcome')}</h2>
+      )}
       <p className={styles.promo}>{t('promo')}</p>
 
       {user ? (
         <div className={styles.userAuth}>
-          <h3 className={styles.headingGreeting}>
-            {t('greeting')}, {user.email?.split('@')[0]}
-          </h3>
           <p className={styles.subheading}>{t('continueToWork')}</p>
         </div>
       ) : (
@@ -52,7 +55,16 @@ export default function Main(): JSX.Element {
 
       <div className={styles.description}>
         <div className={styles.boxDesc}>
-          <h3>{t('restClient')}</h3>
+          {user ? (
+            <Link
+              href={`/${currentLocale}/restfull`}
+              className={`${styles.clientLink} ${pathname === `/${currentLocale}/restfull` ? styles.active : ''}`}
+            >
+              {t('restClient')}
+            </Link>
+          ) : (
+            <h3>{t('restClient')}</h3>
+          )}
           <ul className={styles.listDesc}>
             <li>{t('restClientPlus1')}</li>
             <li>{t('restClientPlus2')}</li>
@@ -61,11 +73,37 @@ export default function Main(): JSX.Element {
         </div>
 
         <div className={styles.boxDesc}>
-          <h3>{t('graphiqlClient')}</h3>
+          {user ? (
+            <Link
+              href={`/${currentLocale}/graphiql`}
+              className={`${styles.clientLink} ${pathname === `/${currentLocale}/graphiql` ? styles.active : ''}`}
+            >
+              {t('graphiqlClient')}
+            </Link>
+          ) : (
+            <h3>{t('graphiqlClient')}</h3>
+          )}
           <ul className={styles.listDesc}>
             <li>{t('graphiqlClientPlus1')}</li>
             <li>{t('graphiqlClientPlus2')}</li>
             <li>{t('graphiqlClientPlus3')}</li>
+          </ul>
+        </div>
+
+        <div className={styles.boxDesc}>
+          {user ? (
+            <Link
+              href={`/${currentLocale}/history`}
+              className={`${styles.clientLink} ${pathname === `/${currentLocale}/history` ? styles.active : ''}`}
+            >
+              {t('history')}
+            </Link>
+          ) : (
+            <h3>{t('history')}</h3>
+          )}
+          <ul className={styles.listDesc}>
+            <li>{t('historyDescription1')}</li>
+            <li>{t('historyDescription2')}</li>
           </ul>
         </div>
       </div>
