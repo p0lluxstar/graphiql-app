@@ -4,6 +4,9 @@ import { useTranslations } from 'next-intl';
 import useAuth from '../hooks/useAuth';
 import Loader from './Loader';
 import { useRouter } from 'next/navigation';
+import CodeMirror from '@uiw/react-codemirror';
+import { oneDark } from '@codemirror/theme-one-dark';
+import { javascript } from '@codemirror/lang-javascript';
 
 export default function Restfull(): JSX.Element {
   const t = useTranslations();
@@ -50,10 +53,8 @@ export default function Restfull(): JSX.Element {
     setHeaders([...headers, { key: '', value: '' }]);
   };
 
-  const handleBodyChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ): void => {
-    setBody(e.target.value);
+  const handleBodyChange = (value: string): void => {
+    setBody(value);
   };
 
   const handleSendRequest = async (): Promise<void> => {
@@ -143,17 +144,23 @@ export default function Restfull(): JSX.Element {
         </div>
         <div>
           <h2>Тело запроса</h2>
-          <textarea
+          <CodeMirror
             value={body}
-            onChange={handleBodyChange}
-            placeholder="Тело запроса (JSON/Текст)"
+            theme={oneDark}
+            extensions={[javascript()]}
+            onChange={(value) => handleBodyChange(value)}
           />
         </div>
         <button onClick={handleSendRequest}>Отправить запрос</button>
         <div>
           <h2>Ответ</h2>
           <div>Статус: {response.status}</div>
-          <pre>{response.body}</pre>
+          <CodeMirror
+            value={response.body}
+            theme={oneDark}
+            extensions={[javascript()]}
+            editable={false}
+          />
         </div>
         <div>
           <h2>Сгенерированный URL:</h2>
