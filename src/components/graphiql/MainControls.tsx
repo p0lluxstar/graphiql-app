@@ -12,9 +12,9 @@ export default function MainControls(): JSX.Element {
   );
   const [urlApi, setUrlApi] = useState('');
 
-  function closingButtonH(): void {}
+  /* function closingButtonH(): void {}
 
-  function closingButtonV(): void {}
+  function closingButtonV(): void {} */
 
   const variables = JSON.parse('"{}"');
 
@@ -60,12 +60,12 @@ export default function MainControls(): JSX.Element {
           alt="logo"
         />
       </button>
-      <button className={styles.closingButton} onClick={closingButtonH}>
+      {/* <button className={styles.closingButton} onClick={closingButtonH}>
         <span>H</span>
       </button>
       <button className={styles.closingButton} onClick={closingButtonV}>
         <span>V</span>
-      </button>
+      </button> */}
     </div>
   );
 }

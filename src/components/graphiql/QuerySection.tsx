@@ -1,28 +1,13 @@
 import styles from '../../styles/components/graphiql/querySection.module.css';
 import { useDispatch } from 'react-redux';
 import { querySectionActions } from '@/redux/slices/graphiqlQuerySectionSlice';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 export default function QuerySection(): JSX.Element {
   const dispatch = useDispatch();
   const myElementRef = useRef<HTMLInputElement>(null);
 
-  const initialText = `query {
-  characters(page: 2, filter: { name: "rick" }) {
-    info {
-      count
-    }
-    results {
-      name
-    }
-  }
-  location(id: 1) {
-    id
-  }
-  episodesByIds(ids: [1, 2]) {
-    id
-  }
-}`;
+  const [queryCode, setQueryCode] = useState(' ');
 
   function handleCodeChange(): void {
     dispatch(
@@ -30,6 +15,8 @@ export default function QuerySection(): JSX.Element {
         myElementRef.current.innerText.replace(/\s/g, '')
       )
     );
+
+    setQueryCode(myElementRef.current.innerText);
   }
 
   return (
@@ -44,7 +31,7 @@ export default function QuerySection(): JSX.Element {
             onInput={handleCodeChange}
             /* onKeyDown={} */
           >
-            {initialText}
+            {queryCode}
           </pre>
         </div>
       </div>
