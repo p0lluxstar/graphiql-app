@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import CodeMirror from '@uiw/react-codemirror';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { javascript } from '@codemirror/lang-javascript';
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 
 export default function Restfull(): JSX.Element {
   const t = useTranslations();
@@ -86,6 +87,7 @@ export default function Restfull(): JSX.Element {
     }
   };
 
+  // Функция для генерации закодированного URL
   const getEncodedUrl = (): string => {
     const encodedUrl = btoa(url);
     const encodedBody = method !== 'GET' ? `/${btoa(body)}` : '';
@@ -101,72 +103,77 @@ export default function Restfull(): JSX.Element {
   };
 
   return (
-    <>
+    <div style={{ height: '100vh' }}>
       <h1>{t('restfull')}</h1>
-      <div>
-        <div>
-          <select value={method} onChange={handleMethodChange}>
-            <option value="GET">GET</option>
-            <option value="POST">POST</option>
-            <option value="PUT">PUT</option>
-            <option value="DELETE">DELETE</option>
-          </select>
-          <input
-            type="text"
-            value={url}
-            onChange={handleUrlChange}
-            placeholder="Endpoint URL"
-          />
-        </div>
-        <div>
-          <h2>Заголовки</h2>
-          {headers.map((header, index) => (
-            <div key={index}>
+      <PanelGroup direction="horizontal">
+        <Panel defaultSize={50}>
+          <div>
+            <div>
+              <select value={method} onChange={handleMethodChange}>
+                <option value="GET">GET</option>
+                <option value="POST">POST</option>
+                <option value="PUT">PUT</option>
+                <option value="DELETE">DELETE</option>
+              </select>
               <input
                 type="text"
-                placeholder="Ключ заголовка"
-                value={header.key}
-                onChange={(e) =>
-                  handleHeaderChange(index, e.target.value, header.value)
-                }
+                value={url}
+                onChange={handleUrlChange}
+                placeholder="Endpoint URL"
               />
-              <input
-                type="text"
-                placeholder="Значение заголовка"
-                value={header.value}
-                onChange={(e) =>
-                  handleHeaderChange(index, header.key, e.target.value)
-                }
+              <button onClick={handleSendRequest}>Отправить запрос</button>
+            </div>
+            <h2>Заголовки</h2>
+            {headers.map((header, index) => (
+              <div key={index}>
+                <input
+                  type="text"
+                  placeholder="Ключ заголовка"
+                  value={header.key}
+                  onChange={(e) =>
+                    handleHeaderChange(index, e.target.value, header.value)
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Значение заголовка"
+                  value={header.value}
+                  onChange={(e) =>
+                    handleHeaderChange(index, header.key, e.target.value)
+                  }
+                />
+              </div>
+            ))}
+            <button onClick={addHeader}>Добавить заголовок</button>
+            <div>
+              <h2>Тело запроса</h2>
+              <CodeMirror
+                value={body}
+                theme={oneDark}
+                extensions={[javascript()]}
+                onChange={(value) => handleBodyChange(value)}
               />
             </div>
-          ))}
-          <button onClick={addHeader}>Добавить заголовок</button>
-        </div>
-        <div>
-          <h2>Тело запроса</h2>
-          <CodeMirror
-            value={body}
-            theme={oneDark}
-            extensions={[javascript()]}
-            onChange={(value) => handleBodyChange(value)}
-          />
-        </div>
-        <button onClick={handleSendRequest}>Отправить запрос</button>
-        <div>
-          <h2>Ответ</h2>
-          <div>Статус: {response.status}</div>
+          </div>
+        </Panel>
+        <PanelResizeHandle />
+        <Panel defaultSize={50}>
+          <div>
+            <h2>Ответ</h2>
+            <div>Статус: {response.status}</div>
+            <div>
+              <h2>Сгенерированный URL:</h2>
+              <pre>{getEncodedUrl()}</pre>
+            </div>
+          </div>
           <CodeMirror
             value={response.body}
             theme={oneDark}
             extensions={[javascript()]}
             editable={false}
           />
-        </div>
-        <div>
-          <h2>Сгенерированный URL:</h2>
-          <pre>{getEncodedUrl()}</pre>
-        </div>
-      </div>
-    </>
+        </Panel>
+      </PanelGroup>
+    </div>
   );
 }
