@@ -3,6 +3,7 @@ import { Panel, PanelGroup } from 'react-resizable-panels';
 import GraphiqlLayoutHandel from './GraphiqlLayoutHandel';
 import { useTranslations } from 'next-intl';
 import QuerySection from './QuerySection';
+import ResponseSection from './ResponseSection';
 import MainControls from './MainControls';
 
 const GraphiqlLayout = (): JSX.Element => {
@@ -79,7 +80,7 @@ const GraphiqlLayout = (): JSX.Element => {
                 minSize={30}
               >
                 <div className={`${styles.PanelContent}`}>
-                  <span>ResponseSection</span>
+                  <ResponseSection />
                 </div>
               </Panel>
             </PanelGroup>
