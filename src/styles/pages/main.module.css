@@ -53,21 +53,6 @@
   margin-bottom: 10px;
 }
 
-.userAuthItem {
-  padding: 8px 16px;
-  color: #ffffff;
-  text-decoration: none;
-  font-size: 20px;
-  font-weight: bold;
-  border: 1px solid #ffffff;
-  border-radius: 5px;
-}
-
-.userAuthItem:hover {
-  background-color: #ffffff;
-  color: #2d444d;
-}
-
 .userAuth ul {
   display: flex;
   align-items: center;
@@ -98,4 +83,34 @@
 
 .clientLink:hover {
   border-bottom: 2px solid #2d444d;
+}
+.userAuth ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  list-style-type: none;
+  margin-bottom: 40px;
+}
+
+.userAuth h3 {
+  font-size: 26px;
+  margin-bottom: 20px;
+  color: #2d444d;
+  text-align: center;
+}
+
+.userAuthItem {
+  padding: 8px 16px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+}
+
+.userAuthItem:hover {
+  background-color: #ffffff;
+  color: #2d444d;
 }
