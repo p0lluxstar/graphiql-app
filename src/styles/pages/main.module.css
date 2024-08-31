@@ -1,8 +1,8 @@
 .main {
   display: flex;
   justify-content: center;
-  background: #90bac7;
-  min-height: calc(100vh-120px);
+  background: linear-gradient(541deg, #0d5c71ab, #20a6c9a3);
+  min-height: calc(100vh - 200px);
   padding-top: 160px;
   flex-direction: column;
   margin: 0 auto;

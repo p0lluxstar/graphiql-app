@@ -3,22 +3,57 @@
 import styles from '../styles/components/registration.module.css';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import useRegistrationSchema from '@/hooks/yupRegistrationSchema';
-import { FormRegistratonValues } from '@/types/interfaces';
+import useRegistrationSchema from '@/hooks/useRegistrationSchema';
+import { IFormRegistratonValues } from '@/types/interfaces';
 import { useTranslations } from 'next-intl';
+import {
+  setPersistence,
+  createUserWithEmailAndPassword,
+  browserLocalPersistence,
+} from 'firebase/auth';
+import { auth } from '../../firebase.config';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function Registration(): JSX.Element {
   const t = useTranslations();
+  const router = useRouter();
+  const [authError, setAuthError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<FormRegistratonValues>({
+  } = useForm<IFormRegistratonValues>({
     mode: 'onChange',
     resolver: yupResolver(useRegistrationSchema()),
   });
 
-  const onSubmit = (): void => {};
+  const onSubmit = async (data: IFormRegistratonValues): Promise<void> => {
+    const { email, password } = data;
+    try {
+      await setPersistence(auth, browserLocalPersistence);
+      await createUserWithEmailAndPassword(auth, email, password);
+
+      router.replace(`/`);
+    } catch (error) {
+      if (error instanceof Error && 'code' in error) {
+        const firebaseError = error as { code: string };
+
+        if (firebaseError.code === 'auth/email-already-in-use') {
+          setAuthError(t('invalidUser'));
+        } else {
+          setAuthError(t('unknownError'));
+        }
+      } else {
+        setAuthError(t('unknownError'));
+      }
+    }
+  };
+
+  const handleInput = (): void => {
+    setAuthError(null);
+  };
 
   return (
     <div className={styles.registration}>
@@ -30,8 +65,11 @@ export default function Registration(): JSX.Element {
             id="name"
             placeholder={t('name')}
             type="text"
+            onInput={handleInput}
           />
-          {errors.name && <p className={styles.error}>{errors.name.message}</p>}
+          {errors.name && (
+            <p className={styles.errorInput}>{errors.name.message}</p>
+          )}
         </div>
         <div className={styles.email}>
           <input
@@ -39,9 +77,10 @@ export default function Registration(): JSX.Element {
             id="email"
             placeholder={t('email')}
             type="string"
+            onInput={handleInput}
           />
           {errors.email && (
-            <p className={styles.error}>{errors.email.message}</p>
+            <p className={styles.errorInput}>{errors.email.message}</p>
           )}
         </div>
         <div className={styles.password}>
@@ -49,9 +88,10 @@ export default function Registration(): JSX.Element {
             {...register('password')}
             placeholder={t('password')}
             type="password"
+            onInput={handleInput}
           />
           {errors.password && (
-            <p className={styles.error}>{errors.password.message}</p>
+            <p className={styles.errorInput}>{errors.password.message}</p>
           )}
         </div>
         <div className={styles.confirmPassword}>
@@ -59,15 +99,19 @@ export default function Registration(): JSX.Element {
             {...register('confirmPassword')}
             placeholder={t('currentPassword')}
             type="password"
+            onInput={handleInput}
           />
           {errors.confirmPassword && (
-            <p className={styles.error}>{errors.confirmPassword.message}</p>
+            <p className={styles.errorInput}>
+              {errors.confirmPassword.message}
+            </p>
           )}
         </div>
         <div className={styles.btn}>
           <button disabled={!isValid} type="submit">
             {t('registration')}
           </button>
+          {authError && <p className={styles.errorBtn}>{authError}</p>}
         </div>
       </form>
     </div>

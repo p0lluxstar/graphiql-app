@@ -1,0 +1,21 @@
+.btnLogout {
+  display: flex;
+  border: none;
+  border-radius: 5px;
+  background: none;
+}
+
+.btnLogout:hover {
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.userEmail {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.icon {
+  font-size: 30px;
+  color: #90bac7;
+}
