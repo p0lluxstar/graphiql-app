@@ -1,16 +1,18 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
 import useAuth from '../hooks/useAuth';
 import Loader from './Loader';
 import { useRouter } from 'next/navigation';
 import CodeMirror from '@uiw/react-codemirror';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { javascript } from '@codemirror/lang-javascript';
+import { json } from '@codemirror/lang-json';
+import { linter } from '@codemirror/lint';
+import jsonlint from 'jsonlint-mod';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
+import styles from '../styles/components/restfull.module.css';
 
 export default function Restfull(): JSX.Element {
-  const t = useTranslations();
   const { user, loading } = useAuth();
   const router = useRouter();
 
@@ -19,6 +21,8 @@ export default function Restfull(): JSX.Element {
   const [headers, setHeaders] = useState([{ key: '', value: '' }]);
   const [body, setBody] = useState('');
   const [response, setResponse] = useState({ status: '', body: '' });
+  const [activeTab, setActiveTab] = useState('body');
+  const [jsonError, setJsonError] = useState<string | null>(null);
 
   useEffect((): void => {
     if (!loading && !user) {
@@ -54,9 +58,59 @@ export default function Restfull(): JSX.Element {
     setHeaders([...headers, { key: '', value: '' }]);
   };
 
+  const removeHeader = (index: number): void => {
+    const newHeaders = headers.filter((_, i) => i !== index);
+    setHeaders(newHeaders);
+  };
+
   const handleBodyChange = (value: string): void => {
     setBody(value);
+    setJsonError(null);
   };
+
+  const formatJson = (): void => {
+    try {
+      const formatted = JSON.stringify(JSON.parse(body), null, 2);
+      setBody(formatted);
+      setJsonError(null);
+    } catch (e) {
+      setJsonError('Invalid JSON. Please fix the errors and try again.');
+    }
+  };
+
+  const jsonLinter = linter((view) => {
+    try {
+      jsonlint.parse(view.state.doc.toString());
+    } catch (e: unknown) {
+      if (e instanceof Error && 'location' in e && e.location) {
+        const lintError = e as {
+          location: {
+            start: { offset: number };
+            end: { offset: number };
+          };
+          message: string;
+        };
+        return [
+          {
+            from: lintError.location.start.offset,
+            to: lintError.location.end.offset,
+            message: lintError.message,
+            severity: 'error',
+          },
+        ];
+      } else {
+        return [
+          {
+            from: 0,
+            to: view.state.doc.length,
+            message: (e as Error).message || 'Unknown error',
+            severity: 'error',
+          },
+        ];
+      }
+    }
+    return [];
+  });
 
   const handleSendRequest = async (): Promise<void> => {
     try {
@@ -74,9 +128,15 @@ export default function Restfull(): JSX.Element {
 
       const res = await fetch(url, requestOptions);
       const responseBody = await res.text();
+      let formattedResponse = responseBody;
+      try {
+        formattedResponse = JSON.stringify(JSON.parse(responseBody), null, 2);
+      } catch (e) {
+        // Ошибка парсинга JSON
+      }
       setResponse({
         status: `${res.status} ${res.statusText}`,
-        body: responseBody,
+        body: formattedResponse,
       });
     } catch (error) {
       if (error instanceof Error) {
@@ -87,7 +147,6 @@ export default function Restfull(): JSX.Element {
     }
   };
 
-  // Функция для генерации закодированного URL
   const getEncodedUrl = (): string => {
     const encodedUrl = btoa(url);
     const encodedBody = method !== 'GET' ? `/${btoa(body)}` : '';
@@ -103,8 +162,7 @@ export default function Restfull(): JSX.Element {
   };
 
   return (
-    <div style={{ height: '100vh' }}>
-      <h1>{t('restfull')}</h1>
+    <div className={styles.container}>
       <PanelGroup direction="horizontal">
         <Panel defaultSize={50}>
           <div>
@@ -123,37 +181,62 @@ export default function Restfull(): JSX.Element {
               />
               <button onClick={handleSendRequest}>Отправить запрос</button>
             </div>
-            <h2>Заголовки</h2>
-            {headers.map((header, index) => (
-              <div key={index}>
-                <input
-                  type="text"
-                  placeholder="Ключ заголовка"
-                  value={header.key}
-                  onChange={(e) =>
-                    handleHeaderChange(index, e.target.value, header.value)
-                  }
-                />
-                <input
-                  type="text"
-                  placeholder="Значение заголовка"
-                  value={header.value}
-                  onChange={(e) =>
-                    handleHeaderChange(index, header.key, e.target.value)
-                  }
+            <div className={styles.header}>
+              <button
+                onClick={() => setActiveTab('body')}
+                className={`${styles.headerButtons} ${activeTab === 'body' ? 'active' : ''}`}
+              >
+                Тело запроса
+              </button>
+              <button
+                onClick={() => setActiveTab('headers')}
+                className={`${styles.headerButtons} ${activeTab === 'headers' ? 'active' : ''}`}
+              >
+                Заголовки
+              </button>
+            </div>
+
+            {activeTab === 'headers' && (
+              <div>
+                {headers.map((header, index) => (
+                  <div key={index} className={styles.inputContainer}>
+                    <input
+                      type="text"
+                      placeholder="Ключ заголовка"
+                      value={header.key}
+                      onChange={(e) =>
+                        handleHeaderChange(index, e.target.value, header.value)
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Значение заголовка"
+                      value={header.value}
+                      onChange={(e) =>
+                        handleHeaderChange(index, header.key, e.target.value)
+                      }
+                    />
+                    <button onClick={() => removeHeader(index)}>Удалить</button>
+                  </div>
+                ))}
+                <button onClick={addHeader}>Добавить заголовок</button>
+              </div>
+            )}
+
+            {activeTab === 'body' && (
+              <div className={styles.codemirrorContainer}>
+                <div className={styles.formatButtonContainer}>
+                  <button onClick={formatJson}>Форматировать JSON</button>
+                  {jsonError && <div className={styles.error}>{jsonError}</div>}
+                </div>
+                <CodeMirror
+                  value={body}
+                  theme={oneDark}
+                  extensions={[javascript(), json(), jsonLinter]}
+                  onChange={(value) => handleBodyChange(value)}
                 />
               </div>
-            ))}
-            <button onClick={addHeader}>Добавить заголовок</button>
-            <div>
-              <h2>Тело запроса</h2>
-              <CodeMirror
-                value={body}
-                theme={oneDark}
-                extensions={[javascript()]}
-                onChange={(value) => handleBodyChange(value)}
-              />
-            </div>
+            )}
           </div>
         </Panel>
         <PanelResizeHandle />
@@ -165,13 +248,15 @@ export default function Restfull(): JSX.Element {
               <h2>Сгенерированный URL:</h2>
               <pre>{getEncodedUrl()}</pre>
             </div>
+            <div className={styles.codemirrorContainerFull}>
+              <CodeMirror
+                value={response.body}
+                theme={oneDark}
+                extensions={[javascript()]}
+                editable={false}
+              />
+            </div>
           </div>
-          <CodeMirror
-            value={response.body}
-            theme={oneDark}
-            extensions={[javascript()]}
-            editable={false}
-          />
         </Panel>
       </PanelGroup>
     </div>
