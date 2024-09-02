@@ -29,17 +29,15 @@ export default function QuerySection(): JSX.Element {
   };
 
   return (
-    <div className={styles.temp}>
-      <div className={styles.querySection}>
-        <CodeMirror
-          extensions={[javascript()]}
-          theme={oneDark}
-          height="100%"
-          onChange={(value) => tmp(value)}
-          className={styles.querySectionCode}
-          value={query}
-        />
-      </div>
+    <div className={styles.querySectionWrapper}>
+      <CodeMirror
+        extensions={[javascript()]}
+        theme={oneDark}
+        height="100%"
+        onChange={(value) => tmp(value)}
+        className={styles.querySectionCode}
+        value={query}
+      />
     </div>
   );
 }

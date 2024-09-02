@@ -2,7 +2,7 @@ import { PanelResizeHandle } from 'react-resizable-panels';
 
 import styles from '../../styles/components/graphiql/graphiqlLayout.module.css';
 
-export default function GraphiqlLayoutHandel({
+export default function GraphiqlHandel({
   className = '',
   id,
 }: {

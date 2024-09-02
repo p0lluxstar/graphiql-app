@@ -32,7 +32,11 @@ export default function MainControls(): JSX.Element {
       });
 
       const result = await response.json();
-      dispatch(responseSectionActions.setResponseSectionCode(result));
+      dispatch(
+        responseSectionActions.setResponseSectionCode(
+          JSON.stringify(result, null, 2)
+        )
+      );
     } catch (error) {
       dispatch(responseSectionActions.setResponseSectionCode('error'));
     }

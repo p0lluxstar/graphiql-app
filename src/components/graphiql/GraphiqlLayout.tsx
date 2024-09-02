@@ -1,6 +1,6 @@
 import styles from '../../styles/components/graphiql/graphiqlLayout.module.css';
 import { Panel, PanelGroup } from 'react-resizable-panels';
-import GraphiqlLayoutHandel from './GraphiqlLayoutHandel';
+import GraphiqlHandel from './GraphiqlHandel';
 import { useTranslations } from 'next-intl';
 import QuerySection from './QuerySection';
 import ResponseSection from './ResponseSection';
@@ -11,60 +11,43 @@ const GraphiqlLayout = (): JSX.Element => {
   const t = useTranslations();
   const closingButtonHeaders = false;
   return (
-    <>
+    <div className={styles.graphiqlLayout}>
       <h1>{t('graphiql')}</h1>
+      <MainControls />
       <div className={styles.wrapper}>
-        <span>SchemaPage</span>
-        <div className={styles.closingButton}></div>
-        <div className={styles.Container}>
-          <MainControls />
-          <div className={styles.TopRow}></div>
-          <div className={styles.BottomRow}>
-            <PanelGroup autoSaveId="example" direction="horizontal">
-              <Panel defaultSize={50} minSize={30}>
-                <PanelGroup autoSaveId="example" direction="vertical">
-                  <Panel
-                    className={styles.Panel}
-                    order={1}
-                    minSize={20}
-                    defaultSize={70}
-                  >
-                    <div className={`${styles.PanelContent}`}>
-                      <QuerySection />
-                    </div>
-                  </Panel>
-                  {!closingButtonHeaders && (
-                    <>
-                      <GraphiqlLayoutHandel />
-                      <Panel
-                        className={`${styles.Panel}`}
-                        order={2}
-                        defaultSize={30}
-                        minSize={0}
-                      >
-                        <div className={`${styles.PanelContent}`}>
-                          <VariablesAndHeadersSection />
-                        </div>
-                      </Panel>
-                    </>
-                  )}
-                </PanelGroup>
-              </Panel>
-              <GraphiqlLayoutHandel />
+        <PanelGroup autoSaveId="example" direction="horizontal">
+          {/* Левая часть с двумя блоками */}
+          <Panel className={styles.leftPanel} defaultSize={50} minSize={30}>
+            <PanelGroup direction="vertical">
               <Panel
-                className={`${styles.Panel} ${styles[`br-3`]}`}
+                className={styles.topLeftPanel}
                 defaultSize={50}
-                minSize={30}
+                minSize={20}
               >
-                <div className={`${styles.PanelContent}`}>
-                  <ResponseSection />
-                </div>
+                <QuerySection />
               </Panel>
+              {!closingButtonHeaders && (
+                <>
+                  <GraphiqlHandel />
+                  <Panel
+                    className={`${styles.bottomLeftPanel}`}
+                    defaultSize={30}
+                    minSize={30}
+                  >
+                    <VariablesAndHeadersSection />
+                  </Panel>
+                </>
+              )}
             </PanelGroup>
-          </div>
-        </div>
+          </Panel>
+          {/* Правая часть с одним блоком */}
+          <GraphiqlHandel />
+          <Panel className={styles.rightPanel} defaultSize={50} minSize={30}>
+            <ResponseSection />
+          </Panel>
+        </PanelGroup>
       </div>
-    </>
+    </div>
   );
 };
 

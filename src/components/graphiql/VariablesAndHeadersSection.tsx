@@ -39,7 +39,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
   };
 
   return (
-    <div className={styles.variablesAndHeadersTools}>
+    <div className={styles.variablesAndHeadersWrapper}>
       <div className={styles.variablesAndHeadersMenu}>
         <button
           onClick={handlerVariablesButton}
@@ -61,7 +61,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
           theme={oneDark}
           height="100%"
           onChange={(value) => handleVariablesChange(value)}
-          className={styles.querySectionCode}
+          className={styles.variablesAndHeadersCode}
         />
       )}
       {showHeaders && (
@@ -71,7 +71,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
           theme={oneDark}
           height="100%"
           onChange={(value) => handleHeadersChange(value)}
-          className={styles.querySectionCode}
+          className={styles.variablesAndHeadersCode}
         />
       )}
     </div>

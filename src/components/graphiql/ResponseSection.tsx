@@ -1,3 +1,4 @@
+import styles from '../../styles/components/graphiql/responseSection.module.css';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import CodeMirror, { oneDark } from '@uiw/react-codemirror';
@@ -9,19 +10,19 @@ export default function ResponseSection(): JSX.Element {
   );
 
   if (responseSectionCode.length === 0) {
-    return <></>;
+    return <div className={styles.responseSectionWrapper}></div>;
   }
-  return (
-    <>
-      {/*  <pre>{JSON.stringify(responseSectionCode, null, 2)}</pre> */}
 
+  return (
+    <div className={styles.responseSectionWrapper}>
       <CodeMirror
         value={responseSectionCode}
         extensions={[json()]}
         theme={oneDark}
         height="100%"
+        className={styles.responseSectionCode}
         readOnly={true}
       />
-    </>
+    </div>
   );
 }

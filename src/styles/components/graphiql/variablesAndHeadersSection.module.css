@@ -1,3 +1,14 @@
+.variablesAndHeadersWrapper {
+  height: 100%;
+  overflow: auto;
+  position: relative;
+}
+
+.variablesAndHeadersCode {
+  padding-top: 40px;
+  height: 100%;
+}
+
 .variablesAndHeadersMenu {
   display: flex;
   align-items: center;
@@ -5,6 +16,9 @@
   height: 40px;
   padding: 0 10px;
   gap: 20px;
+  background: #282c34;
+  position: absolute;
+  top: 0px;
 }
 
 .menuBtn {

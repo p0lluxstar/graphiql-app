@@ -1,0 +1,23 @@
+/* YourStyles.module.css */
+
+.wrapper {
+  height: 100vh;
+  display: flex;
+}
+
+.leftPanel {
+  background-color: #f0f0f0;
+}
+
+.rightPanel {
+  background-color: #e0e0e0;
+}
+
+.topLeftPanel {
+  background-color: #c0c0c0;
+  overflow: auto;
+}
+
+.bottomLeftPanel {
+  background-color: #a0a0a0;
+}

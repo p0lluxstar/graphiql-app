@@ -5,6 +5,7 @@
   background: linear-gradient(541deg, #0d5c71ab, #20a6c9a3);
   min-height: calc(100vh - 200px);
   color: #ffffff;
+  padding: 0px 40px 40px 40px;
 }
 
 .main h1 {

@@ -1,0 +1,9 @@
+.responseSectionWrapper {
+  height: 100%;
+  overflow: auto;
+  background: #282c34;
+}
+
+.responseSectionCode {
+  height: 100%;
+}
