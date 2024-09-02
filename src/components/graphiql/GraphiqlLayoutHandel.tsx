@@ -14,9 +14,7 @@ export default function GraphiqlLayoutHandel({
       className={[styles.ResizeHandleOuter, className].join(' ')}
       id={id}
     >
-      <div className={styles.ResizeHandleInner}>
-        <span>...</span>
-      </div>
+      <div className={styles.ResizeHandleInner}></div>
     </PanelResizeHandle>
   );
 }

@@ -50,7 +50,8 @@ export default function MainControls(): JSX.Element {
         type="text"
         value={urlApi}
         onChange={handleInputChange}
-        placeholder={'Url api'}
+        placeholder={'Url API'}
+        className={styles.inputUrlApi}
       />
       <button className={styles.executeButton} onClick={makeRequest}>
         <Image

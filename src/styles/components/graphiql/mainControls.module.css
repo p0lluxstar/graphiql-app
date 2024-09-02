@@ -1,9 +1,9 @@
 .mainControls {
   display: flex;
   align-items: center;
-  height: 44px;
-  border-bottom: 1px solid #cccc;
-  background: linear-gradient(#f7f7f7, #e2e2e2);
+  height: 60px;
+  border-bottom: 1px solid #646464;
+  background: #282c34;
   width: 100%;
   top: 50px;
   padding: 0 10px;
@@ -14,12 +14,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 16px;
-  border: solid 1px #999999;
+  width: 60px;
+  height: 30px;
+  border: none;
   cursor: pointer;
-  background: linear-gradient(#fdfdfd, #d2d3d6);
+  background: #0078d4;
 }
 
 .executeButton:hover {
@@ -41,4 +40,18 @@
 
 .closingButton:hover {
   opacity: 0.8;
+}
+
+.inputUrlApi {
+  background: #282c34;
+  border: 1px solid #646464;
+  width: 350px;
+  height: 30px;
+  color: #989898;
+  padding: 0 5px;
+}
+
+.inputUrlApi:focus {
+  outline: 1px solid #989898;
+  border: none;
 }

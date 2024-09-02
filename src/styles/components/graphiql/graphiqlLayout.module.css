@@ -10,14 +10,15 @@
   --color-button-background: #2a3343;
   --color-button-background-hover: #454950;
   --color-button-border: #18181a;
-  --color-code: #c67bff;
+  --color-code: #abb2bf;
   --color-default: #ffffff;
   --color-horizontal-rule: #454950;
   --color-link: #dcadff;
-  --color-panel-background: #ffffff;
+  --color-panel-background: #282c34;
   --color-panel-background-alternate: #202124;
   --color-solid-resize-bar: #454950;
   --color-solid-resize-bar-handle: #4c8a9d;
+  --color-lines: #646464;
 }
 
 .Container {
@@ -48,18 +49,18 @@
   width: 100%;
   background-color: var(--color-panel-background);
   overflow: auto;
-  color: var(--color-background-default);
+  color: var(--color-code);
 }
 
 .ResizeHandleOuter {
-  flex: 0 0 1em;
+  flex: 0 0 0.2em;
   position: relative;
   outline: none;
-
-  --background-color: var(--color-background);
+  --background-color: var(--color-lines);
 }
+
 .ResizeHandleOuter[data-resize-handle-active] {
-  --background-color: var(--color-solid-resize-bar-handle);
+  --background-color: var(--color-code);
 }
 
 .ResizeHandleInner {

@@ -1,15 +1,20 @@
 import styles from '../../styles/components/graphiql/querySection.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { querySectionActions } from '@/redux/slices/graphiqlQuerySectionSlice';
-import { useRef, useState } from 'react';
+import CodeMirror, { oneDark } from '@uiw/react-codemirror';
+import { javascript } from '@codemirror/lang-javascript';
+import { RootState } from '@/redux/store';
 
 export default function QuerySection(): JSX.Element {
   const dispatch = useDispatch();
-  const myElementRef = useRef<HTMLInputElement>(null);
+  /*   const myElementRef = useRef<HTMLInputElement>(null);
 
-  const [queryCode, setQueryCode] = useState(' ');
+  const [queryCode, setQueryCode] = useState(' '); */
+  const query = useSelector(
+    (state: RootState) => state.querySectionReducer.querySectionCode
+  );
 
-  function handleCodeChange(): void {
+  /*   function handleCodeChange(): void {
     dispatch(
       querySectionActions.setQuerySectionCode(
         myElementRef.current.innerText.replace(/\s/g, '')
@@ -17,24 +22,24 @@ export default function QuerySection(): JSX.Element {
     );
 
     setQueryCode(myElementRef.current.innerText);
-  }
+  } */
+
+  const tmp = (value: string): void => {
+    dispatch(querySectionActions.setQuerySectionCode(value));
+  };
 
   return (
-    <>
+    <div className={styles.temp}>
       <div className={styles.querySection}>
-        <div className={styles.queryCode}>
-          <pre
-            ref={myElementRef}
-            contentEditable="true"
-            spellCheck="false"
-            suppressContentEditableWarning={true}
-            onInput={handleCodeChange}
-            /* onKeyDown={} */
-          >
-            {queryCode}
-          </pre>
-        </div>
+        <CodeMirror
+          extensions={[javascript()]}
+          theme={oneDark}
+          height="100%"
+          onChange={(value) => tmp(value)}
+          className={styles.querySectionCode}
+          value={query}
+        />
       </div>
-    </>
+    </div>
   );
 }
