@@ -17,8 +17,13 @@ import { UrlInput } from './UrlInput';
 import { HeadersEditor } from './HeadersEditor';
 import { RequestBodyEditor } from './RequestBodyEditor';
 import { ResponseViewer } from './ResponseViewer';
+import { VariablesEditor } from './VariablesEditor';
 import useAuth from '@/hooks/useAuth';
-import Loader from '../Loader';
+
+interface Variable {
+  key: string;
+  value: string;
+}
 
 export default function Restfull(): JSX.Element {
   const { user, loading } = useAuth();
@@ -27,6 +32,9 @@ export default function Restfull(): JSX.Element {
   const [method, setMethod] = useState('GET');
   const [url, setUrl] = useState('');
   const [headers, setHeaders] = useState([{ key: '', value: '' }]);
+  const [variables, setVariables] = useState<Variable[]>([
+    { key: '', value: '' },
+  ]);
   const [body, setBody] = useState('');
   const [response, setResponse] = useState({ status: '', body: '' });
   const [activeTab, setActiveTab] = useState('body');
@@ -39,9 +47,27 @@ export default function Restfull(): JSX.Element {
     }
   }, [user, loading, router]);
 
-  if (loading || !user) {
-    return <Loader />;
-  }
+  useEffect(() => {
+    const encodedUrl = btoa(url);
+    const encodedBody = method !== 'GET' ? `/${btoa(body)}` : '';
+    const encodedHeaders = headers
+      .filter((header) => header.key && header.value)
+      .map(
+        (header) =>
+          `${encodeURIComponent(header.key)}=${encodeURIComponent(header.value)}`
+      )
+      .join('&');
+
+    const encodedVariables = variables
+      .filter((variable) => variable.key && variable.value)
+      .map(
+        (variable) =>
+          `${encodeURIComponent(variable.key)}=${encodeURIComponent(variable.value)}`
+      )
+      .join('&');
+    const fullUrl = `${method}/${encodedUrl}${encodedBody ? encodedBody : ''}${encodedHeaders ? `?${encodedHeaders}` : ''}${encodedVariables ? `&${encodedVariables}` : ''}`;
+    window.history.replaceState(null, '', `/${fullUrl}`);
+  }, [method, url, headers, body, variables]);
 
   const handleMethodChange = (event: SelectChangeEvent<string>): void => {
     setMethod(event.target.value as string);
@@ -61,13 +87,32 @@ export default function Restfull(): JSX.Element {
     setHeaders(newHeaders);
   };
 
+  const handleVariableChange = (
+    index: number,
+    key: string,
+    value: string
+  ): void => {
+    const newVariables = [...variables];
+    newVariables[index] = { key, value };
+    setVariables(newVariables);
+  };
+
   const addHeader = (): void => {
     setHeaders([...headers, { key: '', value: '' }]);
+  };
+
+  const addVariable = (): void => {
+    setVariables([...variables, { key: '', value: '' }]);
   };
 
   const removeHeader = (index: number): void => {
     const newHeaders = headers.filter((_, i) => i !== index);
     setHeaders(newHeaders);
+  };
+
+  const removeVariable = (index: number): void => {
+    const newVariables = variables.filter((_, i) => i !== index);
+    setVariables(newVariables);
   };
 
   const handleSendRequest = async (): Promise<void> => {
@@ -199,6 +244,11 @@ export default function Restfull(): JSX.Element {
                 value="headers"
                 sx={{ minHeight: '32px', fontSize: '12px' }}
               />
+              <Tab
+                label="Variables"
+                value="variables"
+                sx={{ minHeight: '32px', fontSize: '12px' }}
+              />
             </Tabs>
 
             {activeTab === 'headers' && (
@@ -217,6 +267,15 @@ export default function Restfull(): JSX.Element {
                 jsonError={jsonError}
                 setJsonError={setJsonError}
                 setOpenSnackbar={setOpenSnackbar}
+              />
+            )}
+
+            {activeTab === 'variables' && (
+              <VariablesEditor
+                variables={variables}
+                onVariableChange={handleVariableChange}
+                onAddVariable={addVariable}
+                onRemoveVariable={removeVariable}
               />
             )}
           </Container>
