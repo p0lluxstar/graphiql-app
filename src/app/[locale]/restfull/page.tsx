@@ -1,5 +1,5 @@
-import Restfull from '@/components/Restfull';
 import ProtectedRouteAuth from '@/components/ProtectedRouteAuth';
+import Restfull from '@/components/restfull/Restfull';
 
 export const metadata = {
   title: 'RESTfull',

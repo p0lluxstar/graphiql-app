@@ -17,7 +17,6 @@ export default function ProtectedRouteAuth({
 
   useEffect(() => {
     if (!loading && !user) {
-      // if the user is not logged in and the download is completed, we redirect to the main page
       router.replace(`/`);
     }
   }, [user, loading, router]);
