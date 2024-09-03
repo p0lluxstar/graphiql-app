@@ -30,6 +30,7 @@ export default function QuerySection(): JSX.Element {
 
   return (
     <div className={styles.querySectionWrapper}>
+      <h2 className={styles.title}>Query</h2>
       <CodeMirror
         extensions={[javascript()]}
         theme={oneDark}

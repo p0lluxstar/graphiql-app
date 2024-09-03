@@ -10,11 +10,16 @@ export default function ResponseSection(): JSX.Element {
   );
 
   if (responseSectionCode.length === 0) {
-    return <div className={styles.responseSectionWrapper}></div>;
+    return (
+      <div className={styles.responseSectionWrapper}>
+        <h2 className={styles.title}>Response</h2>
+      </div>
+    );
   }
 
   return (
     <div className={styles.responseSectionWrapper}>
+      <h2 className={styles.title}>Response</h2>
       <CodeMirror
         value={responseSectionCode}
         extensions={[json()]}

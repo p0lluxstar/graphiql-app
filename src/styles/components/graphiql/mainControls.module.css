@@ -8,6 +8,11 @@
   top: 50px;
   padding: 0 10px;
   border-radius: 5px 5px 0 0;
+  justify-content: space-between;
+}
+
+.apiRequestControls {
+  display: flex;
 }
 
 .executeButton {
@@ -19,6 +24,7 @@
   border: none;
   cursor: pointer;
   background: #0078d4;
+  color: #ffffff;
 }
 
 .executeButton:hover {
@@ -54,4 +60,8 @@
 .inputUrlApi:focus {
   outline: 1px solid #989898;
   border: none;
+}
+
+.active {
+  background: #646464;
 }

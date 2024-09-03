@@ -3,6 +3,7 @@ import styles from '../../styles/components/graphiql/mainControls.module.css';
 import Image from 'next/image';
 import { RootState } from '@/redux/store';
 import { responseSectionActions } from '@/redux/slices/graphiqlResponseSectionSlice';
+import { docsSectionActions } from '@/redux/slices/graphiqlDocsSection.Slice';
 import { useState } from 'react';
 
 export default function MainControls(): JSX.Element {
@@ -10,11 +11,12 @@ export default function MainControls(): JSX.Element {
   const query = useSelector(
     (state: RootState) => state.querySectionReducer.querySectionCode
   );
+
+  const isDocsSectionVisible = useSelector(
+    (state: RootState) => state.docsSectionReducer.isDocsSectionVisible
+  );
+
   const [urlApi, setUrlApi] = useState('');
-
-  /* function closingButtonH(): void {}
-
-  function closingButtonV(): void {} */
 
   const variables = JSON.parse('"{}"');
 
@@ -48,22 +50,140 @@ export default function MainControls(): JSX.Element {
     setUrlApi(event.target.value);
   };
 
+  const handleButtonDocs = async (): Promise<void> => {
+    const introspectionQuery = `fragment FullType on __Type {
+  kind
+  name
+  fields(includeDeprecated: true) {
+    name
+    args {
+      ...InputValue
+    }
+    type {
+      ...TypeRef
+    }
+    isDeprecated
+    deprecationReason
+  }
+  inputFields {
+    ...InputValue
+  }
+  interfaces {
+    ...TypeRef
+  }
+  enumValues(includeDeprecated: true) {
+    name
+    isDeprecated
+    deprecationReason
+  }
+  possibleTypes {
+    ...TypeRef
+  }
+}
+fragment InputValue on __InputValue {
+  name
+  type {
+    ...TypeRef
+  }
+  defaultValue
+}
+fragment TypeRef on __Type {
+  kind
+  name
+  ofType {
+    kind
+    name
+    ofType {
+      kind
+      name
+      ofType {
+        kind
+        name
+        ofType {
+          kind
+          name
+          ofType {
+            kind
+            name
+            ofType {
+              kind
+              name
+              ofType {
+                kind
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+query IntrospectionQuery {
+  __schema {
+    queryType {
+      name
+    }
+    mutationType {
+      name
+    }
+    types {
+      ...FullType
+    }
+    directives {
+      name
+      locations
+      args {
+        ...InputValue
+      }
+    }
+  }
+}`;
+
+    dispatch(docsSectionActions.toggleDocsSectionVisibility(true));
+
+    try {
+      const response = await fetch(`${urlApi}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query: introspectionQuery }),
+      });
+
+      const result = await response.json();
+      dispatch(
+        docsSectionActions.setDocsSectionCode(JSON.stringify(result, null, 2))
+      );
+    } catch (error) {
+      dispatch(docsSectionActions.setDocsSectionCode('error'));
+    }
+  };
+
   return (
     <div className={styles.mainControls}>
-      <input
-        type="text"
-        value={urlApi}
-        onChange={handleInputChange}
-        placeholder={'Url API'}
-        className={styles.inputUrlApi}
-      />
-      <button className={styles.executeButton} onClick={makeRequest}>
-        <Image
-          src="/img/execute-button.svg"
-          width={23}
-          height={23}
-          alt="logo"
+      <div className={styles.apiRequestControls}>
+        <input
+          type="text"
+          value={urlApi}
+          onChange={handleInputChange}
+          placeholder={'Url API'}
+          className={styles.inputUrlApi}
         />
+        <button className={styles.executeButton} onClick={makeRequest}>
+          <Image
+            src="/img/execute-button.svg"
+            width={23}
+            height={23}
+            alt="logo"
+          />
+        </button>
+      </div>
+      <button
+        className={`${styles.executeButton} ${!isDocsSectionVisible ? styles.active : ''}`}
+        onClick={handleButtonDocs}
+      >
+        Docs
       </button>
       {/* <button className={styles.closingButton} onClick={closingButtonH}>
         <span>H</span>

@@ -5,11 +5,18 @@ import { useTranslations } from 'next-intl';
 import QuerySection from './QuerySection';
 import ResponseSection from './ResponseSection';
 import MainControls from './MainControls';
+import DocsSection from './DocsSection';
 import VariablesAndHeadersSection from './VariablesAndHeadersSection';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 const GraphiqlLayout = (): JSX.Element => {
   const t = useTranslations();
   const closingButtonHeaders = false;
+
+  const isDocsSectionVisible = useSelector(
+    (state: RootState) => state.docsSectionReducer.isDocsSectionVisible
+  );
   return (
     <div className={styles.graphiqlLayout}>
       <h1>{t('graphiql')}</h1>
@@ -45,6 +52,14 @@ const GraphiqlLayout = (): JSX.Element => {
           <Panel className={styles.rightPanel} defaultSize={50} minSize={30}>
             <ResponseSection />
           </Panel>
+          {isDocsSectionVisible && (
+            <>
+              <GraphiqlHandel />
+              <Panel className={styles.leftPanel} defaultSize={10} minSize={5}>
+                <DocsSection />
+              </Panel>
+            </>
+          )}
         </PanelGroup>
       </div>
     </div>

@@ -1,11 +1,11 @@
-.responseSectionWrapper {
+.docsSectionWrapper {
   height: 100%;
   overflow: auto;
   background: #282c34;
   position: relative;
 }
 
-.responseSectionCode {
+.docsSectionCode {
   padding-top: 40px;
   height: 100%;
 }
