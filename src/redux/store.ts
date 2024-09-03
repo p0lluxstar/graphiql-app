@@ -3,7 +3,7 @@ import { querySectionReducer } from './slices/graphiqlQuerySectionSlice';
 import { responseSectionReducer } from './slices/graphiqlResponseSectionSlice';
 import { variablesSectionReducer } from './slices/graphiqlVariablesSectionSlice';
 import { headersSectionReducer } from './slices/graphiqlHeadersSectionSlice';
-import { docsSectionReducer } from './slices/graphiqlDocsSection.Slice';
+import { docsSectionReducer } from './slices/graphiqlDocsSectionSlice';
 
 export const store = configureStore({
   reducer: {

@@ -3,13 +3,17 @@ import styles from '../../styles/components/graphiql/mainControls.module.css';
 import Image from 'next/image';
 import { RootState } from '@/redux/store';
 import { responseSectionActions } from '@/redux/slices/graphiqlResponseSectionSlice';
-import { docsSectionActions } from '@/redux/slices/graphiqlDocsSection.Slice';
+import { docsSectionActions } from '@/redux/slices/graphiqlDocsSectionSlice';
 import { useState } from 'react';
 
 export default function MainControls(): JSX.Element {
   const dispatch = useDispatch();
-  const query = useSelector(
+  const querySectionCode = useSelector(
     (state: RootState) => state.querySectionReducer.querySectionCode
+  );
+
+  const variablesSectionCode = useSelector(
+    (state: RootState) => state.variablesSectionReducer.variablesSectionCode
   );
 
   const isDocsSectionVisible = useSelector(
@@ -18,9 +22,15 @@ export default function MainControls(): JSX.Element {
 
   const [urlApi, setUrlApi] = useState('');
 
-  const variables = JSON.parse('"{}"');
-
   const makeRequest = async (): Promise<void> => {
+    let variablesSectionCodeParse = '';
+
+    if (variablesSectionCode === '') {
+      variablesSectionCodeParse = JSON.parse('{}');
+    } else {
+      variablesSectionCodeParse = JSON.parse(variablesSectionCode);
+    }
+
     try {
       const response = await fetch(`${urlApi}`, {
         method: 'POST',
@@ -28,8 +38,8 @@ export default function MainControls(): JSX.Element {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          query,
-          variables,
+          query: querySectionCode,
+          variables: variablesSectionCodeParse,
         }),
       });
 

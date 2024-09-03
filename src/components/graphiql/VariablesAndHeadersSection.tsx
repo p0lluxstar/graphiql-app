@@ -1,6 +1,7 @@
 import styles from '../../styles/components/graphiql/variablesAndHeadersSection.module.css';
 import CodeMirror, { oneDark } from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
+import { json } from '@codemirror/lang-json';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -57,7 +58,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
       {showVariables && (
         <CodeMirror
           value={valueVariables}
-          extensions={[javascript()]}
+          extensions={[json()]}
           theme={oneDark}
           height="100%"
           onChange={(value) => handleVariablesChange(value)}

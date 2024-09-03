@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import CodeMirror, { oneDark } from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
+import { EditorView } from '@codemirror/view';
 
 export default function ResponseSection(): JSX.Element {
   const responseSectionCode = useSelector(
@@ -22,7 +23,12 @@ export default function ResponseSection(): JSX.Element {
       <h2 className={styles.title}>Response</h2>
       <CodeMirror
         value={responseSectionCode}
-        extensions={[json()]}
+        extensions={[
+          json(),
+          EditorView.theme({
+            '&.cm-editor .cm-gutters': { display: 'none' },
+          }),
+        ]}
         theme={oneDark}
         height="100%"
         className={styles.responseSectionCode}

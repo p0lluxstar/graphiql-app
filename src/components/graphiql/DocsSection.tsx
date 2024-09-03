@@ -1,7 +1,7 @@
 import styles from '../../styles/components/graphiql/docsSection.module.css';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import CodeMirror, { oneDark } from '@uiw/react-codemirror';
+import CodeMirror, { EditorView, oneDark } from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 
 export default function DocsSection(): JSX.Element {
@@ -14,7 +14,12 @@ export default function DocsSection(): JSX.Element {
       <h2 className={styles.title}>Docs</h2>
       <CodeMirror
         value={docsSectionCode}
-        extensions={[json()]}
+        extensions={[
+          json(),
+          EditorView.theme({
+            '&.cm-editor .cm-gutters': { display: 'none' },
+          }),
+        ]}
         theme={oneDark}
         height="100%"
         className={styles.docsSectionCode}
