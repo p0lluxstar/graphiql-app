@@ -38,6 +38,7 @@ export default function MainControls(): JSX.Element {
       const currentUrl = window.location.href;
       const parsedUrl = new URL(currentUrl);
       const queryParam = parsedUrl.searchParams.get('query');
+      const variablesParam = parsedUrl.searchParams.get('variables');
 
       if (queryParam === null) {
         return;
@@ -71,8 +72,12 @@ export default function MainControls(): JSX.Element {
       } catch (error) {
         dispatch(responseSectionActions.setResponseSectionCode(''));
       } finally {
-        const decodedData = atob(queryParam);
-        dispatch(querySectionActions.setQuerySectionCode(decodedData));
+        const decodedQueryParam = atob(queryParam || '');
+        const decodedVariablesParam = atob(variablesParam || '');
+        dispatch(querySectionActions.setQuerySectionCode(decodedQueryParam));
+        dispatch(
+          variablesSectionActions.setVariablesSectionCode(decodedVariablesParam)
+        );
       }
     };
     temp();

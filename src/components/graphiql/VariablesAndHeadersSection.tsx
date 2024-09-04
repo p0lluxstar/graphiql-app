@@ -7,9 +7,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { variablesSectionActions } from '@/redux/slices/graphiqlVariablesSectionSlice';
 import { headersSectionActions } from '@/redux/slices/graphiqlHeadersSectionSlice';
+import { useRouter } from 'next/navigation';
 
 export default function VariablesAndHeadersSection(): JSX.Element {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [showVariables, setShowVariables] = useState(true);
   const [showHeaders, setShowHeaders] = useState(false);
 
@@ -33,6 +35,13 @@ export default function VariablesAndHeadersSection(): JSX.Element {
 
   const handleVariablesChange = (value: string): void => {
     dispatch(variablesSectionActions.setVariablesSectionCode(value));
+
+    //
+    const encodedData = btoa(value);
+    const currentUrl = new URL(window.location.href);
+    const params = new URLSearchParams(currentUrl.search);
+    params.set('variables', encodedData);
+    router.replace(`${currentUrl.pathname}?${params.toString()}`);
   };
 
   const handleHeadersChange = (value: string): void => {

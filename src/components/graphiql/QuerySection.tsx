@@ -28,8 +28,14 @@ export default function QuerySection(): JSX.Element {
 
   const handleChange = (value: string): void => {
     dispatch(querySectionActions.setQuerySectionCode(value));
+
     const encodedData = btoa(value);
-    router.replace(`?query=${encodedData}`);
+    const currentUrl = new URL(window.location.href);
+    const params = new URLSearchParams(currentUrl.search);
+    params.set('query', encodedData);
+    router.replace(`${currentUrl.pathname}?${params.toString()}`);
+
+    /* router.replace(`?query=${encodedData}`); */
   };
 
   return (
