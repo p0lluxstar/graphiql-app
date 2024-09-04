@@ -14,7 +14,7 @@
   "email": "Email",
   "password": "Password",
   "welcome":"Welcome to the REST/GraphiQL Client!",
-  "promo": "This application is your go-to tool for interacting with RESTful and GraphQL APIs. Whether you're a developer, tester, or just someone wholoves to explore APIs, this client is designed to meet your needs with a user-friendly interface and powerful features.",
+  "promo": "The REST/GraphiQL Client - this application is your go-to tool for interacting with RESTful and GraphQL APIs. Whether you're a developer, tester, or just someone wholoves to explore APIs, this client is designed to meet your needs with a user-friendly interface and powerful features.",
   "greeting": "Welcome back",
   "continueToWork": "Choose the client to continue working",
   "restClient": "REST Client",
