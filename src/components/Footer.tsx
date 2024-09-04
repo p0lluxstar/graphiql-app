@@ -28,7 +28,7 @@ export default function Footer(): JSX.Element {
           <Image
             width={50}
             height={50}
-            src="rss-logo.svg"
+            src="./rss-logo.svg"
             alt="rss-logo"
             className={styles.logo}
           />
