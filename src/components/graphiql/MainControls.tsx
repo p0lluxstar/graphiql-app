@@ -3,9 +3,9 @@ import styles from '../../styles/components/graphiql/mainControls.module.css';
 import Image from 'next/image';
 import { RootState } from '@/redux/store';
 import { responseSectionActions } from '@/redux/slices/graphiqlResponseSectionSlice';
-/* import { docsSectionActions } from '@/redux/slices/graphiqlDocsSectionSlice'; */
 import { querySectionActions } from '@/redux/slices/graphiqlQuerySectionSlice';
 import { useEffect, useState } from 'react';
+import { useVisibility } from '@/context/VisibilityContext';
 
 export default function MainControls(): JSX.Element {
   const dispatch = useDispatch();
@@ -15,10 +15,6 @@ export default function MainControls(): JSX.Element {
 
   const variablesSectionCode = useSelector(
     (state: RootState) => state.variablesSectionReducer.variablesSectionCode
-  );
-
-  const isDocsSectionVisible = useSelector(
-    (state: RootState) => state.docsSectionReducer.isDocsSectionVisible
   );
 
   const [urlApi, setUrlApi] = useState('');
@@ -215,6 +211,9 @@ query IntrospectionQuery {
     }
   }; */
 
+  const { toggleIsShowVariablesAndHeaders, toggleIsShowDocs, isShowDocs } =
+    useVisibility();
+
   return (
     <div className={styles.mainControls}>
       <div className={styles.apiRequestControls}>
@@ -233,13 +232,13 @@ query IntrospectionQuery {
             alt="logo"
           />
         </button>
-        <button className={styles.closingButton}>
+        <button onClick={toggleIsShowVariablesAndHeaders}>
           <span>H</span>
         </button>
       </div>
       <button
-        className={`${styles.executeButton} ${!isDocsSectionVisible ? styles.active : ''}`}
-        /*  onClick={handleButtonDocs} */
+        className={`${styles.executeButton} ${isShowDocs ? '' : styles.active}`}
+        onClick={toggleIsShowDocs}
       >
         Docs
       </button>

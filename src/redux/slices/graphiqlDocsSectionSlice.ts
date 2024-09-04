@@ -2,12 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface IInitialState {
   docsSectionCode: string;
-  isDocsSectionVisible: boolean;
 }
 
 const initialState: IInitialState = {
   docsSectionCode: ``,
-  isDocsSectionVisible: false,
 };
 
 const docsSectionSlice = createSlice({
@@ -16,9 +14,6 @@ const docsSectionSlice = createSlice({
   reducers: {
     setDocsSectionCode: (state, actions) => {
       return { ...state, docsSectionCode: actions.payload };
-    },
-    toggleDocsSectionVisibility: (state) => {
-      state.isDocsSectionVisible = !state.isDocsSectionVisible;
     },
   },
 });
