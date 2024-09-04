@@ -4,9 +4,11 @@ import { querySectionActions } from '@/redux/slices/graphiqlQuerySectionSlice';
 import CodeMirror, { oneDark } from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { RootState } from '@/redux/store';
+import { useRouter } from 'next/navigation';
 
 export default function QuerySection(): JSX.Element {
   const dispatch = useDispatch();
+  const router = useRouter();
   /*   const myElementRef = useRef<HTMLInputElement>(null);
 
   const [queryCode, setQueryCode] = useState(' '); */
@@ -24,8 +26,10 @@ export default function QuerySection(): JSX.Element {
     setQueryCode(myElementRef.current.innerText);
   } */
 
-  const tmp = (value: string): void => {
+  const handleChange = (value: string): void => {
     dispatch(querySectionActions.setQuerySectionCode(value));
+    const encodedData = btoa(value);
+    router.replace(`?query=${encodedData}`);
   };
 
   return (
@@ -35,7 +39,7 @@ export default function QuerySection(): JSX.Element {
         extensions={[javascript()]}
         theme={oneDark}
         height="100%"
-        onChange={(value) => tmp(value)}
+        onChange={(value) => handleChange(value)}
         className={styles.querySectionCode}
         value={query}
       />

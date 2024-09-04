@@ -3,8 +3,9 @@ import styles from '../../styles/components/graphiql/mainControls.module.css';
 import Image from 'next/image';
 import { RootState } from '@/redux/store';
 import { responseSectionActions } from '@/redux/slices/graphiqlResponseSectionSlice';
-import { docsSectionActions } from '@/redux/slices/graphiqlDocsSectionSlice';
-import { useState } from 'react';
+/* import { docsSectionActions } from '@/redux/slices/graphiqlDocsSectionSlice'; */
+import { querySectionActions } from '@/redux/slices/graphiqlQuerySectionSlice';
+import { useEffect, useState } from 'react';
 
 export default function MainControls(): JSX.Element {
   const dispatch = useDispatch();
@@ -22,9 +23,53 @@ export default function MainControls(): JSX.Element {
 
   const [urlApi, setUrlApi] = useState('');
 
+  useEffect(() => {
+    const temp = async (): Promise<void> => {
+      const currentUrl = window.location.href;
+      const parsedUrl = new URL(currentUrl);
+      const queryParam = parsedUrl.searchParams.get('query');
+
+      if (queryParam === null) {
+        return;
+      }
+
+      let variablesSectionCodeParse = '';
+      if (variablesSectionCode === '') {
+        variablesSectionCodeParse = JSON.parse('{}');
+      } else {
+        variablesSectionCodeParse = JSON.parse(variablesSectionCode);
+      }
+
+      try {
+        const response = await fetch(`${urlApi}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            query: querySectionCode,
+            variables: variablesSectionCodeParse,
+          }),
+        });
+
+        const result = await response.json();
+        dispatch(
+          responseSectionActions.setResponseSectionCode(
+            JSON.stringify(result, null, 2)
+          )
+        );
+      } catch (error) {
+        dispatch(responseSectionActions.setResponseSectionCode('error'));
+      } finally {
+        const decodedData = atob(queryParam);
+        dispatch(querySectionActions.setQuerySectionCode(decodedData));
+      }
+    };
+    temp();
+  }, []);
+
   const makeRequest = async (): Promise<void> => {
     let variablesSectionCodeParse = '';
-
     if (variablesSectionCode === '') {
       variablesSectionCodeParse = JSON.parse('{}');
     } else {
@@ -60,7 +105,7 @@ export default function MainControls(): JSX.Element {
     setUrlApi(event.target.value);
   };
 
-  const handleButtonDocs = async (): Promise<void> => {
+  /*   const handleButtonDocs = async (): Promise<void> => {
     const introspectionQuery = `fragment FullType on __Type {
   kind
   name
@@ -168,7 +213,7 @@ query IntrospectionQuery {
     } catch (error) {
       dispatch(docsSectionActions.setDocsSectionCode('error'));
     }
-  };
+  }; */
 
   return (
     <div className={styles.mainControls}>
@@ -188,10 +233,13 @@ query IntrospectionQuery {
             alt="logo"
           />
         </button>
+        <button className={styles.closingButton}>
+          <span>H</span>
+        </button>
       </div>
       <button
         className={`${styles.executeButton} ${!isDocsSectionVisible ? styles.active : ''}`}
-        onClick={handleButtonDocs}
+        /*  onClick={handleButtonDocs} */
       >
         Docs
       </button>
