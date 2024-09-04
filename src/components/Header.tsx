@@ -8,7 +8,6 @@ import LocaleSwitcher from './LocaleSwitcher';
 import Logout from './Logout';
 import useAuth from '../hooks/useAuth';
 import UserAuth from './UserAuth';
-import Loader from './Loader';
 
 export default function Header(): JSX.Element {
   const t = useTranslations();
@@ -18,9 +17,7 @@ export default function Header(): JSX.Element {
 
   return (
     <header className={styles.header}>
-      {loading ? (
-        <Loader />
-      ) : (
+      {loading ? null : (
         <>
           <div className={styles.mainMenu}>
             <ul>
