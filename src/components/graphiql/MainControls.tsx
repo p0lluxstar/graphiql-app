@@ -6,9 +6,13 @@ import { responseSectionActions } from '@/redux/slices/graphiqlResponseSectionSl
 import { querySectionActions } from '@/redux/slices/graphiqlQuerySectionSlice';
 import { useEffect, useState } from 'react';
 import { useVisibility } from '@/context/VisibilityContext';
+import { fetchGraphiqlSchema } from '@/utils/fetchGraphiqlSchema';
+import { useRouter } from 'next/navigation';
+import { variablesSectionActions } from '@/redux/slices/graphiqlVariablesSectionSlice';
 
 export default function MainControls(): JSX.Element {
   const dispatch = useDispatch();
+  const router = useRouter();
   const querySectionCode = useSelector(
     (state: RootState) => state.querySectionReducer.querySectionCode
   );
@@ -18,6 +22,16 @@ export default function MainControls(): JSX.Element {
   );
 
   const [urlApi, setUrlApi] = useState('');
+  const [isApply, setIsApply] = useState(false);
+
+  const {
+    toggleIsShowVariablesAndHeaders,
+    toggleIsShowDocs,
+    toggleIsShowBtnDocs,
+    isShowVariablesAndHeaders,
+    isShowDocs,
+    isShowBtnDocs,
+  } = useVisibility();
 
   useEffect(() => {
     const temp = async (): Promise<void> => {
@@ -55,7 +69,7 @@ export default function MainControls(): JSX.Element {
           )
         );
       } catch (error) {
-        dispatch(responseSectionActions.setResponseSectionCode('error'));
+        dispatch(responseSectionActions.setResponseSectionCode(''));
       } finally {
         const decodedData = atob(queryParam);
         dispatch(querySectionActions.setQuerySectionCode(decodedData));
@@ -101,130 +115,44 @@ export default function MainControls(): JSX.Element {
     setUrlApi(event.target.value);
   };
 
-  /*   const handleButtonDocs = async (): Promise<void> => {
-    const introspectionQuery = `fragment FullType on __Type {
-  kind
-  name
-  fields(includeDeprecated: true) {
-    name
-    args {
-      ...InputValue
-    }
-    type {
-      ...TypeRef
-    }
-    isDeprecated
-    deprecationReason
-  }
-  inputFields {
-    ...InputValue
-  }
-  interfaces {
-    ...TypeRef
-  }
-  enumValues(includeDeprecated: true) {
-    name
-    isDeprecated
-    deprecationReason
-  }
-  possibleTypes {
-    ...TypeRef
-  }
-}
-fragment InputValue on __InputValue {
-  name
-  type {
-    ...TypeRef
-  }
-  defaultValue
-}
-fragment TypeRef on __Type {
-  kind
-  name
-  ofType {
-    kind
-    name
-    ofType {
-      kind
-      name
-      ofType {
-        kind
-        name
-        ofType {
-          kind
-          name
-          ofType {
-            kind
-            name
-            ofType {
-              kind
-              name
-              ofType {
-                kind
-                name
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-query IntrospectionQuery {
-  __schema {
-    queryType {
-      name
-    }
-    mutationType {
-      name
-    }
-    types {
-      ...FullType
-    }
-    directives {
-      name
-      locations
-      args {
-        ...InputValue
-      }
-    }
-  }
-}`;
+  const handleApplyButton = async (): Promise<void> => {
+    setIsApply(!isApply);
 
-    dispatch(docsSectionActions.toggleDocsSectionVisibility(true));
-
-    try {
-      const response = await fetch(`${urlApi}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query: introspectionQuery }),
-      });
-
-      const result = await response.json();
-      dispatch(
-        docsSectionActions.setDocsSectionCode(JSON.stringify(result, null, 2))
-      );
-    } catch (error) {
-      dispatch(docsSectionActions.setDocsSectionCode('error'));
+    if (!isApply) {
+      fetchGraphiqlSchema(urlApi, dispatch, toggleIsShowBtnDocs);
     }
-  }; */
 
-  const { toggleIsShowVariablesAndHeaders, toggleIsShowDocs, isShowDocs } =
-    useVisibility();
+    if (isApply) {
+      setUrlApi('');
+      router.replace(`?query=`);
+      toggleIsShowBtnDocs(false);
+      dispatch(querySectionActions.setQuerySectionCode(''));
+      dispatch(responseSectionActions.setResponseSectionCode(''));
+      dispatch(variablesSectionActions.setVariablesSectionCode(''));
+    }
+  };
 
   return (
     <div className={styles.mainControls}>
       <div className={styles.apiRequestControls}>
-        <input
-          type="text"
-          value={urlApi}
-          onChange={handleInputChange}
-          placeholder={'Url API'}
-          className={styles.inputUrlApi}
-        />
-        <button className={styles.executeButton} onClick={makeRequest}>
+        <div className={styles.urlApiWrapper}>
+          <input
+            type="text"
+            disabled={isApply}
+            value={urlApi}
+            onChange={handleInputChange}
+            placeholder={'Url API'}
+            className={`${styles.urlApiInput} ${isApply ? styles.activeInput : ''}`}
+          />
+          <button
+            className={`${styles.mainControlsBtn} ${isApply ? '' : styles.noActiveBtn}`}
+            onClick={handleApplyButton}
+          >
+            Apply
+          </button>
+        </div>
+
+        <button className={styles.mainControlsBtn} onClick={makeRequest}>
           <Image
             src="/img/execute-button.svg"
             width={23}
@@ -232,22 +160,21 @@ query IntrospectionQuery {
             alt="logo"
           />
         </button>
-        <button onClick={toggleIsShowVariablesAndHeaders}>
-          <span>H</span>
+        <button
+          className={`${styles.mainControlsBtn} ${!isShowVariablesAndHeaders ? styles.noActiveBtn : ''}`}
+          onClick={toggleIsShowVariablesAndHeaders}
+        >
+          {isShowVariablesAndHeaders ? <span>↓↓↓</span> : <span>↑↑↑</span>}
         </button>
       </div>
-      <button
-        className={`${styles.executeButton} ${isShowDocs ? '' : styles.active}`}
-        onClick={toggleIsShowDocs}
-      >
-        Docs
-      </button>
-      {/* <button className={styles.closingButton} onClick={closingButtonH}>
-        <span>H</span>
-      </button>
-      <button className={styles.closingButton} onClick={closingButtonV}>
-        <span>V</span>
-      </button> */}
+      {isShowBtnDocs && (
+        <button
+          className={`${styles.mainControlsBtn} ${isShowDocs ? '' : styles.noActiveBtn}`}
+          onClick={toggleIsShowDocs}
+        >
+          Docs
+        </button>
+      )}
     </div>
   );
 }

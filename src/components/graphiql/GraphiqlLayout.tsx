@@ -11,7 +11,8 @@ import { useVisibility } from '@/context/VisibilityContext';
 
 const GraphiqlLayout = (): JSX.Element => {
   const t = useTranslations();
-  const { isShowVariablesAndHeaders, isShowDocs } = useVisibility();
+  const { isShowVariablesAndHeaders, isShowDocs, isShowBtnDocs } =
+    useVisibility();
 
   return (
     <div className={styles.graphiqlLayout}>
@@ -48,7 +49,7 @@ const GraphiqlLayout = (): JSX.Element => {
           <Panel className={styles.rightPanel} defaultSize={50} minSize={30}>
             <ResponseSection />
           </Panel>
-          {isShowDocs && (
+          {isShowDocs && isShowBtnDocs && (
             <>
               <GraphiqlHandel />
               <Panel className={styles.leftPanel} defaultSize={10} minSize={5}>

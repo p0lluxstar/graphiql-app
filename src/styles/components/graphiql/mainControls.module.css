@@ -5,7 +5,6 @@
   border-bottom: 1px solid #646464;
   background: #282c34;
   width: 100%;
-  top: 50px;
   padding: 0 10px;
   border-radius: 5px 5px 0 0;
   justify-content: space-between;
@@ -13,9 +12,10 @@
 
 .apiRequestControls {
   display: flex;
+  gap: 20px;
 }
 
-.executeButton {
+.mainControlsBtn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,41 +27,34 @@
   color: #ffffff;
 }
 
-.executeButton:hover {
+.mainControlsBtn:hover {
   opacity: 0.8;
 }
 
-.closingButton {
-  width: 32px;
-  height: 32px;
-  border-radius: 5px;
-  border: solid 1px #999999;
-  line-height: 32px;
-  cursor: pointer;
-  background: linear-gradient(#fdfdfd, #d2d3d6);
-  margin-left: 10px;
-  font-weight: bold;
-  color: #457c8b;
+.urlApiWrapper {
+  display: flex;
 }
 
-.closingButton:hover {
-  opacity: 0.8;
-}
-
-.inputUrlApi {
+.urlApiInput {
   background: #282c34;
   border: 1px solid #646464;
-  width: 350px;
+  border-right: none;
+  width: 380px;
   height: 30px;
   color: #989898;
   padding: 0 5px;
 }
 
-.inputUrlApi:focus {
-  outline: 1px solid #989898;
-  border: none;
+.urlApiInput:focus {
+  outline: none;
+  border: 1px solid #646464;
 }
 
-.active {
+.noActiveBtn {
   background: #646464;
+}
+
+.activeInput {
+  color: #0078d4;
+  border: 1px solid #0078d4;
 }

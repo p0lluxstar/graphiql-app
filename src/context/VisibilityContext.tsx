@@ -7,6 +7,8 @@ interface IContextType {
   toggleIsShowVariablesAndHeaders: () => void;
   isShowDocs: boolean;
   toggleIsShowDocs: () => void;
+  isShowBtnDocs: boolean;
+  toggleIsShowBtnDocs: (valud: boolean) => void;
 }
 
 const VisibilityContext = createContext<IContextType | undefined>(undefined);
@@ -19,12 +21,18 @@ export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const [isShowDocs, setIsShowDocs] = useState<boolean>(false);
 
+  const [isShowBtnDocs, setIsShowBtnDocs] = useState<boolean>(false);
+
   const toggleIsShowVariablesAndHeaders = (): void => {
     setIsShowVariablesAndHeaders((prev) => !prev);
   };
 
   const toggleIsShowDocs = (): void => {
     setIsShowDocs((prev) => !prev);
+  };
+
+  const toggleIsShowBtnDocs = (value: boolean): void => {
+    setIsShowBtnDocs(value);
   };
 
   return (
@@ -34,6 +42,8 @@ export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({
         toggleIsShowVariablesAndHeaders,
         isShowDocs,
         toggleIsShowDocs,
+        isShowBtnDocs,
+        toggleIsShowBtnDocs,
       }}
     >
       {children}
