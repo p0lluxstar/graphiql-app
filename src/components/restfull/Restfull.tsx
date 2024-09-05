@@ -168,18 +168,19 @@ export default function Restfull(): JSX.Element {
     <Container
       maxWidth="lg"
       sx={{
-        height: '100vh',
+        height: '90vhv',
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: '#1E1E1E',
         color: '#D4D4D4',
         marginTop: '10px',
-        padding: 0,
+        marginBottom: '10px',
       }}
     >
       <PanelGroup direction="horizontal" style={{ height: '100%' }}>
         <Panel
           defaultSize={50}
+          minSize={35}
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -292,6 +293,7 @@ export default function Restfull(): JSX.Element {
         />
         <Panel
           defaultSize={50}
+          minSize={35}
           style={{
             display: 'flex',
             flexDirection: 'column',
