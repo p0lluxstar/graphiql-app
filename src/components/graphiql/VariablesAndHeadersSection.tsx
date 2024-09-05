@@ -14,6 +14,8 @@ export default function VariablesAndHeadersSection(): JSX.Element {
   const router = useRouter();
   const [showVariables, setShowVariables] = useState(true);
   const [showHeaders, setShowHeaders] = useState(false);
+  const [currentValueVariables, setCurrentValueVariables] = useState('');
+  const [currentValueHeaders, setCurrentValueHeaders] = useState('');
 
   const valueVariables = useSelector(
     (state: RootState) => state.variablesSectionReducer.variablesSectionCode
@@ -35,17 +37,28 @@ export default function VariablesAndHeadersSection(): JSX.Element {
 
   const handleVariablesChange = (value: string): void => {
     dispatch(variablesSectionActions.setVariablesSectionCode(value));
+    setCurrentValueVariables(value);
+  };
 
-    //
-    const encodedData = btoa(value);
+  const handleHeadersChange = (value: string): void => {
+    dispatch(headersSectionActions.setHeadersSectionCode(value));
+    setCurrentValueHeaders(value);
+  };
+
+  const handleBlurVariables = (): void => {
+    const encodedData = btoa(currentValueVariables);
     const currentUrl = new URL(window.location.href);
     const params = new URLSearchParams(currentUrl.search);
     params.set('variables', encodedData);
     router.replace(`${currentUrl.pathname}?${params.toString()}`);
   };
 
-  const handleHeadersChange = (value: string): void => {
-    dispatch(headersSectionActions.setheadersSectionCode(value));
+  const handleBlurHeaders = (): void => {
+    const encodedData = btoa(currentValueHeaders);
+    const currentUrl = new URL(window.location.href);
+    const params = new URLSearchParams(currentUrl.search);
+    params.set('headers', encodedData);
+    router.replace(`${currentUrl.pathname}?${params.toString()}`);
   };
 
   return (
@@ -69,6 +82,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
           value={valueVariables}
           extensions={[json()]}
           theme={oneDark}
+          onBlur={handleBlurVariables}
           height="100%"
           onChange={(value) => handleVariablesChange(value)}
           className={styles.variablesAndHeadersCode}
@@ -79,6 +93,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
           value={valueHeaders}
           extensions={[javascript()]}
           theme={oneDark}
+          onBlur={handleBlurHeaders}
           height="100%"
           onChange={(value) => handleHeadersChange(value)}
           className={styles.variablesAndHeadersCode}

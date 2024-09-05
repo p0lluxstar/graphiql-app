@@ -9,6 +9,7 @@ import { useVisibility } from '@/context/VisibilityContext';
 import { fetchGraphiqlSchema } from '@/utils/fetchGraphiqlSchema';
 import { useRouter } from 'next/navigation';
 import { variablesSectionActions } from '@/redux/slices/graphiqlVariablesSectionSlice';
+import { headersSectionActions } from '@/redux/slices/graphiqlHeadersSectionSlice';
 
 export default function MainControls(): JSX.Element {
   const dispatch = useDispatch();
@@ -19,6 +20,10 @@ export default function MainControls(): JSX.Element {
 
   const variablesSectionCode = useSelector(
     (state: RootState) => state.variablesSectionReducer.variablesSectionCode
+  );
+
+  const headersSectionCode = useSelector(
+    (state: RootState) => state.headersSectionReducer.headersSectionCode
   );
 
   const [urlApi, setUrlApi] = useState('');
@@ -34,69 +39,53 @@ export default function MainControls(): JSX.Element {
   } = useVisibility();
 
   useEffect(() => {
-    const temp = async (): Promise<void> => {
-      const currentUrl = window.location.href;
-      const parsedUrl = new URL(currentUrl);
-      const queryParam = parsedUrl.searchParams.get('query');
-      const variablesParam = parsedUrl.searchParams.get('variables');
+    const currentUrl = window.location.href;
+    const parsedUrl = new URL(currentUrl);
+    const queryParam = parsedUrl.searchParams.get('query');
+    const variablesParam = parsedUrl.searchParams.get('variables');
+    const headersParam = parsedUrl.searchParams.get('headers');
 
-      if (queryParam === null) {
-        return;
-      }
-
-      let variablesSectionCodeParse = '';
-      if (variablesSectionCode === '') {
-        variablesSectionCodeParse = JSON.parse('{}');
-      } else {
-        variablesSectionCodeParse = JSON.parse(variablesSectionCode);
-      }
-
-      try {
-        const response = await fetch(`${urlApi}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            query: querySectionCode,
-            variables: variablesSectionCodeParse,
-          }),
-        });
-
-        const result = await response.json();
-        dispatch(
-          responseSectionActions.setResponseSectionCode(
-            JSON.stringify(result, null, 2)
-          )
-        );
-      } catch (error) {
-        dispatch(responseSectionActions.setResponseSectionCode(''));
-      } finally {
-        const decodedQueryParam = atob(queryParam || '');
-        const decodedVariablesParam = atob(variablesParam || '');
-        dispatch(querySectionActions.setQuerySectionCode(decodedQueryParam));
-        dispatch(
-          variablesSectionActions.setVariablesSectionCode(decodedVariablesParam)
-        );
-      }
-    };
-    temp();
+    const decodedQueryParam = atob(queryParam || '');
+    const decodedVariablesParam = atob(variablesParam || '');
+    const decodedHeadersParam = atob(headersParam || '');
+    dispatch(querySectionActions.setQuerySectionCode(decodedQueryParam));
+    dispatch(
+      variablesSectionActions.setVariablesSectionCode(decodedVariablesParam)
+    );
+    dispatch(headersSectionActions.setHeadersSectionCode(decodedHeadersParam));
   }, []);
 
   const makeRequest = async (): Promise<void> => {
-    let variablesSectionCodeParse = '';
+    let headersJSON = {};
+
+    try {
+      if (headersSectionCode.length > 0) {
+        const correctedString = headersSectionCode.replace(/'/g, '"');
+        headersJSON = JSON.parse(correctedString);
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Ошибка при парсинге JSON:', error);
+    }
+
+    headersJSON['Content-Type'] = 'application/json';
+
+    let variablesSectionCodeParse;
     if (variablesSectionCode === '') {
       variablesSectionCodeParse = JSON.parse('{}');
     } else {
-      variablesSectionCodeParse = JSON.parse(variablesSectionCode);
+      try {
+        variablesSectionCodeParse = JSON.parse(variablesSectionCode);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('Ошибка при парсинге JSON:', error);
+      }
     }
 
     try {
       const response = await fetch(`${urlApi}`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: headersJSON,
         body: JSON.stringify({
           query: querySectionCode,
           variables: variablesSectionCodeParse,
@@ -134,6 +123,7 @@ export default function MainControls(): JSX.Element {
       dispatch(querySectionActions.setQuerySectionCode(''));
       dispatch(responseSectionActions.setResponseSectionCode(''));
       dispatch(variablesSectionActions.setVariablesSectionCode(''));
+      dispatch(headersSectionActions.setHeadersSectionCode(''));
     }
   };
 

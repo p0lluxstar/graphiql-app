@@ -6,12 +6,14 @@
 }
 
 .docsSectionData {
-  padding-top: 40px;
+  padding: 40px 10px 40px 10px;
   height: 100%;
+  color: #ffffff;
 }
 
 .title {
   position: absolute;
   top: 0px;
   padding: 10px;
+  color: #ffffff;
 }

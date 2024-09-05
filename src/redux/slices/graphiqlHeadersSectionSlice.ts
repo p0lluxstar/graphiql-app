@@ -12,7 +12,7 @@ const headersSectionSlice = createSlice({
   name: 'headersSection',
   initialState,
   reducers: {
-    setheadersSectionCode: (state, actions) => {
+    setHeadersSectionCode: (state, actions) => {
       return { ...state, headersSectionCode: actions.payload };
     },
   },
