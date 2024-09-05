@@ -86,3 +86,21 @@ export const INTROSPECTION_QUERY = `fragment FullType on __Type {
         }
       }
     }`;
+
+/* `
+{
+  __schema {
+    types {
+      name
+      kind
+      fields {
+        name
+        type {
+          name
+          kind
+        }
+      }
+    }
+  }
+}
+`; */

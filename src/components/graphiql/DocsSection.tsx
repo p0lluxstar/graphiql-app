@@ -5,15 +5,15 @@ import CodeMirror, { EditorView, oneDark } from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 
 export default function DocsSection(): JSX.Element {
-  const docsSectionCode = useSelector(
-    (state: RootState) => state.docsSectionReducer.docsSectionCode
+  const docsSectionData = useSelector(
+    (state: RootState) => state.docsSectionReducer.docsSectionData
   );
 
   return (
     <div className={styles.docsSectionWrapper}>
       <h2 className={styles.title}>Docs</h2>
       <CodeMirror
-        value={docsSectionCode}
+        value={docsSectionData}
         extensions={[
           json(),
           EditorView.theme({
@@ -22,9 +22,10 @@ export default function DocsSection(): JSX.Element {
         ]}
         theme={oneDark}
         height="100%"
-        className={styles.docsSectionCode}
+        className={styles.docsSectionData}
         readOnly={true}
       />
+      <div></div>
     </div>
   );
 }

@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 interface IInitialState {
-  docsSectionCode: string;
+  docsSectionData: string;
 }
 
 const initialState: IInitialState = {
-  docsSectionCode: ``,
+  docsSectionData: '',
 };
 
 const docsSectionSlice = createSlice({
@@ -13,7 +13,7 @@ const docsSectionSlice = createSlice({
   initialState,
   reducers: {
     setDocsSectionCode: (state, actions) => {
-      return { ...state, docsSectionCode: actions.payload };
+      return { ...state, docsSectionData: actions.payload };
     },
   },
 });
