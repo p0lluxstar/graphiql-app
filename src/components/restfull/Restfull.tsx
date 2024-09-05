@@ -48,8 +48,8 @@ export default function Restfull(): JSX.Element {
   }, [user, loading, router]);
 
   useEffect(() => {
-    const encodedUrl = btoa(url);
-    const encodedBody = method !== 'GET' ? `/${btoa(body)}` : '';
+    const encodedUrl = encodeURIComponent(url);
+    const encodedBody = method !== 'GET' ? `/${encodeURIComponent(body)}` : '';
     const encodedHeaders = headers
       .filter((header) => header.key && header.value)
       .map(
@@ -65,7 +65,10 @@ export default function Restfull(): JSX.Element {
           `${encodeURIComponent(variable.key)}=${encodeURIComponent(variable.value)}`
       )
       .join('&');
-    const fullUrl = `${method}/${encodedUrl}${encodedBody ? encodedBody : ''}${encodedHeaders ? `?${encodedHeaders}` : ''}${encodedVariables ? `&${encodedVariables}` : ''}`;
+
+    const fullUrl = `${method}/${encodedUrl}${encodedBody ? encodedBody : ''}${
+      encodedHeaders ? `?${encodedHeaders}` : ''
+    }${encodedVariables ? `&${encodedVariables}` : ''}`;
     window.history.replaceState(null, '', `/${fullUrl}`);
   }, [method, url, headers, body, variables]);
 
