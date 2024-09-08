@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import Graphiql from '@/components/Graphiql';
+import Graphiql from '@/components/graphiql/Graphiql';
+import ProtectedRouteAuth from '@/components/ProtectedRouteAuth';
 
 export const metadata: Metadata = {
   title: 'Portal | PD',
@@ -9,7 +10,9 @@ export const metadata: Metadata = {
 export default function PortalLayout(): JSX.Element {
   return (
     <>
-      <Graphiql />
+      <ProtectedRouteAuth>
+        <Graphiql />
+      </ProtectedRouteAuth>
     </>
   );
 }

@@ -4,32 +4,18 @@ import { querySectionActions } from '@/redux/slices/graphiqlQuerySectionSlice';
 import CodeMirror, { oneDark } from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { RootState } from '@/redux/store';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import useHandleBlur from '@/hooks/useHandleBlur';
 
 export default function QuerySection(): JSX.Element {
   const dispatch = useDispatch();
-  const router = useRouter();
-  const [currentValue, setCurrentValue] = useState('');
+  const { handleBlur } = useHandleBlur();
 
-  const query = useSelector(
+  const querySectionCode = useSelector(
     (state: RootState) => state.querySectionReducer.querySectionCode
   );
 
   const handleChange = (value: string): void => {
     dispatch(querySectionActions.setQuerySectionCode(value));
-    setCurrentValue(value);
-  };
-
-  const handleBlur = (): void => {
-    const encodedData = btoa(currentValue);
-    const currentUrl = window.location.pathname;
-    const segments = currentUrl.split('/');
-    if (segments.length >= 4) {
-      segments[4] = `${encodedData}`;
-    }
-    const newUrl = segments.join('/');
-    router.replace(newUrl);
   };
 
   return (
@@ -42,7 +28,7 @@ export default function QuerySection(): JSX.Element {
         height="100%"
         onChange={(value) => handleChange(value)}
         className={styles.querySectionCode}
-        value={query}
+        value={querySectionCode}
       />
     </div>
   );

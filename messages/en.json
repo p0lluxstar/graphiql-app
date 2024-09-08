@@ -9,11 +9,11 @@
   "login": "Login",
   "registration": "Registration",
   "logout": "Logout",
-  
+
   "name": "Name",
   "email": "Email",
   "password": "Password",
-  "welcome":"Welcome to the REST/GraphiQL Client!",
+  "welcome": "Welcome to the REST/GraphiQL Client!",
   "promo": "This application is your go-to tool for interacting with RESTful and GraphQL APIs. Whether you're a developer, tester, or just someone wholoves to explore APIs, this client is designed to meet your needs with a user-friendly interface and powerful features.",
   "greeting": "Welcome back",
   "continueToWork": "Choose the client to continue working",
@@ -25,7 +25,7 @@
   "graphiqlClientPlus1": "Seamlessly interact with GraphQL endpoints.",
   "graphiqlClientPlus2": "Write queries and mutations.",
   "graphiqlClientPlus3": "Manage variables and headers, and explore the documentation (SDL) with ease.",
-  "history" : "History",
+  "history": "History",
   "historyDescription1": "Automatically save and access the history of your requests.",
   "historyDescription2": "Easily revisit and rerun previous requests.",
   "singInToContinue": "Sign in to continue",

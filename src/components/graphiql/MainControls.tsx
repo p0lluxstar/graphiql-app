@@ -64,21 +64,30 @@ export default function MainControls(): JSX.Element {
         paramsStr = paramsStr.slice(0, -2) + '\n}';
       }
 
-      /* const parsedUrl = new URL(currentUrl);
-    const queryParam = parsedUrl.searchParams.get('query');
-    const variablesParam = parsedUrl.searchParams.get('variables');
-    const headersParam = parsedUrl.searchParams.get('headers'); */
-
       const decodedUrlApiParam = atob(urlApiParam || '');
       const decodedQueryParam = atob(queryParam || '');
-      /* const decodedVariablesParam = atob(variablesParam || '');
-    const decodedHeadersParam = atob(headersParam || ''); */
+
+      const parsedData = JSON.parse(decodedQueryParam);
+      const queryParse = parsedData.query;
+      const variablesParse = parsedData.variables;
+
+      let querySectionCode = '';
+      let variblesSectionCode = '';
+
+      if (queryParse) {
+        querySectionCode = queryParse;
+      }
+
+      if (variablesParse) {
+        variblesSectionCode = variablesParse;
+      }
+
       setUrlApi(decodedUrlApiParam);
-      dispatch(querySectionActions.setQuerySectionCode(decodedQueryParam));
-      /* dispatch(
-      variablesSectionActions.setVariablesSectionCode(decodedVariablesParam)
-    );
-    */
+      setUrlDocs(`${decodedUrlApiParam}/?sdl`);
+      dispatch(querySectionActions.setQuerySectionCode(querySectionCode));
+      dispatch(
+        variablesSectionActions.setVariablesSectionCode(variblesSectionCode)
+      );
       dispatch(headersSectionActions.setHeadersSectionCode(paramsStr));
     }
   }, []);
@@ -149,8 +158,11 @@ export default function MainControls(): JSX.Element {
       router.replace(`${currentUrl}/${encodedData}`);
     }
 
+    if (!isApply && !isApplyDocs) {
+      setUrlDocs(`${urlApi}/?sdl`);
+    }
+
     if (isApply) {
-      setUrlApi('');
       dispatch(querySectionActions.setQuerySectionCode(''));
       dispatch(responseSectionActions.setResponseSectionCode(''));
       dispatch(variablesSectionActions.setVariablesSectionCode(''));
@@ -175,7 +187,6 @@ export default function MainControls(): JSX.Element {
     }
 
     if (isApplyDocs) {
-      setUrlDocs('');
       toggleIsShowBtnDocs(false);
     }
   };

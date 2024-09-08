@@ -8,24 +8,25 @@ import { RootState } from '@/redux/store';
 import { variablesSectionActions } from '@/redux/slices/graphiqlVariablesSectionSlice';
 import { headersSectionActions } from '@/redux/slices/graphiqlHeadersSectionSlice';
 import { useRouter } from 'next/navigation';
+import useHandleBlur from '@/hooks/useHandleBlur';
 
 export default function VariablesAndHeadersSection(): JSX.Element {
   const dispatch = useDispatch();
   const router = useRouter();
+  const { handleBlur } = useHandleBlur();
   const [showVariables, setShowVariables] = useState(true);
   const [showHeaders, setShowHeaders] = useState(false);
   const [currentValueHeaders, setCurrentValueHeaders] = useState('');
-  /*   const [currentValueVariables, setCurrentValueVariables] = useState(''); */
 
-  const valueVariables = useSelector(
+  const variablesSectionCode = useSelector(
     (state: RootState) => state.variablesSectionReducer.variablesSectionCode
   );
 
-  const valueHeaders = useSelector(
+  const headersSectionCode = useSelector(
     (state: RootState) => state.headersSectionReducer.headersSectionCode
   );
 
-  const valueQuery = useSelector(
+  const querySectionCode = useSelector(
     (state: RootState) => state.querySectionReducer.querySectionCode
   );
 
@@ -41,20 +42,11 @@ export default function VariablesAndHeadersSection(): JSX.Element {
 
   const handleVariablesChange = (value: string): void => {
     dispatch(variablesSectionActions.setVariablesSectionCode(value));
-    /*   setCurrentValueVariables(value); */
   };
 
   const handleHeadersChange = (value: string): void => {
     dispatch(headersSectionActions.setHeadersSectionCode(value));
     setCurrentValueHeaders(value);
-  };
-
-  const handleBlurVariables = (): void => {
-    /*    const encodedData = btoa(currentValueVariables);
-    const currentUrl = new URL(window.location.href);
-    const params = new URLSearchParams(currentUrl.search);
-    params.set('variables', encodedData);
-    router.replace(`${currentUrl.pathname}?${params.toString()}`); */
   };
 
   const handleBlurHeaders = (): void => {
@@ -65,11 +57,6 @@ export default function VariablesAndHeadersSection(): JSX.Element {
       const newUrl = `${currentUrl}?${searchParams.toString()}`;
       router.push(newUrl);
     }
-
-    /*  const currentUrl = new URL(window.location.href);
-    const params = new URLSearchParams(currentUrl.search);
-    params.set('headers', 'header1=value1');
-    router.replace(`${currentUrl.pathname}?${params.toString()}`); */
   };
 
   return (
@@ -90,26 +77,26 @@ export default function VariablesAndHeadersSection(): JSX.Element {
       </div>
       {showVariables && (
         <CodeMirror
-          value={valueVariables}
+          value={variablesSectionCode}
           extensions={[json()]}
           theme={oneDark}
-          onBlur={handleBlurVariables}
+          onBlur={handleBlur}
           height="100%"
           onChange={(value) => handleVariablesChange(value)}
           className={styles.variablesAndHeadersCode}
-          readOnly={valueQuery === ''}
+          readOnly={querySectionCode === ''}
         />
       )}
       {showHeaders && (
         <CodeMirror
-          value={valueHeaders}
+          value={headersSectionCode}
           extensions={[javascript()]}
           theme={oneDark}
           onBlur={handleBlurHeaders}
           height="100%"
           onChange={(value) => handleHeadersChange(value)}
           className={styles.variablesAndHeadersCode}
-          readOnly={valueQuery === ''}
+          readOnly={querySectionCode === ''}
         />
       )}
     </div>
