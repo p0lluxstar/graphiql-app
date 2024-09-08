@@ -15,6 +15,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
   const [showVariables, setShowVariables] = useState(true);
   const [showHeaders, setShowHeaders] = useState(false);
   const [currentValueHeaders, setCurrentValueHeaders] = useState('');
+  /*   const [currentValueVariables, setCurrentValueVariables] = useState(''); */
 
   const valueVariables = useSelector(
     (state: RootState) => state.variablesSectionReducer.variablesSectionCode
@@ -40,6 +41,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
 
   const handleVariablesChange = (value: string): void => {
     dispatch(variablesSectionActions.setVariablesSectionCode(value));
+    /*   setCurrentValueVariables(value); */
   };
 
   const handleHeadersChange = (value: string): void => {
@@ -48,7 +50,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
   };
 
   const handleBlurVariables = (): void => {
-    /*  const encodedData = btoa(currentValueVariables);
+    /*    const encodedData = btoa(currentValueVariables);
     const currentUrl = new URL(window.location.href);
     const params = new URLSearchParams(currentUrl.search);
     params.set('variables', encodedData);

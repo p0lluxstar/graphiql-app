@@ -30,7 +30,9 @@ export default function MainControls(): JSX.Element {
   );
 
   const [urlApi, setUrlApi] = useState('');
+  const [urlDocs, setUrlDocs] = useState('');
   const [isApply, setIsApply] = useState(false);
+  const [isApplyDocs, setIsApplyDocs] = useState(false);
 
   const {
     toggleIsShowVariablesAndHeaders,
@@ -59,7 +61,7 @@ export default function MainControls(): JSX.Element {
         searchParams.forEach((value, key) => {
           paramsStr += `  "${key}":"${value}",\n`;
         });
-        paramsStr = paramsStr.slice(0, -2) + '\n}'; // Убираем последнюю запятую и добавляем закрывающую скобку
+        paramsStr = paramsStr.slice(0, -2) + '\n}';
       }
 
       /* const parsedUrl = new URL(currentUrl);
@@ -138,11 +140,10 @@ export default function MainControls(): JSX.Element {
     setUrlApi(event.target.value);
   };
 
-  const handleApplyButton = async (urlApi: string): Promise<void> => {
+  const handleApplyButton = (urlApi: string): void => {
     setIsApply(!isApply);
 
     if (!isApply) {
-      fetchGraphiqlSchema(urlApi, dispatch, toggleIsShowBtnDocs);
       const currentUrl = new URL(window.location.href);
       const encodedData = btoa(urlApi);
       router.replace(`${currentUrl}/${encodedData}`);
@@ -150,7 +151,6 @@ export default function MainControls(): JSX.Element {
 
     if (isApply) {
       setUrlApi('');
-      toggleIsShowBtnDocs(false);
       dispatch(querySectionActions.setQuerySectionCode(''));
       dispatch(responseSectionActions.setResponseSectionCode(''));
       dispatch(variablesSectionActions.setVariablesSectionCode(''));
@@ -158,6 +158,25 @@ export default function MainControls(): JSX.Element {
       const currentUrl = window.location.pathname;
       const segments = currentUrl.split('/');
       router.push(`/${segments[1]}/graphiql/`);
+    }
+  };
+
+  const handleInputChangeDocs = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    setUrlDocs(event.target.value);
+  };
+
+  const handleApplyDocsButton = async (urlDocs: string): Promise<void> => {
+    setIsApplyDocs(!isApplyDocs);
+
+    if (!isApplyDocs) {
+      fetchGraphiqlSchema(urlDocs, dispatch, toggleIsShowBtnDocs);
+    }
+
+    if (isApplyDocs) {
+      setUrlDocs('');
+      toggleIsShowBtnDocs(false);
     }
   };
 
@@ -201,14 +220,38 @@ export default function MainControls(): JSX.Element {
           )}
         </button>
       </div>
-      {isShowBtnDocs && (
-        <button
-          className={`${styles.mainControlsBtn} ${isShowDocs ? '' : styles.noActiveBtn}`}
-          onClick={toggleIsShowDocs}
-        >
-          Docs
-        </button>
-      )}
+      <div className={styles.urlDocsWrapper}>
+        <div className={styles.urlDocsInputWrapper}>
+          <input
+            type="text"
+            disabled={isApplyDocs}
+            value={urlDocs}
+            onChange={handleInputChangeDocs}
+            placeholder={'Url Docs'}
+            className={`${styles.urlDocsInput} ${isApplyDocs ? styles.activeInput : ''}`}
+          />
+          <button
+            disabled={urlDocs === ''}
+            className={`${styles.mainControlsBtn} ${isApplyDocs ? '' : styles.noActiveBtn}`}
+            onClick={() => handleApplyDocsButton(urlDocs)}
+          >
+            {isApplyDocs ? <ImCheckmark /> : <span>Apply</span>}
+          </button>
+        </div>
+        {isShowBtnDocs && (
+          <button
+            className={`${styles.mainControlsBtn} ${isShowDocs ? '' : styles.noActiveBtn}`}
+            onClick={toggleIsShowDocs}
+          >
+            Docs
+          </button>
+        )}
+        {isShowBtnDocs === null && (
+          <div className={styles.docsError}>
+            <span>No docs</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

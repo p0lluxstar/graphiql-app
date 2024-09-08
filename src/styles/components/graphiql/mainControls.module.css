@@ -35,7 +35,8 @@
   display: flex;
 }
 
-.urlApiInput {
+.urlApiInput,
+.urlDocsInput {
   background: #282c34;
   border: 1px solid #646464;
   border-right: none;
@@ -45,9 +46,23 @@
   padding: 0 5px;
 }
 
-.urlApiInput:focus {
+.urlApiInput:focus,
+.urlDocsInput:focus {
   outline: none;
   border: 1px solid #646464;
+}
+
+.urlDocsWrapper {
+  display: flex;
+  gap: 20px;
+}
+
+.urlDocsInputWrapper {
+  display: flex;
+}
+
+.urlDocsInput {
+  display: flex;
 }
 
 .noActiveBtn {
@@ -61,4 +76,10 @@
 
 .toggleBtnVH {
   font-size: 22px;
+}
+
+.docsError {
+  display: flex;
+  align-items: center;
+  color: red;
 }

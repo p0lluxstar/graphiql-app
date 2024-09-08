@@ -6,10 +6,10 @@ import { buildClientSchema, printSchema } from 'graphql';
 export const fetchGraphiqlSchema = async (
   url: string,
   dispatch: Dispatch,
-  toggleIsShowBtnDocs: (valud: boolean) => void
+  toggleIsShowBtnDocs: (valud: boolean | null) => void
 ): Promise<void> => {
   try {
-    const response = await fetch(`${url}`, {
+    const response = await fetch(`${url}/?sdl`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -24,7 +24,7 @@ export const fetchGraphiqlSchema = async (
     toggleIsShowBtnDocs(true);
     dispatch(docsSectionActions.setDocsSectionCode(schemaData));
   } catch (error) {
-    toggleIsShowBtnDocs(false);
+    toggleIsShowBtnDocs(null);
     dispatch(docsSectionActions.setDocsSectionCode(''));
   }
 };
