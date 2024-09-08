@@ -10,6 +10,9 @@ import { fetchGraphiqlSchema } from '@/utils/fetchGraphiqlSchema';
 import { useRouter } from 'next/navigation';
 import { variablesSectionActions } from '@/redux/slices/graphiqlVariablesSectionSlice';
 import { headersSectionActions } from '@/redux/slices/graphiqlHeadersSectionSlice';
+import { ImCheckmark } from 'react-icons/im';
+import { FaArrowsDownToLine } from 'react-icons/fa6';
+import { FaArrowsUpToLine } from 'react-icons/fa6';
 
 export default function MainControls(): JSX.Element {
   const dispatch = useDispatch();
@@ -39,24 +42,50 @@ export default function MainControls(): JSX.Element {
   } = useVisibility();
 
   useEffect(() => {
-    const currentUrl = window.location.href;
-    const parsedUrl = new URL(currentUrl);
+    const currentUrl = window.location.pathname;
+    const segments = currentUrl.split('/');
+
+    if (segments[3]) {
+      setIsApply(true);
+
+      const urlApiParam = segments[3];
+      const queryParam = segments[4];
+      const searchParams = new URLSearchParams(window.location.search);
+
+      let paramsStr = '';
+
+      if ([...searchParams.keys()].length > 0) {
+        paramsStr = '{\n';
+        searchParams.forEach((value, key) => {
+          paramsStr += `  "${key}":"${value}",\n`;
+        });
+        paramsStr = paramsStr.slice(0, -2) + '\n}'; // Убираем последнюю запятую и добавляем закрывающую скобку
+      }
+
+      /* const parsedUrl = new URL(currentUrl);
     const queryParam = parsedUrl.searchParams.get('query');
     const variablesParam = parsedUrl.searchParams.get('variables');
-    const headersParam = parsedUrl.searchParams.get('headers');
+    const headersParam = parsedUrl.searchParams.get('headers'); */
 
-    const decodedQueryParam = atob(queryParam || '');
-    const decodedVariablesParam = atob(variablesParam || '');
-    const decodedHeadersParam = atob(headersParam || '');
-    dispatch(querySectionActions.setQuerySectionCode(decodedQueryParam));
-    dispatch(
+      const decodedUrlApiParam = atob(urlApiParam || '');
+      const decodedQueryParam = atob(queryParam || '');
+      /* const decodedVariablesParam = atob(variablesParam || '');
+    const decodedHeadersParam = atob(headersParam || ''); */
+      setUrlApi(decodedUrlApiParam);
+      dispatch(querySectionActions.setQuerySectionCode(decodedQueryParam));
+      /* dispatch(
       variablesSectionActions.setVariablesSectionCode(decodedVariablesParam)
     );
-    dispatch(headersSectionActions.setHeadersSectionCode(decodedHeadersParam));
+    */
+      dispatch(headersSectionActions.setHeadersSectionCode(paramsStr));
+    }
   }, []);
 
   const makeRequest = async (): Promise<void> => {
     let headersJSON = {};
+    /* 
+    const currentUrl = new URL(window.location.href);
+    router.replace(`${currentUrl}/${encodedData}`); */
 
     try {
       if (headersSectionCode.length > 0) {
@@ -109,21 +138,26 @@ export default function MainControls(): JSX.Element {
     setUrlApi(event.target.value);
   };
 
-  const handleApplyButton = async (): Promise<void> => {
+  const handleApplyButton = async (urlApi: string): Promise<void> => {
     setIsApply(!isApply);
 
     if (!isApply) {
       fetchGraphiqlSchema(urlApi, dispatch, toggleIsShowBtnDocs);
+      const currentUrl = new URL(window.location.href);
+      const encodedData = btoa(urlApi);
+      router.replace(`${currentUrl}/${encodedData}`);
     }
 
     if (isApply) {
       setUrlApi('');
-      router.replace(`?query=`);
       toggleIsShowBtnDocs(false);
       dispatch(querySectionActions.setQuerySectionCode(''));
       dispatch(responseSectionActions.setResponseSectionCode(''));
       dispatch(variablesSectionActions.setVariablesSectionCode(''));
       dispatch(headersSectionActions.setHeadersSectionCode(''));
+      const currentUrl = window.location.pathname;
+      const segments = currentUrl.split('/');
+      router.push(`/${segments[1]}/graphiql/`);
     }
   };
 
@@ -140,10 +174,11 @@ export default function MainControls(): JSX.Element {
             className={`${styles.urlApiInput} ${isApply ? styles.activeInput : ''}`}
           />
           <button
+            disabled={urlApi === ''}
             className={`${styles.mainControlsBtn} ${isApply ? '' : styles.noActiveBtn}`}
-            onClick={handleApplyButton}
+            onClick={() => handleApplyButton(urlApi)}
           >
-            Apply
+            {isApply ? <ImCheckmark /> : <span>Apply</span>}
           </button>
         </div>
 
@@ -156,10 +191,14 @@ export default function MainControls(): JSX.Element {
           />
         </button>
         <button
-          className={`${styles.mainControlsBtn} ${!isShowVariablesAndHeaders ? styles.noActiveBtn : ''}`}
+          className={`${styles.mainControlsBtn} ${styles.toggleBtnVH} ${isShowVariablesAndHeaders ? styles.noActiveBtn : ''}`}
           onClick={toggleIsShowVariablesAndHeaders}
         >
-          {isShowVariablesAndHeaders ? <span>↓↓↓</span> : <span>↑↑↑</span>}
+          {isShowVariablesAndHeaders ? (
+            <FaArrowsDownToLine />
+          ) : (
+            <FaArrowsUpToLine />
+          )}
         </button>
       </div>
       {isShowBtnDocs && (

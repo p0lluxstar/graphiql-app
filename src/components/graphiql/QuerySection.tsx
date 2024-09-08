@@ -23,10 +23,13 @@ export default function QuerySection(): JSX.Element {
 
   const handleBlur = (): void => {
     const encodedData = btoa(currentValue);
-    const currentUrl = new URL(window.location.href);
-    const params = new URLSearchParams(currentUrl.search);
-    params.set('query', encodedData);
-    router.replace(`${currentUrl.pathname}?${params.toString()}`);
+    const currentUrl = window.location.pathname;
+    const segments = currentUrl.split('/');
+    if (segments.length >= 4) {
+      segments[4] = `${encodedData}`;
+    }
+    const newUrl = segments.join('/');
+    router.replace(newUrl);
   };
 
   return (

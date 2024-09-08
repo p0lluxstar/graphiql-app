@@ -14,7 +14,6 @@ export default function VariablesAndHeadersSection(): JSX.Element {
   const router = useRouter();
   const [showVariables, setShowVariables] = useState(true);
   const [showHeaders, setShowHeaders] = useState(false);
-  const [currentValueVariables, setCurrentValueVariables] = useState('');
   const [currentValueHeaders, setCurrentValueHeaders] = useState('');
 
   const valueVariables = useSelector(
@@ -23,6 +22,10 @@ export default function VariablesAndHeadersSection(): JSX.Element {
 
   const valueHeaders = useSelector(
     (state: RootState) => state.headersSectionReducer.headersSectionCode
+  );
+
+  const valueQuery = useSelector(
+    (state: RootState) => state.querySectionReducer.querySectionCode
   );
 
   const handlerVariablesButton = (): void => {
@@ -37,7 +40,6 @@ export default function VariablesAndHeadersSection(): JSX.Element {
 
   const handleVariablesChange = (value: string): void => {
     dispatch(variablesSectionActions.setVariablesSectionCode(value));
-    setCurrentValueVariables(value);
   };
 
   const handleHeadersChange = (value: string): void => {
@@ -46,19 +48,26 @@ export default function VariablesAndHeadersSection(): JSX.Element {
   };
 
   const handleBlurVariables = (): void => {
-    const encodedData = btoa(currentValueVariables);
+    /*  const encodedData = btoa(currentValueVariables);
     const currentUrl = new URL(window.location.href);
     const params = new URLSearchParams(currentUrl.search);
     params.set('variables', encodedData);
-    router.replace(`${currentUrl.pathname}?${params.toString()}`);
+    router.replace(`${currentUrl.pathname}?${params.toString()}`); */
   };
 
   const handleBlurHeaders = (): void => {
-    const encodedData = btoa(currentValueHeaders);
-    const currentUrl = new URL(window.location.href);
+    if (currentValueHeaders != '') {
+      const jsonObject = JSON.parse(currentValueHeaders);
+      const currentUrl = window.location.pathname;
+      const searchParams = new URLSearchParams(jsonObject);
+      const newUrl = `${currentUrl}?${searchParams.toString()}`;
+      router.push(newUrl);
+    }
+
+    /*  const currentUrl = new URL(window.location.href);
     const params = new URLSearchParams(currentUrl.search);
-    params.set('headers', encodedData);
-    router.replace(`${currentUrl.pathname}?${params.toString()}`);
+    params.set('headers', 'header1=value1');
+    router.replace(`${currentUrl.pathname}?${params.toString()}`); */
   };
 
   return (
@@ -86,6 +95,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
           height="100%"
           onChange={(value) => handleVariablesChange(value)}
           className={styles.variablesAndHeadersCode}
+          readOnly={valueQuery === ''}
         />
       )}
       {showHeaders && (
@@ -97,6 +107,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
           height="100%"
           onChange={(value) => handleHeadersChange(value)}
           className={styles.variablesAndHeadersCode}
+          readOnly={valueQuery === ''}
         />
       )}
     </div>
