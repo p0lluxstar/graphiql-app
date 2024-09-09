@@ -5,7 +5,7 @@ interface IInitialState {
 }
 
 const initialState: IInitialState = {
-  headersSectionCode: ``,
+  headersSectionCode: '',
 };
 
 const headersSectionSlice = createSlice({

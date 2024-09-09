@@ -1,6 +1,5 @@
 import styles from '../../styles/components/graphiql/variablesAndHeadersSection.module.css';
 import CodeMirror, { oneDark } from '@uiw/react-codemirror';
-import { javascript } from '@codemirror/lang-javascript';
 import { json } from '@codemirror/lang-json';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,8 +8,6 @@ import { variablesSectionActions } from '@/redux/slices/graphiqlVariablesSection
 import { headersSectionActions } from '@/redux/slices/graphiqlHeadersSectionSlice';
 import { useRouter } from 'next/navigation';
 import useHandleBlur from '@/hooks/useHandleBlur';
-import prettier from 'prettier';
-import parserBabel from 'prettier/parser-babel';
 
 export default function VariablesAndHeadersSection(): JSX.Element {
   const dispatch = useDispatch();
@@ -61,16 +58,36 @@ export default function VariablesAndHeadersSection(): JSX.Element {
     }
   };
 
-  const formatJson = (text: string): string | Promise<string> => {
+  const handleFormatJson = (): void => {
     try {
-      return prettier.format(text, {
-        parser: 'json',
-        plugins: [parserBabel],
-      });
+      if (variablesSectionCode.length > 0) {
+        const formattedVariablesSectionCode = JSON.stringify(
+          JSON.parse(variablesSectionCode),
+          null,
+          2
+        );
+        dispatch(
+          variablesSectionActions.setVariablesSectionCode(
+            formattedVariablesSectionCode
+          )
+        );
+      }
+
+      if (headersSectionCode.length > 0) {
+        const formattedHeadersSectionCode = JSON.stringify(
+          JSON.parse(headersSectionCode),
+          null,
+          2
+        );
+        dispatch(
+          headersSectionActions.setHeadersSectionCode(
+            formattedHeadersSectionCode
+          )
+        );
+      }
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error('Ошибка форматирования:', error);
-      return text;
+      console.log(error);
     }
   };
 
@@ -92,9 +109,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
           </button>
         </div>
         <div>
-          <button onClick={() => formatJson(variablesSectionCode)}>
-            Button
-          </button>
+          <button onClick={handleFormatJson}>Button</button>
         </div>
       </div>
       {showVariables && (
@@ -112,7 +127,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
       {showHeaders && (
         <CodeMirror
           value={headersSectionCode}
-          extensions={[javascript()]}
+          extensions={[json()]}
           theme={oneDark}
           onBlur={handleBlurHeaders}
           height="100%"

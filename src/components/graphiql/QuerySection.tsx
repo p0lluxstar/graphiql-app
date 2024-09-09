@@ -6,7 +6,7 @@ import { javascript } from '@codemirror/lang-javascript';
 import { RootState } from '@/redux/store';
 import useHandleBlur from '@/hooks/useHandleBlur';
 import { useVisibility } from '@/context/VisibilityContext';
-import parserBabel from 'prettier/parser-babel';
+import { format } from 'graphql-formatter';
 
 export default function QuerySection(): JSX.Element {
   const dispatch = useDispatch();
@@ -24,11 +24,8 @@ export default function QuerySection(): JSX.Element {
 
   const formatCode = (): void => {
     try {
-      const formattedCode = prettier.format(querySectionCode, {
-        parser: 'babel',
-        plugins: [parserBabel],
-      });
-      dispatch(querySectionActions.setQuerySectionCode(formattedCode));
+      const formattedCode = format(querySectionCode); // Форматируйте код
+      dispatch(querySectionActions.setQuerySectionCode(formattedCode)); // Обновите код в Redux
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Ошибка форматирования:', error);

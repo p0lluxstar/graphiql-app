@@ -5,7 +5,7 @@ interface IInitialState {
 }
 
 const initialState: IInitialState = {
-  querySectionCode: ` const  a=''`,
+  querySectionCode: '',
 };
 
 const querySectionSlice = createSlice({
