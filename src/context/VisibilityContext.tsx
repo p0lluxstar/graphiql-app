@@ -10,7 +10,7 @@ interface IContextType {
   isShowBtnDocs: boolean | null;
   toggleIsShowBtnDocs: (valud: boolean | null) => void;
   isShowUrlApiApplyBtn: boolean;
-  toggleisShowUrlApiApplyBtn: () => void;
+  toggleisShowUrlApiApplyBtn: (value: boolean) => void;
 }
 
 const VisibilityContext = createContext<IContextType | undefined>(undefined);
@@ -40,8 +40,8 @@ export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({
     setIsShowBtnDocs(value);
   };
 
-  const toggleisShowUrlApiApplyBtn = (): void => {
-    setIsShowUrlApiApplyBtn((prev) => !prev);
+  const toggleisShowUrlApiApplyBtn = (value: boolean): void => {
+    setIsShowUrlApiApplyBtn(value);
   };
 
   return (

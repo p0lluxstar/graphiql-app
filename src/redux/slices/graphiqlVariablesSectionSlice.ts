@@ -5,7 +5,7 @@ interface IInitialState {
 }
 
 const initialState: IInitialState = {
-  variablesSectionCode: ``,
+  variablesSectionCode: ` {   }`,
 };
 
 const variablesSectionSlice = createSlice({

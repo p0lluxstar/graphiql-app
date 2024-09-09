@@ -11,7 +11,11 @@
 
 .title {
   position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   top: 0px;
   padding: 10px;
   color: #ffffff;
+  width: 100%;
 }

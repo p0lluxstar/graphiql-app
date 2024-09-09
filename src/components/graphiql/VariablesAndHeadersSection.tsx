@@ -9,6 +9,8 @@ import { variablesSectionActions } from '@/redux/slices/graphiqlVariablesSection
 import { headersSectionActions } from '@/redux/slices/graphiqlHeadersSectionSlice';
 import { useRouter } from 'next/navigation';
 import useHandleBlur from '@/hooks/useHandleBlur';
+import prettier from 'prettier';
+import parserBabel from 'prettier/parser-babel';
 
 export default function VariablesAndHeadersSection(): JSX.Element {
   const dispatch = useDispatch();
@@ -59,21 +61,41 @@ export default function VariablesAndHeadersSection(): JSX.Element {
     }
   };
 
+  const formatJson = (text: string): string | Promise<string> => {
+    try {
+      return prettier.format(text, {
+        parser: 'json',
+        plugins: [parserBabel],
+      });
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Ошибка форматирования:', error);
+      return text;
+    }
+  };
+
   return (
     <div className={styles.variablesAndHeadersWrapper}>
-      <div className={styles.variablesAndHeadersMenu}>
-        <button
-          onClick={handlerVariablesButton}
-          className={`${styles.menuBtn} ${showVariables ? styles.active : ''}`}
-        >
-          Variables
-        </button>
-        <button
-          onClick={handlerHeadersButton}
-          className={`${styles.menuBtn} ${showHeaders ? styles.active : ''}`}
-        >
-          Headers
-        </button>
+      <div className={styles.temp}>
+        <div className={styles.variablesAndHeadersMenu}>
+          <button
+            onClick={handlerVariablesButton}
+            className={`${styles.menuBtn} ${showVariables ? styles.active : ''}`}
+          >
+            Variables
+          </button>
+          <button
+            onClick={handlerHeadersButton}
+            className={`${styles.menuBtn} ${showHeaders ? styles.active : ''}`}
+          >
+            Headers
+          </button>
+        </div>
+        <div>
+          <button onClick={() => formatJson(variablesSectionCode)}>
+            Button
+          </button>
+        </div>
       </div>
       {showVariables && (
         <CodeMirror

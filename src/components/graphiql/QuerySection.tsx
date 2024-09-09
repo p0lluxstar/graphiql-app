@@ -6,6 +6,7 @@ import { javascript } from '@codemirror/lang-javascript';
 import { RootState } from '@/redux/store';
 import useHandleBlur from '@/hooks/useHandleBlur';
 import { useVisibility } from '@/context/VisibilityContext';
+import parserBabel from 'prettier/parser-babel';
 
 export default function QuerySection(): JSX.Element {
   const dispatch = useDispatch();
@@ -21,9 +22,25 @@ export default function QuerySection(): JSX.Element {
     dispatch(querySectionActions.setQuerySectionCode(value));
   };
 
+  const formatCode = (): void => {
+    try {
+      const formattedCode = prettier.format(querySectionCode, {
+        parser: 'babel',
+        plugins: [parserBabel],
+      });
+      dispatch(querySectionActions.setQuerySectionCode(formattedCode));
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Ошибка форматирования:', error);
+    }
+  };
+
   return (
     <div className={styles.querySectionWrapper}>
-      <h2 className={styles.title}>Query</h2>
+      <div className={styles.title}>
+        <h2>Query</h2>
+        <button onClick={formatCode}>Button</button>
+      </div>
       <CodeMirror
         extensions={[javascript()]}
         onBlur={handleBlur}

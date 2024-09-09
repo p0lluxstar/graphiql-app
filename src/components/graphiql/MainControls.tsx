@@ -68,27 +68,35 @@ export default function MainControls(): JSX.Element {
       const decodedUrlApiParam = atob(urlApiParam || '');
       const decodedQueryParam = atob(queryParam || '');
 
-      const parsedData = JSON.parse(decodedQueryParam);
-      const queryParse = parsedData.query;
-      const variablesParse = parsedData.variables;
-
-      let querySectionCode = '';
-      let variblesSectionCode = '';
-
-      if (queryParse) {
-        querySectionCode = queryParse;
+      if (decodedUrlApiParam != '') {
+        toggleisShowUrlApiApplyBtn(true);
       }
 
-      if (variablesParse) {
-        variblesSectionCode = variablesParse;
+      if (decodedQueryParam != '') {
+        const parsedData = JSON.parse(decodedQueryParam);
+        const queryParse = parsedData.query;
+        const variablesParse = parsedData.variables;
+
+        let querySectionCode = '';
+        let variblesSectionCode = '';
+
+        if (queryParse) {
+          querySectionCode = queryParse;
+        }
+
+        if (variablesParse) {
+          variblesSectionCode = variablesParse;
+        }
+
+        dispatch(querySectionActions.setQuerySectionCode(querySectionCode));
+        dispatch(
+          variablesSectionActions.setVariablesSectionCode(variblesSectionCode)
+        );
       }
 
       setUrlApi(decodedUrlApiParam);
       setUrlDocs(`${decodedUrlApiParam}/?sdl`);
-      dispatch(querySectionActions.setQuerySectionCode(querySectionCode));
-      dispatch(
-        variablesSectionActions.setVariablesSectionCode(variblesSectionCode)
-      );
+
       dispatch(headersSectionActions.setHeadersSectionCode(paramsStr));
     }
   }, []);
@@ -150,6 +158,7 @@ export default function MainControls(): JSX.Element {
       );
     } catch (error) {
       dispatch(responseSectionActions.setResponseSectionCode('error'));
+      dispatch(responseSectionActions.setResponseCodeAndStatus(``));
     }
   };
 
@@ -161,7 +170,7 @@ export default function MainControls(): JSX.Element {
 
   const handleApplyButton = (urlApi: string): void => {
     setIsApply(!isApply);
-    toggleisShowUrlApiApplyBtn();
+    toggleisShowUrlApiApplyBtn(true);
 
     if (!isApply) {
       const currentUrl = new URL(window.location.href);
@@ -174,6 +183,7 @@ export default function MainControls(): JSX.Element {
     }
 
     if (isApply) {
+      toggleisShowUrlApiApplyBtn(false);
       dispatch(querySectionActions.setQuerySectionCode(''));
       dispatch(responseSectionActions.setResponseSectionCode(''));
       dispatch(variablesSectionActions.setVariablesSectionCode(''));
