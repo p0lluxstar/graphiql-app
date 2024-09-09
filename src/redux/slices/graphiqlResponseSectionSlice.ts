@@ -2,10 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface IInitialState {
   responseSectionCode: string;
+  responseCodeAndStatus: string;
 }
 
 const initialState: IInitialState = {
-  responseSectionCode: ``,
+  responseSectionCode: '',
+  responseCodeAndStatus: '',
 };
 
 const responseSectionSlice = createSlice({
@@ -14,6 +16,9 @@ const responseSectionSlice = createSlice({
   reducers: {
     setResponseSectionCode: (state, actions) => {
       return { ...state, responseSectionCode: actions.payload };
+    },
+    setResponseCodeAndStatus: (state, actions) => {
+      state.responseCodeAndStatus = actions.payload;
     },
   },
 });

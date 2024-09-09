@@ -9,6 +9,8 @@ interface IContextType {
   toggleIsShowDocs: () => void;
   isShowBtnDocs: boolean | null;
   toggleIsShowBtnDocs: (valud: boolean | null) => void;
+  isShowUrlApiApplyBtn: boolean;
+  toggleisShowUrlApiApplyBtn: () => void;
 }
 
 const VisibilityContext = createContext<IContextType | undefined>(undefined);
@@ -23,6 +25,9 @@ export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const [isShowBtnDocs, setIsShowBtnDocs] = useState<boolean | null>(false);
 
+  const [isShowUrlApiApplyBtn, setIsShowUrlApiApplyBtn] =
+    useState<boolean>(false);
+
   const toggleIsShowVariablesAndHeaders = (): void => {
     setIsShowVariablesAndHeaders((prev) => !prev);
   };
@@ -35,6 +40,10 @@ export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({
     setIsShowBtnDocs(value);
   };
 
+  const toggleisShowUrlApiApplyBtn = (): void => {
+    setIsShowUrlApiApplyBtn((prev) => !prev);
+  };
+
   return (
     <VisibilityContext.Provider
       value={{
@@ -44,6 +53,8 @@ export const ContextProvider: React.FC<{ children: React.ReactNode }> = ({
         toggleIsShowDocs,
         isShowBtnDocs,
         toggleIsShowBtnDocs,
+        isShowUrlApiApplyBtn,
+        toggleisShowUrlApiApplyBtn,
       }}
     >
       {children}

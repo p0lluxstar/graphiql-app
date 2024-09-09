@@ -10,6 +10,10 @@ export default function ResponseSection(): JSX.Element {
     (state: RootState) => state.responseSectionReducer.responseSectionCode
   );
 
+  const responseCodeAndStatus = useSelector(
+    (state: RootState) => state.responseSectionReducer.responseCodeAndStatus
+  );
+
   if (responseSectionCode.length === 0) {
     return (
       <div className={styles.responseSectionWrapper}>
@@ -20,7 +24,10 @@ export default function ResponseSection(): JSX.Element {
 
   return (
     <div className={styles.responseSectionWrapper}>
-      <h2 className={styles.title}>Response</h2>
+      <div className={styles.title}>
+        <h2>Response</h2>
+        <div className={styles.codeAndStatus}>{responseCodeAndStatus}</div>
+      </div>
       <CodeMirror
         value={responseSectionCode}
         extensions={[

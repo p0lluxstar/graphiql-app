@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
 import styles from '../../styles/components/graphiql/mainControls.module.css';
+import { useDispatch, useSelector } from 'react-redux';
 import Image from 'next/image';
 import { RootState } from '@/redux/store';
 import { responseSectionActions } from '@/redux/slices/graphiqlResponseSectionSlice';
@@ -41,6 +41,7 @@ export default function MainControls(): JSX.Element {
     isShowVariablesAndHeaders,
     isShowDocs,
     isShowBtnDocs,
+    toggleisShowUrlApiApplyBtn,
   } = useVisibility();
 
   useEffect(() => {
@@ -132,6 +133,15 @@ export default function MainControls(): JSX.Element {
         }),
       });
 
+      const responseCode = response.status;
+      const responseStatusText = response.statusText;
+
+      dispatch(
+        responseSectionActions.setResponseCodeAndStatus(
+          `Status code: ${responseCode} ${responseStatusText}`
+        )
+      );
+
       const result = await response.json();
       dispatch(
         responseSectionActions.setResponseSectionCode(
@@ -151,6 +161,7 @@ export default function MainControls(): JSX.Element {
 
   const handleApplyButton = (urlApi: string): void => {
     setIsApply(!isApply);
+    toggleisShowUrlApiApplyBtn();
 
     if (!isApply) {
       const currentUrl = new URL(window.location.href);
@@ -212,7 +223,11 @@ export default function MainControls(): JSX.Element {
           </button>
         </div>
 
-        <button className={styles.mainControlsBtn} onClick={makeRequest}>
+        <button
+          className={`${styles.mainControlsBtn} ${isApply ? '' : styles.noActiveBtn}`}
+          onClick={makeRequest}
+          disabled={!isApply}
+        >
           <Image
             src="/img/execute-button.svg"
             width={23}
