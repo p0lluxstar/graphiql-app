@@ -1,6 +1,7 @@
 'use client';
+
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import {
   Container,
   Box,
@@ -18,6 +19,7 @@ import { HeadersEditor } from './HeadersEditor';
 import { RequestBodyEditor } from './RequestBodyEditor';
 import { ResponseViewer } from './ResponseViewer';
 import { VariablesEditor } from './VariablesEditor';
+import { base64Decode, base64Encode } from '../../utils/base64';
 import useAuth from '@/hooks/useAuth';
 
 interface Variable {
@@ -25,52 +27,57 @@ interface Variable {
   value: string;
 }
 
+interface Header {
+  key: string;
+  value: string;
+}
+
 export default function Restfull(): JSX.Element {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const [method, setMethod] = useState('GET');
-  const [url, setUrl] = useState('');
-  const [headers, setHeaders] = useState([{ key: '', value: '' }]);
-  const [variables, setVariables] = useState<Variable[]>([
-    { key: '', value: '' },
-  ]);
-  const [body, setBody] = useState('');
-  const [response, setResponse] = useState({ status: '', body: '' });
-  const [activeTab, setActiveTab] = useState('body');
+  const methodParam = pathname.split('/')[3];
+  const encodedUrl = pathname.split('/')[4];
+  const queryBody = searchParams.get('body');
+  const queryHeaders = searchParams.get('headers');
+  const queryVariables = searchParams.get('variables');
+
+  const [method, setMethod] = useState<string>(methodParam || 'GET');
+  const [url, setUrl] = useState<string>(
+    encodedUrl ? base64Decode(encodedUrl) : ''
+  );
+  const [body, setBody] = useState<string>(
+    queryBody ? base64Decode(queryBody) : ''
+  );
+  const [headers, setHeaders] = useState<Header[]>(
+    queryHeaders
+      ? JSON.parse(base64Decode(queryHeaders))
+      : [{ key: '', value: '' }]
+  );
+  const [variables, setVariables] = useState<Variable[]>(
+    queryVariables
+      ? JSON.parse(base64Decode(queryVariables))
+      : [{ key: '', value: '' }]
+  );
+  const [response, setResponse] = useState<{ status: string; body: string }>({
+    status: '',
+    body: '',
+  });
+  const [activeTab, setActiveTab] = useState<string>('body');
   const [jsonError, setJsonError] = useState<string | null>(null);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
 
   useEffect((): void => {
     if (!loading && !user) {
       router.replace(`/`);
+    } else {
+      if (url) {
+        handleSendRequest();
+      }
     }
   }, [user, loading, router]);
-
-  useEffect(() => {
-    const encodedUrl = encodeURIComponent(url);
-    const encodedBody = method !== 'GET' ? `/${encodeURIComponent(body)}` : '';
-    const encodedHeaders = headers
-      .filter((header) => header.key && header.value)
-      .map(
-        (header) =>
-          `${encodeURIComponent(header.key)}=${encodeURIComponent(header.value)}`
-      )
-      .join('&');
-
-    const encodedVariables = variables
-      .filter((variable) => variable.key && variable.value)
-      .map(
-        (variable) =>
-          `${encodeURIComponent(variable.key)}=${encodeURIComponent(variable.value)}`
-      )
-      .join('&');
-
-    const fullUrl = `${method}/${encodedUrl}${encodedBody ? encodedBody : ''}${
-      encodedHeaders ? `?${encodedHeaders}` : ''
-    }${encodedVariables ? `&${encodedVariables}` : ''}`;
-    window.history.replaceState(null, '', `/${fullUrl}`);
-  }, [method, url, headers, body, variables]);
 
   const handleMethodChange = (event: SelectChangeEvent<string>): void => {
     setMethod(event.target.value as string);
@@ -109,25 +116,36 @@ export default function Restfull(): JSX.Element {
   };
 
   const removeHeader = (index: number): void => {
-    const newHeaders = headers.filter((_, i) => i !== index);
+    const newHeaders = headers.filter((_, i: number) => i !== index);
     setHeaders(newHeaders);
   };
 
   const removeVariable = (index: number): void => {
-    const newVariables = variables.filter((_, i) => i !== index);
+    const newVariables = variables.filter((_, i: number) => i !== index);
     setVariables(newVariables);
+  };
+
+  const createUrlWithParams = (): string => {
+    const encodedUrl = base64Encode(url);
+    const encodedBody = method !== 'GET' && body ? base64Encode(body) : '';
+    const encodedHeaders = base64Encode(JSON.stringify(headers));
+    const encodedVariables = base64Encode(JSON.stringify(variables));
+
+    const locale = pathname.split('/')[1];
+
+    return `/${locale}/restfull/${method}/${encodedUrl}?body=${encodedBody}&headers=${encodedHeaders}&variables=${encodedVariables}`;
   };
 
   const handleSendRequest = async (): Promise<void> => {
     try {
       const requestOptions: RequestInit = {
         method,
-        headers: headers.reduce(
-          (acc, { key, value }) => {
+        headers: headers.reduce<Record<string, string>>(
+          (acc: Record<string, string>, { key, value }: Header) => {
             if (key && value) acc[key] = value;
             return acc;
           },
-          {} as Record<string, string>
+          {}
         ),
         body: method !== 'GET' ? body : undefined,
       };
@@ -145,6 +163,9 @@ export default function Restfull(): JSX.Element {
         status: `${res.status} ${res.statusText}`,
         body: formattedResponse,
       });
+
+      const newUrl = createUrlWithParams();
+      window.history.replaceState(null, '', newUrl);
     } catch (error) {
       if (error instanceof Error) {
         setResponse({ status: 'Error', body: error.message });
@@ -168,7 +189,7 @@ export default function Restfull(): JSX.Element {
     <Container
       maxWidth="lg"
       sx={{
-        height: '90vhv',
+        height: '90vh',
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: '#1E1E1E',

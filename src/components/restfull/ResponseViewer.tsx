@@ -21,13 +21,6 @@ export const ResponseViewer: React.FC<ResponseViewerProps> = ({ response }) => {
       <Typography variant="body1" sx={{ fontSize: '32px', color: '#D4D4D4' }}>
         Status: {response.status}
       </Typography>
-      <Typography
-        variant="body2"
-        gutterBottom
-        sx={{ fontSize: '25px', color: '#D4D4D4' }}
-      >
-        Generated URL:
-      </Typography>
       <Box
         mt={2}
         sx={{

@@ -1,6 +1,6 @@
 import React from 'react';
-import Restfull from '../../../components/restfull/Restfull';
-import ProtectedRouteAuth from '../../../components/ProtectedRouteAuth';
+import Restfull from '../../../../../components/restfull/Restfull';
+import ProtectedRouteAuth from '../../../../../components/ProtectedRouteAuth';
 
 export const metadata = {
   title: 'RESTfull',
