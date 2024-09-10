@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, TextField, IconButton, Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import { useTranslations } from 'next-intl';
 interface Header {
   key: string;
   value: string;
@@ -20,6 +20,8 @@ export const HeadersEditor: React.FC<HeadersEditorProps> = ({
   onAddHeader,
   onRemoveHeader,
 }) => {
+  const t = useTranslations('restfull');
+
   return (
     <Box mt={2} sx={{ flexGrow: 1, overflowY: 'auto', paddingTop: '5px' }}>
       {headers.map((header, index) => (
@@ -31,7 +33,7 @@ export const HeadersEditor: React.FC<HeadersEditorProps> = ({
           sx={{ gap: 1 }}
         >
           <TextField
-            label="Header Key"
+            label={t('placeholderHeaderKey')}
             variant="outlined"
             value={header.key}
             size="small"
@@ -53,7 +55,7 @@ export const HeadersEditor: React.FC<HeadersEditorProps> = ({
             }}
           />
           <TextField
-            label="Header Value"
+            label={t('placeholderHeaderValue')}
             variant="outlined"
             value={header.value}
             size="small"
@@ -94,7 +96,7 @@ export const HeadersEditor: React.FC<HeadersEditorProps> = ({
           },
         }}
       >
-        Add Header
+        {t('addHeader')}
       </Button>
     </Box>
   );

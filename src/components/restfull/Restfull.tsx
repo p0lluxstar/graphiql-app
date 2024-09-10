@@ -21,6 +21,7 @@ import { ResponseViewer } from './ResponseViewer';
 import { VariablesEditor } from './VariablesEditor';
 import { base64Decode, base64Encode } from '../../utils/base64';
 import useAuth from '@/hooks/useAuth';
+import { useTranslations } from 'next-intl';
 
 interface Variable {
   key: string;
@@ -37,6 +38,7 @@ export default function Restfull(): JSX.Element {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const t = useTranslations('restfull');
 
   const methodParam = pathname.split('/')[3];
   const encodedUrl = pathname.split('/')[4];
@@ -156,7 +158,7 @@ export default function Restfull(): JSX.Element {
       try {
         formattedResponse = JSON.stringify(JSON.parse(responseBody), null, 2);
       } catch (e) {
-        setJsonError('Failed to parse response JSON');
+        setJsonError(t('jsonParseError'));
         setOpenSnackbar(true);
       }
       setResponse({
@@ -170,7 +172,7 @@ export default function Restfull(): JSX.Element {
       if (error instanceof Error) {
         setResponse({ status: 'Error', body: error.message });
       } else {
-        setResponse({ status: 'Error', body: 'An unknown error occurred' });
+        setResponse({ status: 'Error', body: t('unknownError') });
       }
     }
   };
@@ -238,7 +240,7 @@ export default function Restfull(): JSX.Element {
                   },
                 }}
               >
-                Send
+                {t('send')}
               </Button>
             </Box>
 
@@ -260,17 +262,17 @@ export default function Restfull(): JSX.Element {
               }}
             >
               <Tab
-                label="Request Body"
+                label={t('requestBody')}
                 value="body"
                 sx={{ minHeight: '32px', fontSize: '12px' }}
               />
               <Tab
-                label="Headers"
+                label={t('headers')}
                 value="headers"
                 sx={{ minHeight: '32px', fontSize: '12px' }}
               />
               <Tab
-                label="Variables"
+                label={t('variables')}
                 value="variables"
                 sx={{ minHeight: '32px', fontSize: '12px' }}
               />

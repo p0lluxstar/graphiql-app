@@ -29,5 +29,25 @@
   "invalidCredentials": "Введен неверный адрес эл.почты или пароль",
   "invalidUser": "Пользователь с указанным адресом эл. почты уже зарегистрирован",
   "unknownError": "Произошла неизвестная ошибка",
-  "tooManyRequests": "Слишком много попыток. Попробуйте войти попозже"
+  "tooManyRequests": "Слишком много попыток. Попробуйте войти попозже",
+  "restfull": {
+    "title": "Тестировщик REST API",
+    "description": "Тестирование конечных точек REST API",
+    "method": "Метод",
+    "url": "URL",
+    "requestBody": "Тело запроса",
+    "headers": "Заголовки",
+    "variables": "Переменные",
+    "send": "ok",
+    "status": "Статус",
+    "addHeader": "Добавить заголовок",
+    "addVariable": "Добавить переменную",
+    "placeholderMethod": "Выберите метод",
+    "placeholderUrl": "Введите URL",
+    "placeholderRequestBody": "Введите тело запроса",
+    "placeholderHeaderKey": "Ключ",
+    "placeholderHeaderValue": "Значение",
+    "placeholderVariableKey": "Ключ",
+    "placeholderVariableValue": "Значение"
+  }
 }

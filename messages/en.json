@@ -29,5 +29,25 @@
   "invalidCredentials": "Invalid email or password entered",
   "invalidUser": "The user with the specified email has already been registered",
   "unknownError": "An unknown error has occurred",
-  "tooManyRequests": "Too many attempts. Try logging in later"
+  "tooManyRequests": "Too many attempts. Try logging in later",
+  "restfull": {
+    "title": "REST API Tester",
+    "description": "Testing REST API endpoints",
+    "method": "Method",
+    "url": "Endpoint URL",
+    "requestBody": "Request Body",
+    "headers": "Headers",
+    "variables": "Variables",
+    "send": "Send",
+    "status": "Status",
+    "addHeader": "Add Header",
+    "addVariable": "Add Variable",
+    "placeholderMethod": "Choose method",
+    "placeholderUrl": "Enter endpoint URL",
+    "placeholderRequestBody": "Enter request body",
+    "placeholderHeaderKey": "Header key",
+    "placeholderHeaderValue": "Header value",
+    "placeholderVariableKey": "Variable key",
+    "placeholderVariableValue": "Variable value"
+  }
 }

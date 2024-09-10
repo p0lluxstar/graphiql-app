@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, TextField, Button, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import { useTranslations } from 'next-intl';
 interface Variable {
   key: string;
   value: string;
@@ -20,6 +20,8 @@ export const VariablesEditor: React.FC<VariablesEditorProps> = ({
   onAddVariable,
   onRemoveVariable,
 }) => {
+  const t = useTranslations('restfull');
+
   return (
     <Box mt={2} sx={{ flexGrow: 1, overflowY: 'auto', paddingTop: '5px' }}>
       {variables.map((variable, index) => (
@@ -31,7 +33,7 @@ export const VariablesEditor: React.FC<VariablesEditorProps> = ({
           sx={{ gap: 1 }}
         >
           <TextField
-            label="Variable Key"
+            label={t('placeholderVariableKey')}
             variant="outlined"
             value={variable.key}
             size="small"
@@ -53,7 +55,7 @@ export const VariablesEditor: React.FC<VariablesEditorProps> = ({
             }}
           />
           <TextField
-            label="Variable Value"
+            label={t('placeholderVariableValue')}
             variant="outlined"
             value={variable.value}
             size="small"
@@ -96,7 +98,7 @@ export const VariablesEditor: React.FC<VariablesEditorProps> = ({
           },
         }}
       >
-        Add Variable
+        {t('addVariable')}
       </Button>
     </Box>
   );

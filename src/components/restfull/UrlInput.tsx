@@ -1,15 +1,18 @@
 import React from 'react';
 import { TextField } from '@mui/material';
-
+import { useTranslations } from 'next-intl';
 interface UrlInputProps {
   url: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const UrlInput: React.FC<UrlInputProps> = ({ url, onChange }) => {
+  const t = useTranslations('restfull');
+
   return (
     <TextField
-      label="Endpoint URL"
+      label={t('url')}
+      placeholder={t('placeholderUrl')}
       variant="outlined"
       fullWidth
       value={url}
