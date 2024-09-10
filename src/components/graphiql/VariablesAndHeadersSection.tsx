@@ -8,6 +8,8 @@ import { variablesSectionActions } from '@/redux/slices/graphiqlVariablesSection
 import { headersSectionActions } from '@/redux/slices/graphiqlHeadersSectionSlice';
 import { useRouter } from 'next/navigation';
 import useHandleBlur from '@/hooks/useHandleBlur';
+import { Box, Tabs, Tab, Button } from '@mui/material';
+import { VscCodeOss } from 'react-icons/vsc';
 
 export default function VariablesAndHeadersSection(): JSX.Element {
   const dispatch = useDispatch();
@@ -16,6 +18,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
   const [showVariables, setShowVariables] = useState(true);
   const [showHeaders, setShowHeaders] = useState(false);
   const [currentValueHeaders, setCurrentValueHeaders] = useState('');
+  const [tabsValue, setTabsValue] = useState('variables');
 
   const variablesSectionCode = useSelector(
     (state: RootState) => state.variablesSectionReducer.variablesSectionCode
@@ -92,26 +95,65 @@ export default function VariablesAndHeadersSection(): JSX.Element {
   };
 
   return (
-    <div className={styles.variablesAndHeadersWrapper}>
-      <div className={styles.temp}>
-        <div className={styles.variablesAndHeadersMenu}>
-          <button
+    <Box
+      sx={{
+        position: 'relative',
+        height: '100%',
+        overflow: 'auto',
+      }}
+    >
+      <Box
+        sx={{
+          position: 'absolute',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          height: '40px',
+          width: '100%',
+          paddingLeft: '10px',
+        }}
+      >
+        <Tabs
+          value={tabsValue}
+          onChange={(_, newValue) => setTabsValue(newValue)}
+          aria-label="basic tabs example"
+          sx={{
+            minHeight: '32px',
+            '& .MuiTab-root': {
+              color: '#D4D4D4',
+            },
+            '& .Mui-selected': {
+              color: '#D4D4D4',
+            },
+            '& .MuiTabs-indicator': {
+              backgroundColor: '#007ACC',
+            },
+          }}
+        >
+          <Tab
+            label="Variables"
+            value="variables"
+            sx={{ minHeight: '32px', fontSize: '14px' }}
             onClick={handlerVariablesButton}
-            className={`${styles.menuBtn} ${showVariables ? styles.active : ''}`}
-          >
-            Variables
-          </button>
-          <button
+          />
+          <Tab
+            label="Headers"
+            value="headers"
+            sx={{ minHeight: '32px', fontSize: '14px' }}
             onClick={handlerHeadersButton}
-            className={`${styles.menuBtn} ${showHeaders ? styles.active : ''}`}
+          />
+        </Tabs>
+        <Box>
+          <Button
+            onClick={handleFormatJson}
+            sx={{
+              fontSize: '30px',
+            }}
           >
-            Headers
-          </button>
-        </div>
-        <div>
-          <button onClick={handleFormatJson}>Button</button>
-        </div>
-      </div>
+            <VscCodeOss />
+          </Button>
+        </Box>
+      </Box>
       {showVariables && (
         <CodeMirror
           value={variablesSectionCode}
@@ -136,6 +178,6 @@ export default function VariablesAndHeadersSection(): JSX.Element {
           readOnly={querySectionCode === ''}
         />
       )}
-    </div>
+    </Box>
   );
 }

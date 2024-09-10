@@ -1,4 +1,4 @@
-.mainControls {
+/* .mainControls {
   display: flex;
   align-items: center;
   height: 60px;
@@ -67,6 +67,7 @@
 
 .noActiveBtn {
   background: #646464;
+ 
 }
 
 .activeInput {
@@ -83,3 +84,4 @@
   align-items: center;
   color: red;
 }
+ */

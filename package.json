@@ -16,7 +16,10 @@
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.2",
     "@codemirror/lang-json": "^6.0.1",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@hookform/resolvers": "^3.9.0",
+    "@mui/material": "^6.0.1",
     "@reduxjs/toolkit": "^2.2.7",
     "@uiw/react-codemirror": "^4.23.0",
     "codemirror": "^6.0.1",

@@ -7,6 +7,8 @@ import { RootState } from '@/redux/store';
 import useHandleBlur from '@/hooks/useHandleBlur';
 import { useVisibility } from '@/context/VisibilityContext';
 import { format } from 'graphql-formatter';
+import { Box, Button } from '@mui/material';
+import { VscCodeOss } from 'react-icons/vsc';
 
 export default function QuerySection(): JSX.Element {
   const dispatch = useDispatch();
@@ -33,11 +35,37 @@ export default function QuerySection(): JSX.Element {
   };
 
   return (
-    <div className={styles.querySectionWrapper}>
-      <div className={styles.title}>
+    <Box
+      sx={{
+        position: 'relative',
+        height: '100%',
+        overflow: 'auto',
+      }}
+    >
+      <Box
+        sx={{
+          position: 'absolute',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          width: '100%',
+          height: '46px',
+          paddingLeft: '10px',
+          color: '#FFFFFF',
+        }}
+      >
         <h2>Query</h2>
-        <button onClick={formatCode}>Button</button>
-      </div>
+        <Box>
+          <Button
+            onClick={formatCode}
+            sx={{
+              fontSize: '30px',
+            }}
+          >
+            <VscCodeOss />
+          </Button>
+        </Box>
+      </Box>
       <CodeMirror
         extensions={[javascript()]}
         onBlur={handleBlur}
@@ -48,6 +76,6 @@ export default function QuerySection(): JSX.Element {
         value={querySectionCode}
         readOnly={!isShowUrlApiApplyBtn}
       />
-    </div>
+    </Box>
   );
 }

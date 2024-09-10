@@ -1,4 +1,3 @@
-import styles from '../../styles/components/graphiql/mainControls.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'next/image';
 import { RootState } from '@/redux/store';
@@ -13,6 +12,7 @@ import { headersSectionActions } from '@/redux/slices/graphiqlHeadersSectionSlic
 import { ImCheckmark } from 'react-icons/im';
 import { FaArrowsDownToLine } from 'react-icons/fa6';
 import { FaArrowsUpToLine } from 'react-icons/fa6';
+import { Box, Button, TextField } from '@mui/material';
 
 export default function MainControls(): JSX.Element {
   const dispatch = useDispatch();
@@ -212,31 +212,99 @@ export default function MainControls(): JSX.Element {
     }
   };
 
+  const textFieldStyles = {
+    '& .MuiOutlinedInput-root': {
+      width: '380px',
+      height: '42px',
+      color: '#FFFFFF',
+      borderRadius: '5px 0px 0px 5px',
+      '& fieldset': {
+        borderColor: '#646464',
+      },
+      '&:hover fieldset': {
+        borderColor: '#646464',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#646464',
+      },
+      '&.Mui-disabled fieldset': {
+        borderColor: '#0078d4',
+      },
+    },
+    '& .MuiInputBase-input.Mui-disabled': {
+      WebkitTextFillColor: '#0078d4',
+    },
+    '& .MuiInputLabel-root': {
+      color: '#646464',
+      '&.Mui-focused': {
+        color: '#646464',
+      },
+      '&.Mui-disabled': {
+        color: '#0078d4',
+      },
+    },
+  };
+
+  const buttonStyles = {
+    color: '#FFFFFF',
+    '&.Mui-disabled': {
+      background: '#646464',
+      color: '#FFFFFF',
+    },
+  };
+
   return (
-    <div className={styles.mainControls}>
-      <div className={styles.apiRequestControls}>
-        <div className={styles.urlApiWrapper}>
-          <input
-            type="text"
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        height: '80px',
+        borderBottom: '1px solid #646464',
+        backgroundColor: '#282c34',
+        padding: '0 10px',
+        borderRadius: '5px 5px 0 0',
+        justifyContent: 'space-between',
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          gap: '20px',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+          }}
+        >
+          <TextField
+            variant="outlined"
             disabled={isApply}
             value={urlApi}
             onChange={handleInputChange}
-            placeholder={'Url API'}
-            className={`${styles.urlApiInput} ${isApply ? styles.activeInput : ''}`}
+            label="Url API"
+            size="small"
+            sx={textFieldStyles}
           />
-          <button
+          <Button
             disabled={urlApi === ''}
-            className={`${styles.mainControlsBtn} ${isApply ? '' : styles.noActiveBtn}`}
             onClick={() => handleApplyButton(urlApi)}
+            sx={{
+              ...buttonStyles,
+              background: isApply ? '#0078d4' : '#646464',
+              borderRadius: '0px 5px 5px 0px',
+            }}
           >
             {isApply ? <ImCheckmark /> : <span>Apply</span>}
-          </button>
-        </div>
-
-        <button
-          className={`${styles.mainControlsBtn} ${isApply ? '' : styles.noActiveBtn}`}
-          onClick={makeRequest}
+          </Button>
+        </Box>
+        <Button
           disabled={!isApply}
+          onClick={makeRequest}
+          sx={{
+            ...buttonStyles,
+            background: isApply ? '#0078d4' : '#646464',
+          }}
         >
           <Image
             src="/img/execute-button.svg"
@@ -244,50 +312,77 @@ export default function MainControls(): JSX.Element {
             height={23}
             alt="logo"
           />
-        </button>
-        <button
-          className={`${styles.mainControlsBtn} ${styles.toggleBtnVH} ${isShowVariablesAndHeaders ? styles.noActiveBtn : ''}`}
+        </Button>
+        <Button
           onClick={toggleIsShowVariablesAndHeaders}
+          sx={{
+            ...buttonStyles,
+            background: isShowVariablesAndHeaders ? '#0078d4' : '#646464',
+            fontSize: '20px',
+          }}
         >
           {isShowVariablesAndHeaders ? (
             <FaArrowsDownToLine />
           ) : (
             <FaArrowsUpToLine />
           )}
-        </button>
-      </div>
-      <div className={styles.urlDocsWrapper}>
-        <div className={styles.urlDocsInputWrapper}>
-          <input
-            type="text"
+        </Button>
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          gap: '20px',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+          }}
+        >
+          <TextField
+            variant="outlined"
             disabled={isApplyDocs}
             value={urlDocs}
             onChange={handleInputChangeDocs}
-            placeholder={'Url Docs'}
-            className={`${styles.urlDocsInput} ${isApplyDocs ? styles.activeInput : ''}`}
+            label="Url Docs"
+            sx={textFieldStyles}
+            size="small"
           />
-          <button
+          <Button
             disabled={urlDocs === ''}
-            className={`${styles.mainControlsBtn} ${isApplyDocs ? '' : styles.noActiveBtn}`}
             onClick={() => handleApplyDocsButton(urlDocs)}
+            sx={{
+              ...buttonStyles,
+              borderRadius: '0px 5px 5px 0px',
+              background: isApplyDocs ? '#0078d4' : '#646464',
+            }}
           >
             {isApplyDocs ? <ImCheckmark /> : <span>Apply</span>}
-          </button>
-        </div>
+          </Button>
+        </Box>
         {isShowBtnDocs && (
-          <button
-            className={`${styles.mainControlsBtn} ${isShowDocs ? '' : styles.noActiveBtn}`}
+          <Button
             onClick={toggleIsShowDocs}
+            sx={{
+              ...buttonStyles,
+              background: isShowDocs ? '#0078d4' : '#646464',
+            }}
           >
             Docs
-          </button>
+          </Button>
         )}
         {isShowBtnDocs === null && (
-          <div className={styles.docsError}>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              color: 'red',
+            }}
+          >
             <span>No docs</span>
-          </div>
+          </Box>
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
