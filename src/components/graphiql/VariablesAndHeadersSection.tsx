@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import useHandleBlur from '@/hooks/useHandleBlur';
 import { Box, Tabs, Tab, Button } from '@mui/material';
 import { VscCodeOss } from 'react-icons/vsc';
+import { grahpiqlErrorMessageActions } from '@/redux/slices/graphiqlErrorMessageSlice';
 
 export default function VariablesAndHeadersSection(): JSX.Element {
   const dispatch = useDispatch();
@@ -89,8 +90,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
         );
       }
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
+      dispatch(grahpiqlErrorMessageActions.setError('Formatted error'));
     }
   };
 
@@ -108,9 +108,10 @@ export default function VariablesAndHeadersSection(): JSX.Element {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          height: '40px',
+          height: '44px',
           width: '100%',
           paddingLeft: '10px',
+          paddingTop: '2px',
         }}
       >
         <Tabs

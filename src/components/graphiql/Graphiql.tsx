@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import useAuth from '../../hooks/useAuth';
 import Loader from '../Loader';
 import { useRouter } from 'next/navigation';
+import GraphiqlErrorMessage from './GrahpiqlErrorMessage';
 
 export default function Graphiql(): JSX.Element {
   const { user, loading } = useAuth();
@@ -23,6 +24,7 @@ export default function Graphiql(): JSX.Element {
   return (
     <>
       <GraphiqlLayout />
+      <GraphiqlErrorMessage />
     </>
   );
 }

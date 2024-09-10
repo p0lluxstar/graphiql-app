@@ -4,6 +4,7 @@ import { responseSectionReducer } from './slices/graphiqlResponseSectionSlice';
 import { variablesSectionReducer } from './slices/graphiqlVariablesSectionSlice';
 import { headersSectionReducer } from './slices/graphiqlHeadersSectionSlice';
 import { docsSectionReducer } from './slices/graphiqlDocsSectionSlice';
+import { grahpiqlErrorMessageReducer } from './slices/graphiqlErrorMessageSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     variablesSectionReducer,
     headersSectionReducer,
     docsSectionReducer,
+    grahpiqlErrorMessageReducer,
   },
 });
 

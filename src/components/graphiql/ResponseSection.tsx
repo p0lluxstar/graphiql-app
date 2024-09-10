@@ -30,8 +30,9 @@ export default function ResponseSection(): JSX.Element {
           justifyContent: 'space-between',
           alignItems: 'center',
           width: '100%',
-          height: '40px',
+          height: '44px',
           paddingLeft: '10px',
+          paddingTop: '2px',
           color: '#FFFFFF',
         }}
       >

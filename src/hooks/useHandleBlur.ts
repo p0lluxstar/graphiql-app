@@ -1,8 +1,10 @@
 import { useRouter } from 'next/navigation';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { grahpiqlErrorMessageActions } from '@/redux/slices/graphiqlErrorMessageSlice';
 
 const useHandleBlur = (): { handleBlur: () => void } => {
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const querySectionCode = useSelector(
@@ -19,14 +21,18 @@ const useHandleBlur = (): { handleBlur: () => void } => {
       variables: variablesSectionCode,
     });
 
-    const encodedData = btoa(temp);
-    const currentUrl = window.location.pathname;
-    const segments = currentUrl.split('/');
-    if (segments.length >= 4) {
-      segments[4] = `${encodedData}`;
+    try {
+      const encodedData = btoa(temp);
+      const currentUrl = window.location.pathname;
+      const segments = currentUrl.split('/');
+      if (segments.length >= 4) {
+        segments[4] = `${encodedData}`;
+      }
+      const newUrl = segments.join('/');
+      router.replace(newUrl);
+    } catch (error) {
+      dispatch(grahpiqlErrorMessageActions.setError('Query error'));
     }
-    const newUrl = segments.join('/');
-    router.replace(newUrl);
   };
 
   return { handleBlur };

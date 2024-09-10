@@ -7,13 +7,12 @@ import { RootState } from '@/redux/store';
 import useHandleBlur from '@/hooks/useHandleBlur';
 import { useVisibility } from '@/context/VisibilityContext';
 import { format } from 'graphql-formatter';
-import { Box, Button } from '@mui/material';
 import { VscCodeOss } from 'react-icons/vsc';
+import { Box, Button } from '@mui/material';
 
 export default function QuerySection(): JSX.Element {
   const dispatch = useDispatch();
   const { handleBlur } = useHandleBlur();
-
   const { isShowUrlApiApplyBtn } = useVisibility();
 
   const querySectionCode = useSelector(
@@ -26,8 +25,8 @@ export default function QuerySection(): JSX.Element {
 
   const formatCode = (): void => {
     try {
-      const formattedCode = format(querySectionCode); // Форматируйте код
-      dispatch(querySectionActions.setQuerySectionCode(formattedCode)); // Обновите код в Redux
+      const formattedCode = format(querySectionCode);
+      dispatch(querySectionActions.setQuerySectionCode(formattedCode));
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Ошибка форматирования:', error);
@@ -49,8 +48,9 @@ export default function QuerySection(): JSX.Element {
           justifyContent: 'space-between',
           alignItems: 'center',
           width: '100%',
-          height: '46px',
+          height: '44px',
           paddingLeft: '10px',
+          paddingTop: '4px',
           color: '#FFFFFF',
         }}
       >
