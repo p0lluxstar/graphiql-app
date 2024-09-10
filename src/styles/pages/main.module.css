@@ -12,6 +12,7 @@
   font-size: 32px;
   color: #2d444d;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 .promo {
@@ -69,7 +70,7 @@
   text-align: center;
   margin-bottom: 20px;
 }
-
+.clientHeader,
 .clientLink {
   color: #2d444d;
   text-decoration: none;

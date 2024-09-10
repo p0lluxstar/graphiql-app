@@ -1,0 +1,40 @@
+.headerMenuItem {
+  padding: 8px 16px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+}
+
+.active {
+  color: #2d444d;
+  background: #ffffff;
+}
+
+.headerMenuItem:hover {
+  opacity: 0.9;
+}
+.heading {
+  font-size: 32px;
+  color: #2d444d;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.subheading {
+  font-size: 18px;
+  color: #2d444d;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  list-style-type: none;
+  margin-bottom: 40px;
+}

@@ -31,8 +31,7 @@ export default function ResponseSection(): JSX.Element {
           alignItems: 'center',
           width: '100%',
           height: '44px',
-          paddingLeft: '10px',
-          paddingTop: '2px',
+          padding: '2px 10px 0px 10px',
           color: '#FFFFFF',
         }}
       >
