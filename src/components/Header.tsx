@@ -8,6 +8,7 @@ import LocaleSwitcher from './LocaleSwitcher';
 import Logout from './Logout';
 import useAuth from '../hooks/useAuth';
 import UserAuth from './UserAuth';
+import { List, Box, ListItem } from '@mui/material';
 
 export default function Header(): JSX.Element {
   const t = useTranslations();
@@ -16,47 +17,47 @@ export default function Header(): JSX.Element {
   const { user, loading } = useAuth();
 
   return (
-    <header className={styles.header}>
+    <Box component="header" className={styles.header}>
       {loading ? null : (
         <>
-          <div className={styles.mainMenu}>
-            <ul>
-              <li>
+          <Box component="nav" className={styles.mainMenu}>
+            <List>
+              <ListItem>
                 <Link
                   href={`/${currentLocale}`}
                   className={`${styles.headerMenuItem} ${pathname === `/${currentLocale}` ? styles.active : ''}`}
                 >
                   {t('main')}
                 </Link>
-              </li>
+              </ListItem>
               {user && (
                 <>
-                  <li>
+                  <ListItem>
                     <Link
                       href={`/${currentLocale}/restfull`}
                       className={`${styles.headerMenuItem} ${pathname === `/${currentLocale}/restfull` ? styles.active : ''}`}
                     >
                       {t('restfull')}
                     </Link>
-                  </li>
-                  <li>
+                  </ListItem>
+                  <ListItem>
                     <Link
                       href={`/${currentLocale}/graphiql`}
                       className={`${styles.headerMenuItem} ${pathname === `/${currentLocale}/graphiql` ? styles.active : ''}`}
                     >
                       {t('graphiql')}
                     </Link>
-                  </li>
+                  </ListItem>
                 </>
               )}
-            </ul>
-          </div>
-          <div className={styles.accountMenu}>
+            </List>
+          </Box>
+          <Box className={styles.accountMenu}>
             <LocaleSwitcher currentLocale={currentLocale} />
             {!user ? <UserAuth currentLocale={currentLocale} /> : <Logout />}
-          </div>
+          </Box>
         </>
       )}
-    </header>
+    </Box>
   );
 }

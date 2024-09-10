@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import styles from '../styles/pages/main.module.css';
 import useAuth from '@/hooks/useAuth';
 import Loader from './Loader';
+import { Box, List, ListItem, Typography } from '@mui/material';
 
 export default function Main(): JSX.Element {
   const t = useTranslations();
@@ -17,44 +18,73 @@ export default function Main(): JSX.Element {
   return (
     <>
       {user ? (
-        <h3 className={styles.heading}>
+        <Typography
+          variant="h3"
+          component="h3"
+          className={styles.heading}
+          sx={{ mb: 2 }}
+        >
           {t('greeting')}, {user.email?.split('@')[0]}
-        </h3>
+        </Typography>
       ) : (
-        <h2 className={styles.heading}>{t('welcome')}</h2>
+        <Typography
+          variant="h3"
+          component="h3"
+          className={styles.heading}
+          sx={{ mb: 2 }}
+        >
+          {t('welcome')}
+        </Typography>
       )}
-      <p className={styles.promo}>{t('promo')}</p>
+      <Typography
+        variant="body1"
+        component="p"
+        sx={{ mb: 3 }}
+        className={styles.promo}
+      >
+        {t('promo')}
+      </Typography>
 
       {user ? (
-        <div className={styles.userAuth}>
-          <p className={styles.subheading}>{t('continueToWork')}</p>
-        </div>
+        <Box className={styles.userAuth}>
+          <Typography
+            variant="h5"
+            component="h5"
+            sx={{ mb: 2 }}
+            className={styles.subheading}
+          >
+            {t('continueToWork')}
+          </Typography>
+        </Box>
       ) : (
-        <div className={styles.userAuth}>
-          <h3>{t('singInToContinue')}</h3>
-          <ul>
-            <li>
+        <Box className={styles.userAuth}>
+          <Typography variant="h3" component="h3">
+            {' '}
+            {t('singInToContinue')}
+          </Typography>
+          <List>
+            <ListItem>
               <Link
                 href={`/${currentLocale}/login`}
                 className={`${styles.userAuthItem} ${pathname === `/${currentLocale}/login` ? styles.active : ''}`}
               >
                 {t('login')}
               </Link>
-            </li>
-            <li>
+            </ListItem>
+            <ListItem>
               <Link
                 href={`/${currentLocale}/registration`}
                 className={`${styles.userAuthItem} ${pathname === `/${currentLocale}/registration` ? styles.active : ''}`}
               >
                 {t('registration')}
               </Link>
-            </li>
-          </ul>
-        </div>
+            </ListItem>
+          </List>
+        </Box>
       )}
 
-      <div className={styles.description}>
-        <div className={styles.boxDesc}>
+      <Box className={styles.description}>
+        <Box className={styles.boxDesc}>
           {user ? (
             <Link
               href={`/${currentLocale}/restfull`}
@@ -63,16 +93,22 @@ export default function Main(): JSX.Element {
               {t('restClient')}
             </Link>
           ) : (
-            <h3>{t('restClient')}</h3>
+            <Typography
+              className={styles.clientHeader}
+              variant="h5"
+              component="h5"
+            >
+              {t('restClient')}
+            </Typography>
           )}
-          <ul className={styles.listDesc}>
-            <li>{t('restClientPlus1')}</li>
-            <li>{t('restClientPlus2')}</li>
-            <li>{t('restClientPlus3')}</li>
-          </ul>
-        </div>
+          <List className={styles.listDesc}>
+            <ListItem>{t('restClientPlus1')}</ListItem>
+            <ListItem>{t('restClientPlus2')}</ListItem>
+            <ListItem>{t('restClientPlus3')}</ListItem>
+          </List>
+        </Box>
 
-        <div className={styles.boxDesc}>
+        <Box className={styles.boxDesc}>
           {user ? (
             <Link
               href={`/${currentLocale}/graphiql`}
@@ -81,16 +117,22 @@ export default function Main(): JSX.Element {
               {t('graphiqlClient')}
             </Link>
           ) : (
-            <h3>{t('graphiqlClient')}</h3>
+            <Typography
+              className={styles.clientHeader}
+              variant="h5"
+              component="h5"
+            >
+              {t('graphiqlClient')}
+            </Typography>
           )}
-          <ul className={styles.listDesc}>
-            <li>{t('graphiqlClientPlus1')}</li>
-            <li>{t('graphiqlClientPlus2')}</li>
-            <li>{t('graphiqlClientPlus3')}</li>
-          </ul>
-        </div>
+          <List className={styles.listDesc}>
+            <ListItem>{t('graphiqlClientPlus1')}</ListItem>
+            <ListItem>{t('graphiqlClientPlus2')}</ListItem>
+            <ListItem>{t('graphiqlClientPlus3')}</ListItem>
+          </List>
+        </Box>
 
-        <div className={styles.boxDesc}>
+        <Box className={styles.boxDesc}>
           {user ? (
             <Link
               href={`/${currentLocale}/history`}
@@ -99,14 +141,20 @@ export default function Main(): JSX.Element {
               {t('history')}
             </Link>
           ) : (
-            <h3>{t('history')}</h3>
+            <Typography
+              className={styles.clientHeader}
+              variant="h5"
+              component="h5"
+            >
+              {t('history')}
+            </Typography>
           )}
-          <ul className={styles.listDesc}>
-            <li>{t('historyDescription1')}</li>
-            <li>{t('historyDescription2')}</li>
-          </ul>
-        </div>
-      </div>
+          <List className={styles.listDesc}>
+            <ListItem>{t('historyDescription1')}</ListItem>
+            <ListItem>{t('historyDescription2')}</ListItem>
+          </List>
+        </Box>
+      </Box>
     </>
   );
 }
