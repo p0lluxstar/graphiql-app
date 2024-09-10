@@ -13,10 +13,16 @@ import { ImCheckmark } from 'react-icons/im';
 import { FaArrowsDownToLine } from 'react-icons/fa6';
 import { FaArrowsUpToLine } from 'react-icons/fa6';
 import { Box, Button, TextField } from '@mui/material';
+import { loadingResponseActions } from '@/redux/slices/LoadingResponseSlice';
 
 export default function MainControls(): JSX.Element {
   const dispatch = useDispatch();
   const router = useRouter();
+  const [urlApi, setUrlApi] = useState('');
+  const [urlDocs, setUrlDocs] = useState('');
+  const [isApply, setIsApply] = useState(false);
+  const [isApplyDocs, setIsApplyDocs] = useState(false);
+
   const querySectionCode = useSelector(
     (state: RootState) => state.querySectionReducer.querySectionCode
   );
@@ -29,10 +35,9 @@ export default function MainControls(): JSX.Element {
     (state: RootState) => state.headersSectionReducer.headersSectionCode
   );
 
-  const [urlApi, setUrlApi] = useState('');
-  const [urlDocs, setUrlDocs] = useState('');
-  const [isApply, setIsApply] = useState(false);
-  const [isApplyDocs, setIsApplyDocs] = useState(false);
+  const isLoadingDocs = useSelector(
+    (state: RootState) => state.loadingDocsReducer.isLoading
+  );
 
   const {
     toggleIsShowVariablesAndHeaders,
@@ -103,9 +108,6 @@ export default function MainControls(): JSX.Element {
 
   const makeRequest = async (): Promise<void> => {
     let headersJSON = {};
-    /* 
-    const currentUrl = new URL(window.location.href);
-    router.replace(`${currentUrl}/${encodedData}`); */
 
     try {
       if (headersSectionCode.length > 0) {
@@ -130,6 +132,8 @@ export default function MainControls(): JSX.Element {
         console.error('Ошибка при парсинге JSON:', error);
       }
     }
+
+    dispatch(loadingResponseActions.setLoading(true));
 
     try {
       const response = await fetch(`${urlApi}`, {
@@ -159,6 +163,8 @@ export default function MainControls(): JSX.Element {
     } catch (error) {
       dispatch(responseSectionActions.setResponseSectionCode('error'));
       dispatch(responseSectionActions.setResponseCodeAndStatus(``));
+    } finally {
+      dispatch(loadingResponseActions.setLoading(false));
     }
   };
 
@@ -332,6 +338,7 @@ export default function MainControls(): JSX.Element {
         sx={{
           display: 'flex',
           gap: '20px',
+          alignItems: 'center',
         }}
       >
         <Box
@@ -360,28 +367,34 @@ export default function MainControls(): JSX.Element {
             {isApplyDocs ? <ImCheckmark /> : <span>Apply</span>}
           </Button>
         </Box>
-        {isShowBtnDocs && (
-          <Button
-            onClick={toggleIsShowDocs}
-            sx={{
-              ...buttonStyles,
-              background: isShowDocs ? '#0078d4' : '#646464',
-            }}
-          >
-            Docs
-          </Button>
-        )}
-        {isShowBtnDocs === null && (
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              color: 'red',
-            }}
-          >
-            <span>No docs</span>
-          </Box>
-        )}
+        <Box>
+          {isLoadingDocs ? (
+            <Box sx={{ color: '#FFFFFF' }}>Loading...</Box>
+          ) : (
+            isShowBtnDocs && (
+              <Button
+                onClick={toggleIsShowDocs}
+                sx={{
+                  ...buttonStyles,
+                  background: isShowDocs ? '#0078d4' : '#646464',
+                }}
+              >
+                Docs
+              </Button>
+            )
+          )}
+          {isShowBtnDocs === null && (
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                color: 'red',
+              }}
+            >
+              <span>No docs</span>
+            </Box>
+          )}
+        </Box>
       </Box>
     </Box>
   );

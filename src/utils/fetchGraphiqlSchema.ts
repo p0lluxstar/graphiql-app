@@ -1,4 +1,5 @@
 import { docsSectionActions } from '@/redux/slices/graphiqlDocsSectionSlice';
+import { loadingDocsActions } from '@/redux/slices/LoadingDocsSlice';
 import { INTROSPECTION_QUERY } from '@/constants/components';
 import { Dispatch } from '@reduxjs/toolkit';
 import { buildClientSchema, printSchema } from 'graphql';
@@ -8,6 +9,8 @@ export const fetchGraphiqlSchema = async (
   dispatch: Dispatch,
   toggleIsShowBtnDocs: (valud: boolean | null) => void
 ): Promise<void> => {
+  dispatch(loadingDocsActions.setLoading(true));
+
   try {
     const response = await fetch(`${url}/?sdl`, {
       method: 'POST',
@@ -26,5 +29,7 @@ export const fetchGraphiqlSchema = async (
   } catch (error) {
     toggleIsShowBtnDocs(null);
     dispatch(docsSectionActions.setDocsSectionCode(''));
+  } finally {
+    dispatch(loadingDocsActions.setLoading(false));
   }
 };

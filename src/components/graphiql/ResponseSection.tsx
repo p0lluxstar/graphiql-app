@@ -7,6 +7,10 @@ import { EditorView } from '@codemirror/view';
 import { Box } from '@mui/material';
 
 export default function ResponseSection(): JSX.Element {
+  const isLoading = useSelector(
+    (state: RootState) => state.loadingResponseReducer.isLoading
+  );
+
   const responseSectionCode = useSelector(
     (state: RootState) => state.responseSectionReducer.responseSectionCode
   );
@@ -47,21 +51,26 @@ export default function ResponseSection(): JSX.Element {
           </Box>
         )}
       </Box>
-      {responseSectionCode.length > 0 && (
-        <CodeMirror
-          value={responseSectionCode}
-          extensions={[
-            json(),
-            EditorView.theme({
-              '&.cm-editor .cm-gutters': { display: 'none' },
-            }),
-          ]}
-          theme={oneDark}
-          height="100%"
-          className={styles.responseSectionCode}
-          readOnly={true}
-        />
-      )}
+      <Box className={styles.responseSectionCode}>
+        {isLoading ? (
+          <Box sx={{ color: '#FFFFFF', textAlign: 'center' }}>Loading...</Box>
+        ) : (
+          responseSectionCode.length > 0 && (
+            <CodeMirror
+              value={responseSectionCode}
+              extensions={[
+                json(),
+                EditorView.theme({
+                  '&.cm-editor .cm-gutters': { display: 'none' },
+                }),
+              ]}
+              theme={oneDark}
+              height="100%"
+              readOnly={true}
+            />
+          )
+        )}
+      </Box>
     </Box>
   );
 }
