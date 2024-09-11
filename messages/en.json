@@ -47,5 +47,15 @@
   "invalidUser": "The user with the specified email has already been registered",
   "unknownError": "An unknown error has occurred",
   "tooManyRequests": "Too many attempts. Try logging in later",
-  "courseLink": "RSS Course link"
+  "courseLink": "RSS Course link",
+  "urlApi": "Url API",
+  "urlDocs": "Url docs",
+  "apply": "Apply",
+  "query": "Query",
+  "response": "Response",
+  "variables": "Variables",
+  "headers": "Headers",
+  "docs": "Docs",
+  "noDocs": "Not docs",
+  "loading": "Loaing..."
 }

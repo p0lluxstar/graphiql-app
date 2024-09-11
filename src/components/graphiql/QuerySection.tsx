@@ -9,8 +9,11 @@ import { useVisibility } from '@/context/VisibilityContext';
 import { format } from 'graphql-formatter';
 import { VscCodeOss } from 'react-icons/vsc';
 import { Box, Button } from '@mui/material';
+import { darkTheme } from './darkTheme';
+import { useTranslations } from 'next-intl';
 
 export default function QuerySection(): JSX.Element {
+  const t = useTranslations();
   const dispatch = useDispatch();
   const { handleBlur } = useHandleBlur();
   const { isShowUrlApiApplyBtn } = useVisibility();
@@ -52,9 +55,11 @@ export default function QuerySection(): JSX.Element {
           paddingLeft: '10px',
           paddingTop: '4px',
           color: '#FFFFFF',
+          background: '#1E1E1E',
+          borderButtom: '1px solid #ccc',
         }}
       >
-        <h2>Query</h2>
+        <h2>{t('query')}</h2>
         <Box>
           <Button
             onClick={formatCode}
@@ -67,7 +72,7 @@ export default function QuerySection(): JSX.Element {
         </Box>
       </Box>
       <CodeMirror
-        extensions={[javascript()]}
+        extensions={[javascript(), darkTheme]}
         onBlur={handleBlur}
         theme={oneDark}
         height="100%"

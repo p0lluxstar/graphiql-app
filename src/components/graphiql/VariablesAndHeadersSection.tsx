@@ -11,8 +11,11 @@ import useHandleBlur from '@/hooks/useHandleBlur';
 import { Box, Tabs, Tab, Button } from '@mui/material';
 import { VscCodeOss } from 'react-icons/vsc';
 import { grahpiqlErrorMessageActions } from '@/redux/slices/graphiqlErrorMessageSlice';
+import { darkTheme } from './darkTheme';
+import { useTranslations } from 'next-intl';
 
 export default function VariablesAndHeadersSection(): JSX.Element {
+  const t = useTranslations();
   const dispatch = useDispatch();
   const router = useRouter();
   const { handleBlur } = useHandleBlur();
@@ -112,6 +115,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
           width: '100%',
           paddingLeft: '10px',
           paddingTop: '2px',
+          background: '#1E1E1E',
         }}
       >
         <Tabs
@@ -132,13 +136,13 @@ export default function VariablesAndHeadersSection(): JSX.Element {
           }}
         >
           <Tab
-            label="Variables"
+            label={t('variables')}
             value="variables"
             sx={{ minHeight: '32px', fontSize: '14px' }}
             onClick={handlerVariablesButton}
           />
           <Tab
-            label="Headers"
+            label={t('headers')}
             value="headers"
             sx={{ minHeight: '32px', fontSize: '14px' }}
             onClick={handlerHeadersButton}
@@ -158,7 +162,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
       {showVariables && (
         <CodeMirror
           value={variablesSectionCode}
-          extensions={[json()]}
+          extensions={[json(), darkTheme]}
           theme={oneDark}
           onBlur={handleBlur}
           height="100%"
@@ -170,7 +174,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
       {showHeaders && (
         <CodeMirror
           value={headersSectionCode}
-          extensions={[json()]}
+          extensions={[json(), darkTheme]}
           theme={oneDark}
           onBlur={handleBlurHeaders}
           height="100%"

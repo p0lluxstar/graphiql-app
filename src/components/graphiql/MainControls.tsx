@@ -14,6 +14,7 @@ import { FaArrowsDownToLine } from 'react-icons/fa6';
 import { FaArrowsUpToLine } from 'react-icons/fa6';
 import { Box, Button, TextField } from '@mui/material';
 import { loadingResponseActions } from '@/redux/slices/LoadingResponseSlice';
+import { useTranslations } from 'next-intl';
 
 export default function MainControls(): JSX.Element {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ export default function MainControls(): JSX.Element {
   const [urlDocs, setUrlDocs] = useState('');
   const [isApply, setIsApply] = useState(false);
   const [isApplyDocs, setIsApplyDocs] = useState(false);
+  const t = useTranslations();
 
   const querySectionCode = useSelector(
     (state: RootState) => state.querySectionReducer.querySectionCode
@@ -264,18 +266,20 @@ export default function MainControls(): JSX.Element {
       sx={{
         display: 'flex',
         alignItems: 'center',
-        height: '80px',
+        height: '70px',
         borderBottom: '1px solid #646464',
         backgroundColor: '#282c34',
         padding: '0 10px',
         borderRadius: '5px 5px 0 0',
         justifyContent: 'space-between',
+        background: '#1E1E1E',
       }}
     >
       <Box
         sx={{
           display: 'flex',
           gap: '20px',
+          height: '40px',
         }}
       >
         <Box
@@ -288,7 +292,7 @@ export default function MainControls(): JSX.Element {
             disabled={isApply}
             value={urlApi}
             onChange={handleInputChange}
-            label="Url API"
+            label={t('urlApi')}
             size="small"
             sx={textFieldStyles}
           />
@@ -301,7 +305,7 @@ export default function MainControls(): JSX.Element {
               borderRadius: '0px 5px 5px 0px',
             }}
           >
-            {isApply ? <ImCheckmark /> : <span>Apply</span>}
+            {isApply ? <ImCheckmark /> : <span>{t('apply')}</span>}
           </Button>
         </Box>
         <Button
@@ -338,6 +342,7 @@ export default function MainControls(): JSX.Element {
         sx={{
           display: 'flex',
           gap: '20px',
+          height: '40px',
           alignItems: 'center',
         }}
       >
@@ -351,7 +356,7 @@ export default function MainControls(): JSX.Element {
             disabled={isApplyDocs}
             value={urlDocs}
             onChange={handleInputChangeDocs}
-            label="Url Docs"
+            label={t('urlDocs')}
             sx={textFieldStyles}
             size="small"
           />
@@ -364,14 +369,14 @@ export default function MainControls(): JSX.Element {
               background: isApplyDocs ? '#0078d4' : '#646464',
             }}
           >
-            {isApplyDocs ? <ImCheckmark /> : <span>Apply</span>}
+            {isApplyDocs ? <ImCheckmark /> : <span>{t('apply')}</span>}
           </Button>
         </Box>
-        <Box>
-          {isLoadingDocs ? (
-            <Box sx={{ color: '#FFFFFF' }}>Loading...</Box>
-          ) : (
-            isShowBtnDocs && (
+        {isLoadingDocs ? (
+          <Box sx={{ color: '#FFFFFF' }}>{t('loading')}</Box>
+        ) : (
+          isShowBtnDocs && (
+            <Box>
               <Button
                 onClick={toggleIsShowDocs}
                 sx={{
@@ -379,22 +384,16 @@ export default function MainControls(): JSX.Element {
                   background: isShowDocs ? '#0078d4' : '#646464',
                 }}
               >
-                Docs
+                {t('docs')}
               </Button>
-            )
-          )}
-          {isShowBtnDocs === null && (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                color: 'red',
-              }}
-            >
-              <span>No docs</span>
             </Box>
-          )}
-        </Box>
+          )
+        )}
+        {isShowBtnDocs === null && (
+          <Box sx={{ color: 'red' }}>
+            <span>{t('noDocs')}</span>
+          </Box>
+        )}
       </Box>
     </Box>
   );

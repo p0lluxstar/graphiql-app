@@ -5,8 +5,12 @@ import CodeMirror, { oneDark } from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 import { EditorView } from '@codemirror/view';
 import { Box } from '@mui/material';
+import { darkTheme } from './darkTheme';
+import { useTranslations } from 'next-intl';
 
 export default function ResponseSection(): JSX.Element {
+  const t = useTranslations();
+
   const isLoading = useSelector(
     (state: RootState) => state.loadingResponseReducer.isLoading
   );
@@ -39,7 +43,7 @@ export default function ResponseSection(): JSX.Element {
           color: '#FFFFFF',
         }}
       >
-        <h2>Response</h2>
+        <h2>{t('response')}</h2>
         {responseSectionCode.length > 0 && (
           <Box
             sx={{
@@ -53,7 +57,9 @@ export default function ResponseSection(): JSX.Element {
       </Box>
       <Box className={styles.responseSectionCode}>
         {isLoading ? (
-          <Box sx={{ color: '#FFFFFF', textAlign: 'center' }}>Loading...</Box>
+          <Box sx={{ color: '#FFFFFF', textAlign: 'center' }}>
+            {t('loading')}
+          </Box>
         ) : (
           responseSectionCode.length > 0 && (
             <CodeMirror
@@ -63,6 +69,7 @@ export default function ResponseSection(): JSX.Element {
                 EditorView.theme({
                   '&.cm-editor .cm-gutters': { display: 'none' },
                 }),
+                darkTheme,
               ]}
               theme={oneDark}
               height="100%"
