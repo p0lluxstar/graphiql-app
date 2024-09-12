@@ -15,6 +15,7 @@ import { FaArrowsUpToLine } from 'react-icons/fa6';
 import { Box, Button, TextField } from '@mui/material';
 import { loadingResponseActions } from '@/redux/slices/LoadingResponseSlice';
 import { useTranslations } from 'next-intl';
+import { grahpiqlErrorMessageActions } from '@/redux/slices/graphiqlErrorMessageSlice';
 
 export default function MainControls(): JSX.Element {
   const dispatch = useDispatch();
@@ -117,8 +118,7 @@ export default function MainControls(): JSX.Element {
         headersJSON = JSON.parse(correctedString);
       }
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Ошибка при парсинге JSON:', error);
+      dispatch(grahpiqlErrorMessageActions.setError('Error when parsing JSON'));
     }
 
     headersJSON['Content-Type'] = 'application/json';
@@ -130,8 +130,9 @@ export default function MainControls(): JSX.Element {
       try {
         variablesSectionCodeParse = JSON.parse(variablesSectionCode);
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error('Ошибка при парсинге JSON:', error);
+        dispatch(
+          grahpiqlErrorMessageActions.setError('Error when parsing JSON')
+        );
       }
     }
 
@@ -181,9 +182,20 @@ export default function MainControls(): JSX.Element {
     toggleisShowUrlApiApplyBtn(true);
 
     if (!isApply) {
+      try {
+        const currentUrl = new URL(window.location.href);
+        const encodedData = btoa(urlApi);
+        router.replace(`${currentUrl}/${encodedData}`);
+      } catch (error) {
+        dispatch(
+          grahpiqlErrorMessageActions.setError('Invalid characters in url')
+        );
+      }
+
+      /*
       const currentUrl = new URL(window.location.href);
       const encodedData = btoa(urlApi);
-      router.replace(`${currentUrl}/${encodedData}`);
+      router.replace(`${currentUrl}/${encodedData}`); */
     }
 
     if (!isApply && !isApplyDocs) {
@@ -223,9 +235,12 @@ export default function MainControls(): JSX.Element {
   const textFieldStyles = {
     '& .MuiOutlinedInput-root': {
       width: '380px',
-      height: '42px',
+      height: '35px',
       color: '#FFFFFF',
       borderRadius: '5px 0px 0px 5px',
+      '& .MuiInputLabel-root': {
+        top: '-5px',
+      },
       '& fieldset': {
         borderColor: '#646464',
       },
@@ -234,6 +249,7 @@ export default function MainControls(): JSX.Element {
       },
       '&.Mui-focused fieldset': {
         borderColor: '#646464',
+        border: '1px solid #646464',
       },
       '&.Mui-disabled fieldset': {
         borderColor: '#0078d4',
@@ -243,6 +259,7 @@ export default function MainControls(): JSX.Element {
       WebkitTextFillColor: '#0078d4',
     },
     '& .MuiInputLabel-root': {
+      top: '-4px',
       color: '#646464',
       '&.Mui-focused': {
         color: '#646464',
@@ -250,6 +267,13 @@ export default function MainControls(): JSX.Element {
       '&.Mui-disabled': {
         color: '#0078d4',
       },
+      '&.Mui-shrink': {
+        color: '#0078d4',
+      },
+    },
+    '& .MuiInputLabel-shrink': {
+      top: '-0px',
+      color: '#646464',
     },
   };
 
@@ -266,11 +290,11 @@ export default function MainControls(): JSX.Element {
       sx={{
         display: 'flex',
         alignItems: 'center',
-        height: '70px',
+        height: '60px',
         borderBottom: '1px solid #646464',
         backgroundColor: '#282c34',
         padding: '0 10px',
-        borderRadius: '5px 5px 0 0',
+        borderRadius: '7px 7px 0 0',
         justifyContent: 'space-between',
         background: '#1E1E1E',
       }}
@@ -279,7 +303,7 @@ export default function MainControls(): JSX.Element {
         sx={{
           display: 'flex',
           gap: '20px',
-          height: '40px',
+          height: '35px',
         }}
       >
         <Box
@@ -349,6 +373,7 @@ export default function MainControls(): JSX.Element {
         <Box
           sx={{
             display: 'flex',
+            height: '35px',
           }}
         >
           <TextField

@@ -31,7 +31,11 @@ const useHandleBlur = (): { handleBlur: () => void } => {
       const newUrl = segments.join('/');
       router.replace(newUrl);
     } catch (error) {
-      dispatch(grahpiqlErrorMessageActions.setError('Query error'));
+      dispatch(
+        grahpiqlErrorMessageActions.setError(
+          'Invalid characters in query or variables or headers'
+        )
+      );
     }
   };
 

@@ -9,7 +9,7 @@ export const darkTheme = EditorView.theme({
   '.cm-gutters': {
     backgroundColor: '#1E1E1E',
     borderRight: '1px solid #333',
-    marginLeft: '5px',
+    marginLeft: '10px',
   },
   '.cm-gutter': {
     backgroundColor: '#1E1E1E',

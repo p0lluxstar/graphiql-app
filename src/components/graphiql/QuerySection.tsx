@@ -7,10 +7,11 @@ import { RootState } from '@/redux/store';
 import useHandleBlur from '@/hooks/useHandleBlur';
 import { useVisibility } from '@/context/VisibilityContext';
 import { format } from 'graphql-formatter';
-import { VscCodeOss } from 'react-icons/vsc';
 import { Box, Button } from '@mui/material';
 import { darkTheme } from './darkTheme';
 import { useTranslations } from 'next-intl';
+import { grahpiqlErrorMessageActions } from '@/redux/slices/graphiqlErrorMessageSlice';
+import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 
 export default function QuerySection(): JSX.Element {
   const t = useTranslations();
@@ -31,8 +32,7 @@ export default function QuerySection(): JSX.Element {
       const formattedCode = format(querySectionCode);
       dispatch(querySectionActions.setQuerySectionCode(formattedCode));
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Ошибка форматирования:', error);
+      dispatch(grahpiqlErrorMessageActions.setError('Invalid query code'));
     }
   };
 
@@ -67,7 +67,7 @@ export default function QuerySection(): JSX.Element {
               fontSize: '30px',
             }}
           >
-            <VscCodeOss />
+            <CleaningServicesIcon />
           </Button>
         </Box>
       </Box>

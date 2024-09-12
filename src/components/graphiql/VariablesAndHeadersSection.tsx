@@ -9,10 +9,10 @@ import { headersSectionActions } from '@/redux/slices/graphiqlHeadersSectionSlic
 import { useRouter } from 'next/navigation';
 import useHandleBlur from '@/hooks/useHandleBlur';
 import { Box, Tabs, Tab, Button } from '@mui/material';
-import { VscCodeOss } from 'react-icons/vsc';
 import { grahpiqlErrorMessageActions } from '@/redux/slices/graphiqlErrorMessageSlice';
 import { darkTheme } from './darkTheme';
 import { useTranslations } from 'next-intl';
+import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 
 export default function VariablesAndHeadersSection(): JSX.Element {
   const t = useTranslations();
@@ -93,7 +93,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
         );
       }
     } catch (error) {
-      dispatch(grahpiqlErrorMessageActions.setError('Formatted error'));
+      dispatch(grahpiqlErrorMessageActions.setError('Error when parsing JSON'));
     }
   };
 
@@ -155,7 +155,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
               fontSize: '30px',
             }}
           >
-            <VscCodeOss />
+            <CleaningServicesIcon />
           </Button>
         </Box>
       </Box>
