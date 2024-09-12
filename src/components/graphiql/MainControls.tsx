@@ -65,7 +65,7 @@ export default function MainControls(): JSX.Element {
 
       let paramsStr = '';
 
-      if ([...searchParams.keys()].length > 0) {
+      if (Array.from(searchParams.keys()).length > 0) {
         paramsStr = '{\n';
         searchParams.forEach((value, key) => {
           paramsStr += `  "${key}":"${value}",\n`;
@@ -110,7 +110,7 @@ export default function MainControls(): JSX.Element {
   }, []);
 
   const makeRequest = async (): Promise<void> => {
-    let headersJSON = {};
+    let headersJSON: { [key: string]: string } = {};
 
     try {
       if (headersSectionCode.length > 0) {
@@ -164,7 +164,11 @@ export default function MainControls(): JSX.Element {
         )
       );
     } catch (error) {
-      dispatch(responseSectionActions.setResponseSectionCode('error'));
+      dispatch(
+        responseSectionActions.setResponseSectionCode(
+          'There is no connection to the request server. Check the url API'
+        )
+      );
       dispatch(responseSectionActions.setResponseCodeAndStatus(``));
     } finally {
       dispatch(loadingResponseActions.setLoading(false));
