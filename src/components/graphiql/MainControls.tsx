@@ -296,12 +296,12 @@ export default function MainControls(): JSX.Element {
         alignItems: 'center',
         height: '60px',
         borderBottom: '1px solid #646464',
-        backgroundColor: '#282c34',
         padding: '0 10px',
         borderRadius: '7px 7px 0 0',
         justifyContent: 'space-between',
-        background: '#1E1E1E',
+        background: '#282c34',
       }}
+      data-testid="mainControls"
     >
       <Box
         sx={{
