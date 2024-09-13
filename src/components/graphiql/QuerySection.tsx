@@ -2,13 +2,14 @@ import styles from '../../styles/components/graphiql/querySection.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { querySectionActions } from '@/redux/slices/graphiqlQuerySectionSlice';
 import CodeMirror, { oneDark } from '@uiw/react-codemirror';
-import { javascript } from '@codemirror/lang-javascript';
+/* import { javascript } from '@codemirror/lang-javascript'; */
+import { langs } from '@uiw/codemirror-extensions-langs';
 import { RootState } from '@/redux/store';
 import useHandleBlur from '@/hooks/useHandleBlur';
 import { useVisibility } from '@/context/VisibilityContext';
 import { format } from 'graphql-formatter';
 import { Box, Button } from '@mui/material';
-import { darkTheme } from './darkTheme';
+/* import { darkTheme } from './darkTheme'; */
 import { useTranslations } from 'next-intl';
 import { grahpiqlErrorMessageActions } from '@/redux/slices/graphiqlErrorMessageSlice';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
@@ -43,6 +44,7 @@ export default function QuerySection(): JSX.Element {
         height: '100%',
         overflow: 'auto',
       }}
+      data-testid="querySection"
     >
       <Box
         sx={{
@@ -55,7 +57,7 @@ export default function QuerySection(): JSX.Element {
           paddingLeft: '10px',
           paddingTop: '4px',
           color: '#FFFFFF',
-          background: '#1E1E1E',
+          background: '#282c34',
           borderButtom: '1px solid #ccc',
         }}
       >
@@ -72,7 +74,7 @@ export default function QuerySection(): JSX.Element {
         </Box>
       </Box>
       <CodeMirror
-        extensions={[javascript(), darkTheme]}
+        extensions={[langs.javascript()]}
         onBlur={handleBlur}
         theme={oneDark}
         height="100%"

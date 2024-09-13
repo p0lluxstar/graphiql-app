@@ -15,7 +15,7 @@ const GraphiqlLayout = (): JSX.Element => {
     useVisibility();
 
   return (
-    <div className={styles.graphiqlLayout}>
+    <div className={styles.graphiqlLayout} data-testid="graphiqlLayout">
       <h1>{t('graphiql')}</h1>
       <MainControls />
       <div className={styles.wrapper}>

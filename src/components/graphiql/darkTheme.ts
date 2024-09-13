@@ -1,4 +1,4 @@
-import { EditorView } from '@codemirror/view';
+/* import { EditorView } from '@codemirror/view';
 
 export const darkTheme = EditorView.theme({
   '&': {},
@@ -38,3 +38,4 @@ export const darkTheme = EditorView.theme({
     boxShadow: '0 2px 5px rgba(0,0,0,0.5)',
   },
 });
+ */

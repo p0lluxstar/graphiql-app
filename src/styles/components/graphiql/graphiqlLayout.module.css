@@ -121,21 +121,21 @@
 }
 
 .leftPanel {
-  background: #1e1e1e;
+  background: #282c34;
   border-bottom-left-radius: 7px;
 }
 
 .rightPanel {
-  background: #1e1e1e;
+  background: #282c34;
   border-bottom-right-radius: 7px;
 }
 
 .topLeftPanel {
-  background: #1e1e1e;
+  background: #282c34;
 }
 
 .bottomLeftPanel {
-  background: #1e1e1e;
+  background: #282c34;
 }
 
 .ResizeHandleOuter {

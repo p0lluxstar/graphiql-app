@@ -11,7 +11,7 @@ export default function DocsSection(): JSX.Element {
   );
 
   return (
-    <div className={styles.docsSectionWrapper}>
+    <div className={styles.docsSectionWrapper} data-testid="docsSectionWrapper">
       <h2 className={styles.title}>{t('docs')}</h2>
       <div className={styles.docsSectionData}>
         <pre>{docsSectionData}</pre>

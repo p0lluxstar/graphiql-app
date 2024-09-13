@@ -27,6 +27,7 @@ export default function GraphiqlErrorMessage(): JSX.Element {
         open={graphiqlError.errorMessage.length > 0}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
+        data-testid="snackbar"
       >
         <Alert
           onClose={handleCloseSnackbar}

@@ -2,11 +2,12 @@ import styles from '../../styles/components/graphiql/responseSection.module.css'
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import CodeMirror, { oneDark } from '@uiw/react-codemirror';
-import { json } from '@codemirror/lang-json';
-import { EditorView } from '@codemirror/view';
+/* import { json } from '@codemirror/lang-json'; */
+/* import { EditorView } from '@codemirror/view'; */
 import { Box } from '@mui/material';
-import { darkTheme } from './darkTheme';
+/* import { darkTheme } from './darkTheme' */
 import { useTranslations } from 'next-intl';
+import { langs } from '@uiw/codemirror-extensions-langs';
 
 export default function ResponseSection(): JSX.Element {
   const t = useTranslations();
@@ -30,6 +31,7 @@ export default function ResponseSection(): JSX.Element {
         height: '100%',
         overflow: 'auto',
       }}
+      data-testid="responseSection"
     >
       <Box
         sx={{
@@ -65,11 +67,11 @@ export default function ResponseSection(): JSX.Element {
             <CodeMirror
               value={responseSectionCode}
               extensions={[
-                json(),
-                EditorView.theme({
+                langs.json(),
+                /* EditorView.theme({
                   '&.cm-editor .cm-gutters': { display: 'none' },
                 }),
-                darkTheme,
+                darkTheme, */
               ]}
               theme={oneDark}
               height="100%"
