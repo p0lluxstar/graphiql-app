@@ -139,6 +139,12 @@ export default function Restfull(): JSX.Element {
   };
 
   const handleSendRequest = async (): Promise<void> => {
+    if (!url) {
+      setJsonError(t('urlRequiredError'));
+      setOpenSnackbar(true);
+      return;
+    }
+
     try {
       const requestOptions: RequestInit = {
         method,
