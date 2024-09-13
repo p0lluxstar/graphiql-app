@@ -23,8 +23,15 @@ export const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
   setOpenSnackbar,
 }) => {
   const jsonLinter = linter((view) => {
+    const text = view.state.doc.toString().trim();
+
+    if (text === '') {
+      setJsonError(null);
+      return [];
+    }
+
     try {
-      jsonlint.parse(view.state.doc.toString());
+      jsonlint.parse(text);
     } catch (e: unknown) {
       if (e instanceof Error && 'location' in e && e.location) {
         const lintError = e as {
@@ -35,6 +42,7 @@ export const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
           message: string;
         };
         setJsonError(lintError.message);
+        setOpenSnackbar(true);
         return [
           {
             from: lintError.location.start.offset,
@@ -45,6 +53,7 @@ export const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
         ];
       } else {
         setJsonError((e as Error).message || 'Unknown error');
+        setOpenSnackbar(true);
         return [
           {
             from: 0,
@@ -55,6 +64,8 @@ export const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
         ];
       }
     }
+
+    setJsonError(null);
     return [];
   });
 
