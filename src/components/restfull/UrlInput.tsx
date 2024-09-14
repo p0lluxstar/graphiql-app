@@ -7,12 +7,12 @@ interface UrlInputProps {
 }
 
 export const UrlInput: React.FC<UrlInputProps> = ({ url, onChange }) => {
-  const t = useTranslations('restfull');
+  const t = useTranslations();
 
   return (
     <TextField
-      label={t('url')}
-      placeholder={t('placeholderUrl')}
+      label={t('restfull_url')}
+      placeholder={t('restfull_placeholderUrl')}
       variant="outlined"
       fullWidth
       value={url}

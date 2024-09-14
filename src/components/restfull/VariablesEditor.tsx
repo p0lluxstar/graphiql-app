@@ -20,7 +20,7 @@ export const VariablesEditor: React.FC<VariablesEditorProps> = ({
   onAddVariable,
   onRemoveVariable,
 }) => {
-  const t = useTranslations('restfull');
+  const t = useTranslations();
 
   return (
     <Box mt={2} sx={{ flexGrow: 1, overflowY: 'auto', paddingTop: '5px' }}>
@@ -33,7 +33,7 @@ export const VariablesEditor: React.FC<VariablesEditorProps> = ({
           sx={{ gap: 1 }}
         >
           <TextField
-            label={t('placeholderVariableKey')}
+            label={t('restfull_placeholderVariableKey')}
             variant="outlined"
             value={variable.key}
             size="small"
@@ -55,7 +55,7 @@ export const VariablesEditor: React.FC<VariablesEditorProps> = ({
             }}
           />
           <TextField
-            label={t('placeholderVariableValue')}
+            label={t('restfull_placeholderVariableValue')}
             variant="outlined"
             value={variable.value}
             size="small"
@@ -98,7 +98,7 @@ export const VariablesEditor: React.FC<VariablesEditorProps> = ({
           },
         }}
       >
-        {t('addVariable')}
+        {t('restfull_addVariable')}
       </Button>
     </Box>
   );

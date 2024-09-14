@@ -20,7 +20,7 @@ export const HeadersEditor: React.FC<HeadersEditorProps> = ({
   onAddHeader,
   onRemoveHeader,
 }) => {
-  const t = useTranslations('restfull');
+  const t = useTranslations();
 
   return (
     <Box mt={2} sx={{ flexGrow: 1, overflowY: 'auto', paddingTop: '5px' }}>
@@ -33,7 +33,7 @@ export const HeadersEditor: React.FC<HeadersEditorProps> = ({
           sx={{ gap: 1 }}
         >
           <TextField
-            label={t('placeholderHeaderKey')}
+            label={t('restfull_placeholderHeaderKey')}
             variant="outlined"
             value={header.key}
             size="small"
@@ -55,7 +55,7 @@ export const HeadersEditor: React.FC<HeadersEditorProps> = ({
             }}
           />
           <TextField
-            label={t('placeholderHeaderValue')}
+            label={t('restfull_placeholderHeaderValue')}
             variant="outlined"
             value={header.value}
             size="small"
@@ -96,7 +96,7 @@ export const HeadersEditor: React.FC<HeadersEditorProps> = ({
           },
         }}
       >
-        {t('addHeader')}
+        {t('restfull_addHeader')}
       </Button>
     </Box>
   );

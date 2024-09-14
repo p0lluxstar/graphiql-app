@@ -38,7 +38,7 @@ export default function Restfull(): JSX.Element {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const t = useTranslations('restfull');
+  const t = useTranslations();
 
   const methodParam = pathname.split('/')[3];
   const encodedUrl = pathname.split('/')[4];
@@ -246,7 +246,7 @@ export default function Restfull(): JSX.Element {
                   },
                 }}
               >
-                {t('send')}
+                {t('restfull_send')}
               </Button>
             </Box>
 
@@ -268,17 +268,17 @@ export default function Restfull(): JSX.Element {
               }}
             >
               <Tab
-                label={t('requestBody')}
+                label={t('restfull_requestBody')}
                 value="body"
                 sx={{ minHeight: '32px', fontSize: '12px' }}
               />
               <Tab
-                label={t('headers')}
+                label={t('restfull_headers')}
                 value="headers"
                 sx={{ minHeight: '32px', fontSize: '12px' }}
               />
               <Tab
-                label={t('variables')}
+                label={t('restfull_variables')}
                 value="variables"
                 sx={{ minHeight: '32px', fontSize: '12px' }}
               />
