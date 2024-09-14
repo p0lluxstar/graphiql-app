@@ -1,0 +1,149 @@
+/* .wrapper {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  top: 8rem;
+  bottom: 14rem;
+  --color-background: #457c8b;
+  --color-background-code: rgba(0, 0, 0, 0.35);
+  --color-background-default: #081120;
+  --color-button-background: #2a3343;
+  --color-button-background-hover: #454950;
+  --color-button-border: #18181a;
+  --color-code: #abb2bf;
+  --color-default: #ffffff;
+  --color-horizontal-rule: #454950;
+  --color-link: #dcadff;
+  --color-panel-background: #282c34;
+  --color-panel-background-alternate: #202124;
+  --color-solid-resize-bar: #454950;
+  --color-solid-resize-bar-handle: #4c8a9d;
+  --color-lines: #646464;
+}
+
+.Container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  min-height: 210px;
+}
+
+.TopRow {
+  flex: 0 0 auto;
+  text-align: center;
+}
+
+.BottomRow {
+  flex: 1 1 auto;
+}
+
+.Panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.PanelContent {
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-panel-background);
+  overflow: auto;
+  color: var(--color-code);
+}
+
+.ResizeHandleOuter {
+  flex: 0 0 0.2em;
+  position: relative;
+  outline: none;
+  --background-color: var(--color-lines);
+}
+
+.ResizeHandleOuter[data-resize-handle-active] {
+  --background-color: #0078d4;
+}
+
+.ResizeHandleInner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0em;
+  bottom: 0em;
+  left: 0em;
+  right: 0em;
+  background-color: var(--background-color);
+  transition: background-color 0.1s linear;
+}
+
+.ResizeHandleInner span {
+  margin-bottom: 8px;
+}
+
+.Icon {
+  width: 1em;
+  height: 1em;
+  position: absolute;
+  left: calc(50% - 0.5rem);
+  top: calc(50% - 0.5rem);
+  color: #457c8b;
+}
+
+.titleSection {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  border-bottom: 1px solid #cccc;
+  background: linear-gradient(#f7f7f7, #e2e2e2);
+  padding: 0 10px;
+}
+
+.titleSection span {
+  color: #2d444d;
+  font-weight: 700;
+}
+
+.closingButton {
+  position: absolute;
+}
+ */
+
+/* YourStyles.module.css */
+
+.graphiqlLayout {
+  width: 100%;
+}
+
+.wrapper {
+  height: calc(100vh - 380px);
+  display: flex;
+}
+
+.leftPanel {
+  background: #282c34;
+  border-bottom-left-radius: 7px;
+}
+
+.rightPanel {
+  background: #282c34;
+  border-bottom-right-radius: 7px;
+}
+
+.topLeftPanel {
+  background: #282c34;
+}
+
+.bottomLeftPanel {
+  background: #282c34;
+}
+
+.ResizeHandleOuter {
+  flex: 0 0 0.2em;
+  position: relative;
+  outline: none;
+  background: #646464;
+}
+
+.ResizeHandleOuter[data-resize-handle-active] {
+  background: #0078d4;
+}

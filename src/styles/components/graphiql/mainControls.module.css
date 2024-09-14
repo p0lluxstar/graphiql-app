@@ -1,0 +1,87 @@
+/* .mainControls {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  border-bottom: 1px solid #646464;
+  background: #282c34;
+  width: 100%;
+  padding: 0 10px;
+  border-radius: 5px 5px 0 0;
+  justify-content: space-between;
+}
+
+.apiRequestControls {
+  display: flex;
+  gap: 20px;
+}
+
+.mainControlsBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 30px;
+  border: none;
+  cursor: pointer;
+  background: #0078d4;
+  color: #ffffff;
+}
+
+.mainControlsBtn:hover {
+  opacity: 0.8;
+}
+
+.urlApiWrapper {
+  display: flex;
+}
+
+.urlApiInput,
+.urlDocsInput {
+  background: #282c34;
+  border: 1px solid #646464;
+  border-right: none;
+  width: 380px;
+  height: 30px;
+  color: #989898;
+  padding: 0 5px;
+}
+
+.urlApiInput:focus,
+.urlDocsInput:focus {
+  outline: none;
+  border: 1px solid #646464;
+}
+
+.urlDocsWrapper {
+  display: flex;
+  gap: 20px;
+}
+
+.urlDocsInputWrapper {
+  display: flex;
+}
+
+.urlDocsInput {
+  display: flex;
+}
+
+.noActiveBtn {
+  background: #646464;
+ 
+}
+
+.activeInput {
+  color: #0078d4;
+  border: 1px solid #0078d4;
+}
+
+.toggleBtnVH {
+  font-size: 22px;
+}
+
+.docsError {
+  display: flex;
+  align-items: center;
+  color: red;
+}
+ */
