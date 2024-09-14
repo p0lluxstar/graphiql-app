@@ -64,7 +64,7 @@
   "restfull_placeholderHeaderKey": "Ключ заголовка",
   "restfull_placeholderHeaderValue": "Значение заголовка",
   "restfull_placeholderVariableKey": "Ключ переменной",
-  "restfull_placeholderVariableValue": "Значение переменной"
+  "restfull_placeholderVariableValue": "Значение переменной",
   "courseLink": "Ссылка на курс RSS",
   "urlApi": "Адрес API",
   "urlDocs": "Адрес документации",
