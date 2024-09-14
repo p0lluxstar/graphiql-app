@@ -43,9 +43,17 @@ export default function Header(): JSX.Element {
                   <ListItem>
                     <Link
                       href={`/${currentLocale}/graphiql`}
-                      className={`${styles.headerMenuItem} ${pathname === `/${currentLocale}/graphiql` ? styles.active : ''}`}
+                      className={`${styles.headerMenuItem} ${pathname.startsWith(`/${currentLocale}/graphiql`) ? styles.active : ''}`}
                     >
                       {t('graphiql')}
+                    </Link>
+                  </ListItem>
+                  <ListItem>
+                    <Link
+                      href={`/${currentLocale}/history`}
+                      className={`${styles.headerMenuItem} ${pathname.startsWith(`/${currentLocale}/history`) ? styles.active : ''}`}
+                    >
+                      {t('history')}
                     </Link>
                   </ListItem>
                 </>

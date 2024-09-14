@@ -1,0 +1,19 @@
+.docsSectionWrapper {
+  height: 100%;
+  overflow: auto;
+  background: #1e1e1e;
+  position: relative;
+}
+
+.docsSectionData {
+  padding: 48px 10px 40px 10px;
+  height: 100%;
+  color: #ffffff;
+}
+
+.title {
+  position: absolute;
+  top: 0px;
+  padding: 10px;
+  color: #ffffff;
+}

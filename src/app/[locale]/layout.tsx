@@ -4,6 +4,8 @@ import '../../styles/globals.css';
 import styles from '../../styles/pages/main.module.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import StoreProvaider from '@/redux/StoreProvaider';
+import { ContextProvider } from '@/context/VisibilityContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,9 +24,13 @@ export default function RootLayout({
     <html lang={locale}>
       <body className={inter.className}>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Header />
-          <main className={styles.main}>{children}</main>
-          <Footer />
+          <ContextProvider>
+            <StoreProvaider>
+              <Header />
+              <main className={styles.main}>{children}</main>
+              <Footer />
+            </StoreProvaider>
+          </ContextProvider>
         </NextIntlClientProvider>
       </body>
     </html>
