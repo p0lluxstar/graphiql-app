@@ -140,7 +140,7 @@ export default function Restfull(): JSX.Element {
 
   const handleSendRequest = async (): Promise<void> => {
     if (!url) {
-      setJsonError(t('urlRequiredError'));
+      setJsonError('URL is required.');
       setOpenSnackbar(true);
       return;
     }
@@ -336,7 +336,7 @@ export default function Restfull(): JSX.Element {
       </PanelGroup>
 
       <Snackbar
-        open={openSnackbar}
+        open={openSnackbar && !!jsonError}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
       >
