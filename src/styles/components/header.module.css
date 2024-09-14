@@ -21,6 +21,10 @@
   list-style-type: none;
 }
 
+.mainMenu li {
+  padding: 0px;
+}
+
 .headerMenuItem,
 .userAuthItem {
   padding: 8px 16px;

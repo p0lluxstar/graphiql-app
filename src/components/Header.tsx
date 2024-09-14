@@ -48,6 +48,14 @@ export default function Header(): JSX.Element {
                       {t('graphiql')}
                     </Link>
                   </ListItem>
+                  <ListItem>
+                    <Link
+                      href={`/${currentLocale}/history`}
+                      className={`${styles.headerMenuItem} ${pathname.startsWith(`/${currentLocale}/history`) ? styles.active : ''}`}
+                    >
+                      {t('history')}
+                    </Link>
+                  </ListItem>
                 </>
               )}
             </List>

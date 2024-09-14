@@ -7,12 +7,26 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from '../styles/components/history.module.css';
+import { removeLocalStorage } from '@/utils/localStorageService';
+import { useState } from 'react';
+
+interface IItemHistory {
+  client: string;
+  url: string;
+}
 
 export default function History(): JSX.Element {
   const t = useTranslations();
   const pathname = usePathname();
   const currentLocale = pathname.split('/')[1];
-  const historyData = getLocalStorage(LS_KEYS.HISTORY);
+  const [historyData, setHistoryData] = useState<IItemHistory[]>(
+    () => getLocalStorage(LS_KEYS.HISTORY) || []
+  );
+
+  const handleClearHistoryBtn = (): void => {
+    removeLocalStorage('LS_HISTORY');
+    setHistoryData([]);
+  };
 
   return (
     <>
@@ -44,7 +58,26 @@ export default function History(): JSX.Element {
           </List>
         </Box>
       ) : (
-        <p>list of history</p>
+        <Box className={styles.historyTable}>
+          <Box className={styles.historyItems}>
+            {historyData.map((el: IItemHistory, index: number) => (
+              <p key={index} className={styles.historyItem}>
+                {`${el.client}: `}
+                <Link className={styles.historyLink} href={el.url}>
+                  {el.url}
+                </Link>
+              </p>
+            ))}
+          </Box>
+          <Box className={styles.clearHistoryBtnWrapper}>
+            <button
+              className={styles.clearHistoryBtn}
+              onClick={handleClearHistoryBtn}
+            >
+              Clear history
+            </button>
+          </Box>
+        </Box>
       )}
     </>
   );

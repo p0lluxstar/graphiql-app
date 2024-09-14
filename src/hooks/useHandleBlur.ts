@@ -2,6 +2,7 @@ import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { grahpiqlErrorMessageActions } from '@/redux/slices/graphiqlErrorMessageSlice';
+import { graphiqlUrlQueryActions } from '@/redux/slices/graphiqlUrlQuerySlice';
 
 const useHandleBlur = (): { handleBlur: () => void } => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const useHandleBlur = (): { handleBlur: () => void } => {
       }
       const newUrl = segments.join('/');
       router.replace(newUrl);
+      dispatch(graphiqlUrlQueryActions.setGraphiqlUrlQuery(newUrl));
     } catch (error) {
       dispatch(
         grahpiqlErrorMessageActions.setError(

@@ -16,6 +16,8 @@ import { Box, Button, TextField } from '@mui/material';
 import { loadingResponseActions } from '@/redux/slices/LoadingResponseSlice';
 import { useTranslations } from 'next-intl';
 import { grahpiqlErrorMessageActions } from '@/redux/slices/graphiqlErrorMessageSlice';
+import { graphiqlUrlQueryActions } from '@/redux/slices/graphiqlUrlQuerySlice';
+import { setLocalStorage } from '@/utils/localStorageService';
 
 export default function MainControls(): JSX.Element {
   const dispatch = useDispatch();
@@ -40,6 +42,10 @@ export default function MainControls(): JSX.Element {
 
   const isLoadingDocs = useSelector(
     (state: RootState) => state.loadingDocsReducer.isLoading
+  );
+
+  const graphiqlUrlQuery = useSelector(
+    (state: RootState) => state.graphiqlUrlQueryReducer.graphiqlUrlQuery
   );
 
   const {
@@ -173,6 +179,10 @@ export default function MainControls(): JSX.Element {
     } finally {
       dispatch(loadingResponseActions.setLoading(false));
     }
+
+    const dataArray = { client: 'GraphiQL', url: graphiqlUrlQuery };
+
+    setLocalStorage('LS_HISTORY', dataArray);
   };
 
   const handleInputChange = (
@@ -190,6 +200,11 @@ export default function MainControls(): JSX.Element {
         const currentUrl = new URL(window.location.href);
         const encodedData = btoa(urlApi);
         router.replace(`${currentUrl}/${encodedData}`);
+        dispatch(
+          graphiqlUrlQueryActions.setGraphiqlUrlQuery(
+            `${currentUrl}/${encodedData}`
+          )
+        );
       } catch (error) {
         dispatch(
           grahpiqlErrorMessageActions.setError('Invalid characters in url')

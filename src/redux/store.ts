@@ -7,6 +7,7 @@ import { docsSectionReducer } from './slices/graphiqlDocsSectionSlice';
 import { grahpiqlErrorMessageReducer } from './slices/graphiqlErrorMessageSlice';
 import { loadingResponseReducer } from './slices/LoadingResponseSlice';
 import { loadingDocsReducer } from './slices/LoadingDocsSlice';
+import { graphiqlUrlQueryReducer } from './slices/graphiqlUrlQuerySlice';
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     grahpiqlErrorMessageReducer,
     loadingResponseReducer,
     loadingDocsReducer,
+    graphiqlUrlQueryReducer,
   },
 });
 

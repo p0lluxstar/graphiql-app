@@ -14,6 +14,7 @@ import { grahpiqlErrorMessageActions } from '@/redux/slices/graphiqlErrorMessage
 /* import { darkTheme } from './darkTheme'; */
 import { useTranslations } from 'next-intl';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
+import { graphiqlUrlQueryActions } from '@/redux/slices/graphiqlUrlQuerySlice';
 
 export default function VariablesAndHeadersSection(): JSX.Element {
   const t = useTranslations();
@@ -63,6 +64,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
       const searchParams = new URLSearchParams(jsonObject);
       const newUrl = `${currentUrl}?${searchParams.toString()}`;
       router.push(newUrl);
+      dispatch(graphiqlUrlQueryActions.setGraphiqlUrlQuery(newUrl));
     }
   };
 
