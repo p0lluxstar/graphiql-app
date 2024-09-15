@@ -17,8 +17,10 @@ describe('Component MainControls', () => {
         'en/graphiql/aHR0cHM6Ly9yaWNrYW5kbW9ydHlhcGkuY29tL2dyYXBocWw=/eyJxdWVyeSI6InF1ZXJ5IHtcbiAgY2hhcmFjdGVycyhwYWdlOiAyLCBmaWx0ZXI6IHsgbmFtZTogXCJyaWNrXCIgfSkge1xuICAgIGluZm8ge1xuICAgICAgY291bnRcbiAgICB9XG4gICAgcmVzdWx0cyB7XG4gICAgICBuYW1lXG4gICAgfVxuICB9XG4gIGxvY2F0aW9uKGlkOiAxKSB7XG4gICAgaWRcbiAgfVxuICBlcGlzb2Rlc0J5SWRzKGlkczogWzEsIDJdKSB7XG4gICAgaWRcbiAgfVxufSIsInZhcmlhYmxlcyI6IiJ9',
     });
 
+    const messages = require(`../../../../messages/en.json`);
+
     render(
-      <NextIntlClientProvider locale="en" messages={{}}>
+      <NextIntlClientProvider locale="en" messages={messages}>
         <ContextProvider>
           <StoreProvaider>
             <MainControls />
@@ -30,7 +32,7 @@ describe('Component MainControls', () => {
     expect(screen.getByTestId('mainControls')).toBeInTheDocument();
     expect(screen.getByTestId('mainControls')).toBeInTheDocument();
 
-    const inputElement = screen.getByLabelText('urlApi');
+    const inputElement = screen.getByLabelText('Url API');
     expect(inputElement).toHaveValue('');
   });
 });

@@ -147,3 +147,10 @@
 .ResizeHandleOuter[data-resize-handle-active] {
   background: #0078d4;
 }
+
+.title {
+  margin-top: 0px;
+  font-weight: 600;
+  color: #2d444d;
+  text-align: center;
+}

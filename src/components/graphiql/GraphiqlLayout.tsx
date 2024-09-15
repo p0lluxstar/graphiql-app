@@ -16,7 +16,7 @@ const GraphiqlLayout = (): JSX.Element => {
 
   return (
     <div className={styles.graphiqlLayout} data-testid="graphiqlLayout">
-      <h1>{t('graphiql')}</h1>
+      <h1 className={styles.title}>{t('graphiql')}</h1>
       <MainControls />
       <div className={styles.wrapper}>
         <PanelGroup autoSaveId="example" direction="horizontal">

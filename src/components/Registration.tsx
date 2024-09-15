@@ -56,7 +56,7 @@ export default function Registration(): JSX.Element {
   };
 
   return (
-    <div className={styles.registration}>
+    <div className={styles.registration} data-testid="registration">
       <h1>{t('registration')}</h1>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.name}>

@@ -11,7 +11,7 @@ export default function UserAuth({
   const pathname = usePathname();
   const t = useTranslations();
   return (
-    <div className={styles.userAuth}>
+    <div className={styles.userAuth} data-testid="userAuth">
       <ul>
         <li>
           <Link

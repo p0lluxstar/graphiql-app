@@ -6,6 +6,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import StoreProvaider from '@/redux/StoreProvaider';
 import { ContextProvider } from '@/context/VisibilityContext';
+import ErrorBoundary from '@/components/ErrorBoundary';
+import { redirect } from 'next/navigation';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,7 +20,13 @@ export default function RootLayout({
 }): JSX.Element {
   const { locale } = params;
 
-  const messages = require(`../../../messages/${locale || 'en'}.json`);
+  let messages;
+  try {
+    // Пытаемся загрузить файл с переводами
+    messages = require(`../../../messages/${locale || 'en'}.json`);
+  } catch (error) {
+    redirect('/en');
+  }
 
   return (
     <html lang={locale}>
@@ -27,7 +35,9 @@ export default function RootLayout({
           <ContextProvider>
             <StoreProvaider>
               <Header />
-              <main className={styles.main}>{children}</main>
+              <ErrorBoundary>
+                <main className={styles.main}>{children}</main>
+              </ErrorBoundary>
               <Footer />
             </StoreProvaider>
           </ContextProvider>

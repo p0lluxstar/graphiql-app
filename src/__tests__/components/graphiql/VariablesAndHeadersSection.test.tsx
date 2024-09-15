@@ -26,8 +26,10 @@ describe('Component VariablesAndHeadersSection', () => {
       route: 'en/graphiql',
     });
 
+    const messages = require(`../../../../messages/en.json`);
+
     render(
-      <NextIntlClientProvider locale="en" messages={{}}>
+      <NextIntlClientProvider locale="en" messages={messages}>
         <ContextProvider>
           <StoreProvaider>
             <VariablesAndHeadersSection />

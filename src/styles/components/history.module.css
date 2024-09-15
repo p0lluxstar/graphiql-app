@@ -1,10 +1,11 @@
-.headerMenuItem {
+.headerMenuItem,
+.clearHistoryBtn {
   padding: 8px 16px;
-  color: #2d444d;
+  color: #ffffff;
   text-decoration: none;
   font-size: 20px;
   font-weight: bold;
-  border: 1px solid #2d444d;
+  border: 1px solid #ffffff;
   border-radius: 5px;
 }
 
@@ -13,14 +14,21 @@
   background: #ffffff;
 }
 
-.headerMenuItem:hover {
+.headerMenuItem:hover,
+.clearHistoryBtn:hover {
+  background-color: #ffffff;
+  color: #2d444d;
   opacity: 0.9;
+  cursor: pointer;
 }
+
 .heading {
   font-size: 32px;
   color: #2d444d;
   margin-bottom: 1rem;
   text-align: center;
+  font-weight: 600;
+  font-family: 'Exo 2', 'Lato', 'Helvetica Neue', sans-serif;
 }
 
 .subheading {
@@ -74,18 +82,6 @@
 }
 
 .clearHistoryBtn {
-  padding: 8px 16px;
-  color: #2d444d;
-  text-decoration: none;
-  font-size: 20px;
-  font-weight: bold;
-  border: 1px solid #2d444d;
-  border-radius: 5px;
   background: none;
   margin-top: 20px;
-}
-
-.clearHistoryBtn:hover {
-  cursor: pointer;
-  opacity: 0.8;
 }
