@@ -21,6 +21,8 @@ import { VariablesEditor } from './VariablesEditor';
 import { base64Decode, base64Encode } from '../../utils/base64';
 import useAuth from '@/hooks/useAuth';
 import { useTranslations } from 'next-intl';
+import { getLocalStorage, setLocalStorage } from '@/utils/localStorageService';
+import { LS_KEYS } from '@/utils/const';
 
 interface Variable {
   key: string;
@@ -143,7 +145,9 @@ export default function Restfull(): JSX.Element {
       setOpenSnackbar(true);
       return;
     }
+
     let requestUrl = url;
+
     if (method === 'GET' && variables.length > 0) {
       const params = new URLSearchParams();
       variables.forEach(({ key, value }) => {
@@ -188,8 +192,22 @@ export default function Restfull(): JSX.Element {
         status: `${res.status} ${res.statusText}`,
         body: JSON.stringify(JSON.parse(responseBody), null, 2),
       });
+
       const newUrl = createUrlWithParams();
       window.history.replaceState(null, '', newUrl);
+
+      const dataArray = { client: 'RESTfull', url: newUrl };
+
+      const existingHistory =
+        getLocalStorage<{ url: string }>(LS_KEYS.HISTORY) || [];
+
+      const urlExists = existingHistory.some(
+        (item: { url: string }) => item.url === newUrl
+      );
+
+      if (!urlExists) {
+        setLocalStorage(LS_KEYS.HISTORY, dataArray);
+      }
     } catch (error) {
       if (error instanceof Error) {
         setResponse({ status: 'Error', body: error.message });
