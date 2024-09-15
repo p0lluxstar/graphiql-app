@@ -1,0 +1,91 @@
+.history {
+  width: 100%;
+}
+
+.headerMenuItem,
+.clearHistoryBtn {
+  padding: 8px 16px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+}
+
+.active {
+  color: #2d444d;
+  background: #ffffff;
+}
+
+.headerMenuItem:hover,
+.clearHistoryBtn:hover {
+  background-color: #ffffff;
+  color: #2d444d;
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+.heading {
+  font-size: 32px;
+  color: #2d444d;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 600;
+  font-family: 'Exo 2', 'Lato', 'Helvetica Neue', sans-serif;
+}
+
+.subheading {
+  font-size: 18px;
+  color: #2d444d;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  list-style-type: none;
+  margin-bottom: 40px;
+}
+
+.historyTable {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.historyItems {
+  display: flex;
+  flex-direction: column;
+}
+
+.historyItem {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #2d444d;
+  font-weight: bold;
+}
+
+.historyLink {
+  text-decoration: none;
+  color: #2d444d;
+  font-weight: 400;
+}
+
+.historyLink:hover {
+  text-decoration: underline;
+}
+
+.clearHistoryBtnWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.clearHistoryBtn {
+  background: none;
+  margin-top: 20px;
+}

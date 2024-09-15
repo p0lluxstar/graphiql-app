@@ -1,0 +1,43 @@
+.graphiqlLayout {
+  width: 100%;
+}
+
+.wrapper {
+  height: calc(100vh - 380px);
+  display: flex;
+}
+
+.leftPanel {
+  background: #282c34;
+  border-bottom-left-radius: 7px;
+}
+
+.rightPanel {
+  background: #282c34;
+  border-bottom-right-radius: 7px;
+}
+
+.topLeftPanel {
+  background: #282c34;
+}
+
+.bottomLeftPanel {
+  background: #282c34;
+}
+
+.ResizeHandleOuter {
+  flex: 0 0 0.2em;
+  position: relative;
+  outline: none;
+  background: #646464;
+}
+
+.ResizeHandleOuter[data-resize-handle-active] {
+  background: #0078d4;
+}
+
+.title {
+  margin-top: 0px;
+  color: #2d444d;
+  text-align: center;
+}

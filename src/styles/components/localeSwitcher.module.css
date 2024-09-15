@@ -1,0 +1,19 @@
+.localeButton {
+  background-color: #90bac7;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.localeButton:hover {
+  background-color: #457c8b;
+}
+
+.localeButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 118, 255, 0.5);
+}

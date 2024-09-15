@@ -1,0 +1,15 @@
+@import 'normalize.css';
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  margin: 0;
+  font-family: 'Exo 2', 'Lato', 'Helvetica Neue', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
