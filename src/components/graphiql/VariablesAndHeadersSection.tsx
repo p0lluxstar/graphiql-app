@@ -173,6 +173,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
           onChange={(value) => handleVariablesChange(value)}
           className={styles.variablesAndHeadersCode}
           readOnly={querySectionCode === ''}
+          data-testid="variables"
         />
       )}
       {showHeaders && (
@@ -185,6 +186,7 @@ export default function VariablesAndHeadersSection(): JSX.Element {
           onChange={(value) => handleHeadersChange(value)}
           className={styles.variablesAndHeadersCode}
           readOnly={querySectionCode === ''}
+          data-testid="headers"
         />
       )}
     </Box>
