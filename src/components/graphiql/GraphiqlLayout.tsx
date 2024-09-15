@@ -16,11 +16,10 @@ const GraphiqlLayout = (): JSX.Element => {
 
   return (
     <div className={styles.graphiqlLayout} data-testid="graphiqlLayout">
-      <h1>{t('graphiql')}</h1>
+      <h1 className={styles.title}>{t('graphiql')}</h1>
       <MainControls />
       <div className={styles.wrapper}>
         <PanelGroup autoSaveId="example" direction="horizontal">
-          {/* Левая часть с двумя блоками */}
           <Panel className={styles.leftPanel} defaultSize={50} minSize={30}>
             <PanelGroup direction="vertical">
               <Panel
@@ -44,7 +43,6 @@ const GraphiqlLayout = (): JSX.Element => {
               )}
             </PanelGroup>
           </Panel>
-          {/* Правая часть с одним блоком */}
           <GraphiqlHandel />
           <Panel className={styles.rightPanel} defaultSize={50} minSize={30}>
             <ResponseSection />

@@ -10,6 +10,7 @@ import {
   Button,
   Alert,
   SelectChangeEvent,
+  Typography,
 } from '@mui/material';
 import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
 import { MethodSelector } from './MethodSelector';
@@ -228,157 +229,173 @@ export default function Restfull(): JSX.Element {
   };
 
   return (
-    <Container
-      maxWidth="lg"
-      sx={{
-        height: '65vh',
-        flexDirection: 'column',
-        backgroundColor: '#1E1E1E',
-        color: '#D4D4D4',
-      }}
-    >
-      <PanelGroup direction="horizontal" style={{ height: '100%' }}>
-        <Panel
-          defaultSize={50}
-          minSize={35}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            backgroundColor: '#1E1E1E',
-            color: '#D4D4D4',
-            padding: 0,
-          }}
-        >
-          <Container
-            sx={{
+    <Container>
+      <Typography
+        variant="h1"
+        component="h1"
+        sx={{
+          fontSize: '32px',
+          color: '#2d444d',
+          marginBottom: '1rem',
+          textAlign: 'center',
+          fontWeight: '600',
+          fontFamily: '"Exo 2", "Lato", "Helvetica Neue", sans-serif',
+        }}
+      >
+        {t('RESTfull')}
+      </Typography>
+      <Container
+        maxWidth="lg"
+        sx={{
+          height: '65vh',
+          flexDirection: 'column',
+          backgroundColor: '#1E1E1E',
+          color: '#D4D4D4',
+        }}
+      >
+        <PanelGroup direction="horizontal" style={{ height: '100%' }}>
+          <Panel
+            defaultSize={50}
+            minSize={35}
+            style={{
               display: 'flex',
               flexDirection: 'column',
-              height: '100%',
+              backgroundColor: '#1E1E1E',
+              color: '#D4D4D4',
               padding: 0,
             }}
           >
-            <Box
-              display="flex"
-              alignItems="center"
-              mb={2}
-              sx={{ gap: 2, paddingTop: '5px' }}
+            <Container
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
+                padding: 0,
+              }}
             >
-              <MethodSelector method={method} onChange={handleMethodChange} />
-              <UrlInput url={url} onChange={handleUrlChange} />
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleSendRequest}
-                size="small"
+              <Box
+                display="flex"
+                alignItems="center"
+                mb={2}
+                sx={{ gap: 2, paddingTop: '5px' }}
+              >
+                <MethodSelector method={method} onChange={handleMethodChange} />
+                <UrlInput url={url} onChange={handleUrlChange} />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSendRequest}
+                  size="small"
+                  sx={{
+                    backgroundColor: '#007ACC',
+                    '&:hover': {
+                      backgroundColor: '#005F9E',
+                    },
+                  }}
+                >
+                  {t('restfull_send')}
+                </Button>
+              </Box>
+
+              <Tabs
+                value={activeTab}
+                onChange={(_, newValue) => setActiveTab(newValue)}
+                aria-label="basic tabs example"
                 sx={{
-                  backgroundColor: '#007ACC',
-                  '&:hover': {
-                    backgroundColor: '#005F9E',
+                  minHeight: '32px',
+                  '& .MuiTab-root': {
+                    color: '#D4D4D4',
+                  },
+                  '& .Mui-selected': {
+                    color: '#D4D4D4',
+                  },
+                  '& .MuiTabs-indicator': {
+                    backgroundColor: '#007ACC',
                   },
                 }}
               >
-                {t('restfull_send')}
-              </Button>
-            </Box>
+                <Tab
+                  label={t('restfull_requestBody')}
+                  value="body"
+                  sx={{ minHeight: '32px', fontSize: '12px' }}
+                />
+                <Tab
+                  label={t('restfull_headers')}
+                  value="headers"
+                  sx={{ minHeight: '32px', fontSize: '12px' }}
+                />
+                <Tab
+                  label={t('restfull_variables')}
+                  value="variables"
+                  sx={{ minHeight: '32px', fontSize: '12px' }}
+                />
+              </Tabs>
 
-            <Tabs
-              value={activeTab}
-              onChange={(_, newValue) => setActiveTab(newValue)}
-              aria-label="basic tabs example"
-              sx={{
-                minHeight: '32px',
-                '& .MuiTab-root': {
-                  color: '#D4D4D4',
-                },
-                '& .Mui-selected': {
-                  color: '#D4D4D4',
-                },
-                '& .MuiTabs-indicator': {
-                  backgroundColor: '#007ACC',
-                },
-              }}
-            >
-              <Tab
-                label={t('restfull_requestBody')}
-                value="body"
-                sx={{ minHeight: '32px', fontSize: '12px' }}
-              />
-              <Tab
-                label={t('restfull_headers')}
-                value="headers"
-                sx={{ minHeight: '32px', fontSize: '12px' }}
-              />
-              <Tab
-                label={t('restfull_variables')}
-                value="variables"
-                sx={{ minHeight: '32px', fontSize: '12px' }}
-              />
-            </Tabs>
+              {activeTab === 'headers' && (
+                <HeadersEditor
+                  headers={headers}
+                  onHeaderChange={handleHeaderChange}
+                  onAddHeader={addHeader}
+                  onRemoveHeader={removeHeader}
+                />
+              )}
 
-            {activeTab === 'headers' && (
-              <HeadersEditor
-                headers={headers}
-                onHeaderChange={handleHeaderChange}
-                onAddHeader={addHeader}
-                onRemoveHeader={removeHeader}
-              />
-            )}
+              {activeTab === 'body' && (
+                <RequestBodyEditor
+                  body={body}
+                  setBody={setBody}
+                  jsonError={jsonError}
+                  setJsonError={setJsonError}
+                  setOpenSnackbar={setOpenSnackbar}
+                />
+              )}
 
-            {activeTab === 'body' && (
-              <RequestBodyEditor
-                body={body}
-                setBody={setBody}
-                jsonError={jsonError}
-                setJsonError={setJsonError}
-                setOpenSnackbar={setOpenSnackbar}
-              />
-            )}
+              {activeTab === 'variables' && (
+                <VariablesEditor
+                  variables={variables}
+                  onVariableChange={handleVariableChange}
+                  onAddVariable={addVariable}
+                  onRemoveVariable={removeVariable}
+                />
+              )}
+            </Container>
+          </Panel>
 
-            {activeTab === 'variables' && (
-              <VariablesEditor
-                variables={variables}
-                onVariableChange={handleVariableChange}
-                onAddVariable={addVariable}
-                onRemoveVariable={removeVariable}
-              />
-            )}
-          </Container>
-        </Panel>
+          <PanelResizeHandle
+            style={{
+              width: '2px',
+              backgroundColor: '#333',
+            }}
+          />
+          <Panel
+            defaultSize={50}
+            minSize={35}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              backgroundColor: '#1E1E1E',
+              color: '#D4D4D4',
+              padding: 0,
+            }}
+          >
+            <ResponseViewer response={response} />
+          </Panel>
+        </PanelGroup>
 
-        <PanelResizeHandle
-          style={{
-            width: '2px',
-            backgroundColor: '#333',
-          }}
-        />
-        <Panel
-          defaultSize={50}
-          minSize={35}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            backgroundColor: '#1E1E1E',
-            color: '#D4D4D4',
-            padding: 0,
-          }}
-        >
-          <ResponseViewer response={response} />
-        </Panel>
-      </PanelGroup>
-
-      <Snackbar
-        open={openSnackbar && !!jsonError}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-      >
-        <Alert
+        <Snackbar
+          open={openSnackbar && !!jsonError}
+          autoHideDuration={6000}
           onClose={handleCloseSnackbar}
-          severity="error"
-          sx={{ width: '100%' }}
         >
-          {jsonError}
-        </Alert>
-      </Snackbar>
+          <Alert
+            onClose={handleCloseSnackbar}
+            severity="error"
+            sx={{ width: '100%' }}
+          >
+            {jsonError}
+          </Alert>
+        </Snackbar>
+      </Container>
     </Container>
   );
 }

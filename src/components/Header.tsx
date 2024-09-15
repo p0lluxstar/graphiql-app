@@ -17,7 +17,7 @@ export default function Header(): JSX.Element {
   const { user, loading } = useAuth();
 
   return (
-    <Box component="header" className={styles.header}>
+    <Box component="header" className={styles.header} data-testid="header">
       {loading ? null : (
         <>
           <Box component="nav" className={styles.mainMenu}>

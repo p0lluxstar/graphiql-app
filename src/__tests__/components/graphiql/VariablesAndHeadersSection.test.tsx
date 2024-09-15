@@ -1,33 +1,25 @@
-import { it, expect, describe, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 import VariablesAndHeadersSection from '@/components/graphiql/VariablesAndHeadersSection';
-import { NextIntlClientProvider } from 'next-intl';
-import StoreProvaider from '@/redux/StoreProvaider';
-import { useRouter } from 'next/navigation';
-import { ContextProvider } from '@/context/VisibilityContext';
-import store from '@/redux/store';
+import { store } from '@/redux/store';
 import { variablesSectionActions } from '@/redux/slices/graphiqlVariablesSectionSlice';
 import { headersSectionActions } from '@/redux/slices/graphiqlHeadersSectionSlice';
+import { NextIntlClientProvider } from 'next-intl';
+import { ContextProvider } from '@/context/VisibilityContext';
+import StoreProvaider from '@/redux/StoreProvaider';
 
 vi.mock('next/navigation', () => ({
   useRouter: vi.fn(),
 }));
 
-describe('Component VariablesAndHeadersSection', () => {
-  store.dispatch(
-    variablesSectionActions.setVariablesSectionCode('{"key": "value"}')
-  );
-  store.dispatch(
-    headersSectionActions.setHeadersSectionCode('{"header": "value"}')
-  );
+describe('handleFormatJson', () => {
+  it('should format variables and headers JSON correctly', () => {
+    const dispatchMock = vi.spyOn(store, 'dispatch');
 
-  it('Сheck that the element with the test id "variablesAndHeadersSection" exists in the DOM', () => {
-    (useRouter as vi.Mock).mockReturnValue({
-      route: 'en/graphiql',
-    });
+    const messages = require(`../../../../messages/en.json`);
 
     render(
-      <NextIntlClientProvider locale="en" messages={{}}>
+      <NextIntlClientProvider locale="en" messages={messages}>
         <ContextProvider>
           <StoreProvaider>
             <VariablesAndHeadersSection />
@@ -36,23 +28,32 @@ describe('Component VariablesAndHeadersSection', () => {
       </NextIntlClientProvider>
     );
 
-    expect(
-      screen.getByTestId('variablesAndHeadersSection')
-    ).toBeInTheDocument();
-  });
-
-  /* it('Displays CodeMirror for variables section when variables tab is selected', () => {
-    render(
-      <NextIntlClientProvider locale="en" messages={{}}>
-        <ContextProvider>
-          <Provider store={store}>
-            <VariablesAndHeadersSection />
-          </Provider>
-        </ContextProvider>
-      </NextIntlClientProvider>
+    store.dispatch(
+      variablesSectionActions.setVariablesSectionCode('{"key":"value"}')
+    );
+    store.dispatch(
+      headersSectionActions.setHeadersSectionCode('{"headerKey":"headerValue"}')
     );
 
-    // Проверяем, что элемент с data-testid="VCodeMirror" отображается
-    expect(screen.getByTestId('VCodeMirror')).toBeInTheDocument();
-  }); */
+    const formatButton = screen.getByRole('button');
+    fireEvent.click(formatButton);
+
+    expect(dispatchMock).toHaveBeenCalledWith(
+      variablesSectionActions.setVariablesSectionCode(
+        JSON.stringify({ key: 'value' })
+      )
+    );
+
+    expect(dispatchMock).toHaveBeenCalledWith(
+      headersSectionActions.setHeadersSectionCode(
+        JSON.stringify({ headerKey: 'headerValue' })
+      )
+    );
+
+    const headersTab = screen.getByText(/headers/i);
+    fireEvent.click(headersTab);
+
+    expect(screen.getByTestId('headers')).toBeInTheDocument();
+    expect(screen.queryByTestId('variables')).not.toBeInTheDocument();
+  });
 });

@@ -20,8 +20,10 @@ describe('Component ResponseSection', () => {
 
     store.dispatch(responseSectionActions.setResponseSectionCode('code'));
 
+    const messages = require(`../../../../messages/en.json`);
+
     render(
-      <NextIntlClientProvider locale="en" messages={{}}>
+      <NextIntlClientProvider locale="en" messages={messages}>
         <ContextProvider>
           <Provider store={store}>
             <ResponseSection />

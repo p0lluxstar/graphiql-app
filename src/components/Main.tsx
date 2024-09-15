@@ -16,7 +16,7 @@ export default function Main(): JSX.Element {
   if (loading) return <Loader />;
 
   return (
-    <>
+    <Box data-testid="mainPage">
       {user ? (
         <Typography
           variant="h3"
@@ -44,7 +44,6 @@ export default function Main(): JSX.Element {
       >
         {t('promo')}
       </Typography>
-
       {user ? (
         <Box className={styles.userAuth}>
           <Typography
@@ -59,30 +58,30 @@ export default function Main(): JSX.Element {
       ) : (
         <Box className={styles.userAuth}>
           <Typography variant="h3" component="h3">
-            {' '}
             {t('singInToContinue')}
           </Typography>
-          <List>
-            <ListItem>
-              <Link
-                href={`/${currentLocale}/login`}
-                className={`${styles.userAuthItem} ${pathname === `/${currentLocale}/login` ? styles.active : ''}`}
-              >
-                {t('login')}
-              </Link>
-            </ListItem>
-            <ListItem>
-              <Link
-                href={`/${currentLocale}/registration`}
-                className={`${styles.userAuthItem} ${pathname === `/${currentLocale}/registration` ? styles.active : ''}`}
-              >
-                {t('registration')}
-              </Link>
-            </ListItem>
-          </List>
+          <Box className={styles.userAuthBtn}>
+            <List>
+              <ListItem>
+                <Link
+                  href={`/${currentLocale}/login`}
+                  className={`${styles.userAuthItem} ${pathname === `/${currentLocale}/login` ? styles.active : ''}`}
+                >
+                  {t('login')}
+                </Link>
+              </ListItem>
+              <ListItem>
+                <Link
+                  href={`/${currentLocale}/registration`}
+                  className={`${styles.userAuthItem} ${pathname === `/${currentLocale}/registration` ? styles.active : ''}`}
+                >
+                  {t('registration')}
+                </Link>
+              </ListItem>
+            </List>
+          </Box>
         </Box>
       )}
-
       <Box className={styles.description}>
         <Box className={styles.boxDesc}>
           {user ? (
@@ -107,7 +106,6 @@ export default function Main(): JSX.Element {
             <ListItem>{t('restClientPlus3')}</ListItem>
           </List>
         </Box>
-
         <Box className={styles.boxDesc}>
           {user ? (
             <Link
@@ -131,7 +129,6 @@ export default function Main(): JSX.Element {
             <ListItem>{t('graphiqlClientPlus3')}</ListItem>
           </List>
         </Box>
-
         <Box className={styles.boxDesc}>
           {user ? (
             <Link
@@ -155,6 +152,6 @@ export default function Main(): JSX.Element {
           </List>
         </Box>
       </Box>
-    </>
+    </Box>
   );
 }

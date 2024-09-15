@@ -18,12 +18,10 @@ describe('Component Graphiql', () => {
     const router = { replace: vi.fn() };
     (useRouter as vi.Mock).mockReturnValue(router);
 
-    // Настройка мока useAuth
     (useAuth as vi.Mock).mockReturnValue({ user: null, loading: false });
 
     render(<Graphiql />);
 
-    // Проверяем, что происходит редирект на главную страницу
     await waitFor(() => {
       expect(router.replace).toHaveBeenCalledWith('/');
     });

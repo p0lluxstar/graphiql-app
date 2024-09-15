@@ -20,8 +20,10 @@ describe('Component ResponseSection', () => {
 
     store.dispatch(grahpiqlErrorMessageActions.setError('error'));
 
+    const messages = require(`../../../../messages/en.json`);
+
     render(
-      <NextIntlClientProvider locale="en" messages={{}}>
+      <NextIntlClientProvider locale="en" messages={messages}>
         <ContextProvider>
           <Provider store={store}>
             <GraphiqlErrorMessage />

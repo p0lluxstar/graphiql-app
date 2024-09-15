@@ -58,7 +58,7 @@ export default function Login(): JSX.Element {
   };
 
   return (
-    <div className={styles.login}>
+    <div className={styles.login} data-testid="login">
       <h1>{t('login')}</h1>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.email}>

@@ -29,8 +29,8 @@ export default function History(): JSX.Element {
   };
 
   return (
-    <>
-      <Typography variant="h3" component="h3" className={styles.heading}>
+    <Box data-testid="history">
+      <Typography variant="h1" component="h1" className={styles.heading}>
         {t('history')}
       </Typography>
       {!historyData || historyData?.length === 0 ? (
@@ -79,6 +79,6 @@ export default function History(): JSX.Element {
           </Box>
         </Box>
       )}
-    </>
+    </Box>
   );
 }
