@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
@@ -19,6 +19,7 @@ interface RequestBodyEditorProps {
 export const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
   body,
   setBody,
+  jsonError,
   setJsonError,
   setOpenSnackbar,
 }) => {
@@ -118,6 +119,17 @@ export const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
           height="100%"
         />
       </Box>
+      {/* Отображаем сообщение об ошибке без Alert */}
+      {jsonError && (
+        <Typography
+          variant="body2"
+          color="error"
+          data-testid="json-error"
+          sx={{ mt: 1 }}
+        >
+          {jsonError}
+        </Typography>
+      )}
     </Box>
   );
 };
