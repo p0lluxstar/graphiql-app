@@ -1,26 +1,3 @@
-/* .responseSectionWrapper {
-  height: 100%;
-  overflow: auto;
-  background: #282c34;
-  position: relative;
-}
-
-.title {
-  position: absolute;
-  justify-content: space-between;
-  align-items: center;
-  display: flex;
-  top: 0px;
-  padding: 10px;
-  color: #ffffff;
-  width: 100%;
-}
-
-.codeAndStatus {
-  font-size: 14px;
-  color: #c38d0a;
-} */
-
 .responseSectionCode {
   padding-top: 48px;
   height: 100%;

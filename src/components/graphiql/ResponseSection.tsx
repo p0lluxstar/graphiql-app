@@ -2,10 +2,7 @@ import styles from '../../styles/components/graphiql/responseSection.module.css'
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import CodeMirror, { oneDark } from '@uiw/react-codemirror';
-/* import { json } from '@codemirror/lang-json'; */
-/* import { EditorView } from '@codemirror/view'; */
 import { Box } from '@mui/material';
-/* import { darkTheme } from './darkTheme' */
 import { useTranslations } from 'next-intl';
 import { langs } from '@uiw/codemirror-extensions-langs';
 

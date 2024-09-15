@@ -1,6 +1,5 @@
 import styles from '../../styles/components/graphiql/variablesAndHeadersSection.module.css';
 import CodeMirror, { oneDark } from '@uiw/react-codemirror';
-/* import { json } from '@codemirror/lang-json'; */
 import { langs } from '@uiw/codemirror-extensions-langs';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +10,6 @@ import { useRouter } from 'next/navigation';
 import useHandleBlur from '@/hooks/useHandleBlur';
 import { Box, Tabs, Tab, Button } from '@mui/material';
 import { grahpiqlErrorMessageActions } from '@/redux/slices/graphiqlErrorMessageSlice';
-/* import { darkTheme } from './darkTheme'; */
 import { useTranslations } from 'next-intl';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import { graphiqlUrlQueryActions } from '@/redux/slices/graphiqlUrlQuerySlice';

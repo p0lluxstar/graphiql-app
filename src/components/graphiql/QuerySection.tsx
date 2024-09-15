@@ -2,14 +2,12 @@ import styles from '../../styles/components/graphiql/querySection.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { querySectionActions } from '@/redux/slices/graphiqlQuerySectionSlice';
 import CodeMirror, { oneDark } from '@uiw/react-codemirror';
-/* import { javascript } from '@codemirror/lang-javascript'; */
 import { langs } from '@uiw/codemirror-extensions-langs';
 import { RootState } from '@/redux/store';
 import useHandleBlur from '@/hooks/useHandleBlur';
 import { useVisibility } from '@/context/VisibilityContext';
 import { format } from 'graphql-formatter';
 import { Box, Button } from '@mui/material';
-/* import { darkTheme } from './darkTheme'; */
 import { useTranslations } from 'next-intl';
 import { grahpiqlErrorMessageActions } from '@/redux/slices/graphiqlErrorMessageSlice';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
