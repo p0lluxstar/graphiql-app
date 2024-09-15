@@ -13,7 +13,6 @@
     "jsx": "preserve",
     "types": ["vitest/globals", "@testing-library/jest-dom"],
     "incremental": true,
-    "typeRoots": ["./node_modules/@types", "./types"],
     "paths": {
       "@/*": ["./src/*"]
     },

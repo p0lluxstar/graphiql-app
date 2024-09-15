@@ -23,24 +23,24 @@ vi.mock(
   'next/navigation',
   (): {
     useRouter: () => {
-      replace: jest.Mock;
-      push: jest.Mock;
-      prefetch: jest.Mock;
+      replace: vi.Mock;
+      push: vi.Mock;
+      prefetch: vi.Mock;
     };
     usePathname: () => string;
-    useSearchParams: () => { get: jest.Mock };
+    useSearchParams: () => { get: vi.Mock };
   } => ({
     useRouter: (): {
-      replace: jest.Mock;
-      push: jest.Mock;
-      prefetch: jest.Mock;
+      replace: vi.Mock;
+      push: vi.Mock;
+      prefetch: vi.Mock;
     } => ({
       replace: vi.fn(),
       push: vi.fn(),
       prefetch: vi.fn(),
     }),
     usePathname: (): string => '/en/restfull/GET/aHR0cDovL2V4YW1wbGUuY29t',
-    useSearchParams: (): { get: jest.Mock } => ({
+    useSearchParams: (): { get: vi.Mock } => ({
       get: vi.fn(() => null),
     }),
   })
