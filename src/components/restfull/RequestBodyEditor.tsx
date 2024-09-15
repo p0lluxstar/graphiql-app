@@ -119,7 +119,6 @@ export const RequestBodyEditor: React.FC<RequestBodyEditorProps> = ({
           height="100%"
         />
       </Box>
-      {/* Отображаем сообщение об ошибке без Alert */}
       {jsonError && (
         <Typography
           variant="body2"
