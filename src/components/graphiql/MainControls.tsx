@@ -62,6 +62,14 @@ export default function MainControls(): JSX.Element {
     const currentUrl = window.location.pathname;
     const segments = currentUrl.split('/');
 
+    if (urlApi === '') {
+      toggleisShowUrlApiApplyBtn(false);
+      dispatch(querySectionActions.setQuerySectionCode(''));
+      dispatch(responseSectionActions.setResponseSectionCode(''));
+      dispatch(variablesSectionActions.setVariablesSectionCode(''));
+      dispatch(headersSectionActions.setHeadersSectionCode(''));
+    }
+
     if (segments[3]) {
       setIsApply(true);
 
@@ -210,11 +218,6 @@ export default function MainControls(): JSX.Element {
           grahpiqlErrorMessageActions.setError('Invalid characters in url')
         );
       }
-
-      /*
-      const currentUrl = new URL(window.location.href);
-      const encodedData = btoa(urlApi);
-      router.replace(`${currentUrl}/${encodedData}`); */
     }
 
     if (!isApply && !isApplyDocs) {
@@ -222,14 +225,16 @@ export default function MainControls(): JSX.Element {
     }
 
     if (isApply) {
-      toggleisShowUrlApiApplyBtn(false);
-      dispatch(querySectionActions.setQuerySectionCode(''));
-      dispatch(responseSectionActions.setResponseSectionCode(''));
-      dispatch(variablesSectionActions.setVariablesSectionCode(''));
-      dispatch(headersSectionActions.setHeadersSectionCode(''));
       const currentUrl = window.location.pathname;
       const segments = currentUrl.split('/');
       router.push(`/${segments[1]}/graphiql/`);
+      setTimeout(() => {
+        toggleisShowUrlApiApplyBtn(false);
+        dispatch(querySectionActions.setQuerySectionCode(''));
+        dispatch(responseSectionActions.setResponseSectionCode(''));
+        dispatch(variablesSectionActions.setVariablesSectionCode(''));
+        dispatch(headersSectionActions.setHeadersSectionCode(''));
+      }, 100);
     }
   };
 

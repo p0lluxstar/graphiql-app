@@ -29,7 +29,7 @@ export default function History(): JSX.Element {
   };
 
   return (
-    <Box data-testid="history">
+    <Box className={styles.history} data-testid="history">
       <Typography variant="h1" component="h1" className={styles.heading}>
         {t('history')}
       </Typography>

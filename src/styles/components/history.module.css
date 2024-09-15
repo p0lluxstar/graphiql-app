@@ -1,3 +1,7 @@
+.history {
+  width: 100%;
+}
+
 .headerMenuItem,
 .clearHistoryBtn {
   padding: 8px 16px;
