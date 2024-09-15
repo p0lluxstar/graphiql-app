@@ -12,7 +12,6 @@ import {
   SelectChangeEvent,
   Typography,
 } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
 import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
 import { MethodSelector } from './MethodSelector';
 import { UrlInput } from './UrlInput';
@@ -297,7 +296,7 @@ export default function Restfull(): JSX.Element {
                     },
                   }}
                 >
-                  <SendIcon />
+                  {t('restfull_send')}
                 </Button>
               </Box>
 
