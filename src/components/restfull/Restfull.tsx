@@ -241,6 +241,7 @@ export default function Restfull(): JSX.Element {
           textAlign: 'center',
           fontWeight: '600',
           fontFamily: '"Exo 2", "Lato", "Helvetica Neue", sans-serif',
+          padding: '0px',
         }}
       >
         {t('RESTfull')}
@@ -248,10 +249,12 @@ export default function Restfull(): JSX.Element {
       <Container
         maxWidth="lg"
         sx={{
-          height: '65vh',
+          height: '59vh',
           flexDirection: 'column',
           backgroundColor: '#1E1E1E',
           color: '#D4D4D4',
+          borderRadius: '10px',
+          padding: '0px',
         }}
       >
         <PanelGroup direction="horizontal" style={{ height: '100%' }}>
@@ -278,7 +281,7 @@ export default function Restfull(): JSX.Element {
                 display="flex"
                 alignItems="center"
                 mb={2}
-                sx={{ gap: 2, paddingTop: '5px' }}
+                sx={{ gap: 2, paddingTop: '10px' }}
               >
                 <MethodSelector method={method} onChange={handleMethodChange} />
                 <UrlInput url={url} onChange={handleUrlChange} />
