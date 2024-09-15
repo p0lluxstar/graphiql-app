@@ -3,6 +3,7 @@
   "description": "Создано с помощью Next.js.",
   "main": "Главная",
   "restfull": "RESTfull",
+  "RESTfull": "RESTful",
   "graphiql": "ГрафикQL",
   "footer": "Подвал",
   "notFound": "Ошибка 404. Страница не найдена!",
