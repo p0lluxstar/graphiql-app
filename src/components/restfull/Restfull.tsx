@@ -1,5 +1,4 @@
 'use client';
-
 import React, { useState, useEffect } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import {
@@ -22,6 +21,8 @@ import { VariablesEditor } from './VariablesEditor';
 import { base64Decode, base64Encode } from '../../utils/base64';
 import useAuth from '@/hooks/useAuth';
 import { useTranslations } from 'next-intl';
+import { getLocalStorage, setLocalStorage } from '@/utils/localStorageService';
+import { LS_KEYS } from '@/utils/const';
 
 interface Variable {
   key: string;
@@ -145,6 +146,29 @@ export default function Restfull(): JSX.Element {
       return;
     }
 
+    let requestUrl = url;
+
+    if (method === 'GET' && variables.length > 0) {
+      const params = new URLSearchParams();
+      variables.forEach(({ key, value }) => {
+        if (key && value) {
+          params.append(key, value);
+        }
+      });
+      requestUrl = `${url}?${params.toString()}`;
+    }
+
+    let requestBody = body;
+    if (method !== 'GET' && variables.length > 0) {
+      const bodyData = body ? JSON.parse(body) : {};
+      variables.forEach(({ key, value }) => {
+        if (key && value) {
+          bodyData[key] = value;
+        }
+      });
+      requestBody = JSON.stringify(bodyData, null, 2);
+    }
+
     try {
       const requestOptions: RequestInit = {
         method,
@@ -155,30 +179,40 @@ export default function Restfull(): JSX.Element {
           },
           {}
         ),
-        body: method !== 'GET' ? body : undefined,
+        body: method !== 'GET' ? requestBody : undefined,
+        cache: 'no-store',
       };
 
-      const res = await fetch(url, requestOptions);
-      const responseBody = await res.text();
-      let formattedResponse = responseBody;
-      try {
-        formattedResponse = JSON.stringify(JSON.parse(responseBody), null, 2);
-      } catch (e) {
-        setJsonError(t('jsonParseError'));
-        setOpenSnackbar(true);
+      const res = await fetch(requestUrl, requestOptions);
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
       }
+      const responseBody = await res.text();
       setResponse({
         status: `${res.status} ${res.statusText}`,
-        body: formattedResponse,
+        body: JSON.stringify(JSON.parse(responseBody), null, 2),
       });
 
       const newUrl = createUrlWithParams();
       window.history.replaceState(null, '', newUrl);
+
+      const dataArray = { client: 'RESTfull', url: newUrl };
+
+      const existingHistory =
+        getLocalStorage<{ url: string }>(LS_KEYS.HISTORY) || [];
+
+      const urlExists = existingHistory.some(
+        (item: { url: string }) => item.url === newUrl
+      );
+
+      if (!urlExists) {
+        setLocalStorage(LS_KEYS.HISTORY, dataArray);
+      }
     } catch (error) {
       if (error instanceof Error) {
         setResponse({ status: 'Error', body: error.message });
       } else {
-        setResponse({ status: 'Error', body: t('unknownError') });
+        setResponse({ status: 'Error', body: 'An unknown error occurred.' });
       }
     }
   };
@@ -197,13 +231,10 @@ export default function Restfull(): JSX.Element {
     <Container
       maxWidth="lg"
       sx={{
-        height: '90vh',
-        display: 'flex',
+        height: '65vh',
         flexDirection: 'column',
         backgroundColor: '#1E1E1E',
         color: '#D4D4D4',
-        marginTop: '10px',
-        marginBottom: '10px',
       }}
     >
       <PanelGroup direction="horizontal" style={{ height: '100%' }}>
