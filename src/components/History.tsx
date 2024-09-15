@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation';
 import styles from '../styles/components/history.module.css';
 import { removeLocalStorage } from '@/utils/localStorageService';
 import { useState } from 'react';
+import { base64Decode } from '@/utils/base64';
 
 interface IItemHistory {
   client: string;
@@ -26,6 +27,14 @@ export default function History(): JSX.Element {
   const handleClearHistoryBtn = (): void => {
     removeLocalStorage('LS_HISTORY');
     setHistoryData([]);
+  };
+
+  const decodeUrl = (encodedUrl: string): string => {
+    const urlParts = encodedUrl.split('/');
+    const method = urlParts[3];
+    const encodedUrlPart = urlParts[4]?.split('?')[0];
+    const decodedUrl = base64Decode(encodedUrlPart);
+    return `${method} ${decodedUrl}`;
   };
 
   return (
@@ -60,14 +69,18 @@ export default function History(): JSX.Element {
       ) : (
         <Box className={styles.historyTable}>
           <Box className={styles.historyItems}>
-            {historyData.map((el: IItemHistory, index: number) => (
-              <p key={index} className={styles.historyItem}>
-                {`${el.client}: `}
-                <Link className={styles.historyLink} href={el.url}>
-                  {el.url}
-                </Link>
-              </p>
-            ))}
+            {historyData.map((el: IItemHistory, index: number) => {
+              const decodedUrl =
+                el.client === 'RESTfull' ? decodeUrl(el.url) : el.url;
+              return (
+                <p key={index} className={styles.historyItem}>
+                  {`${el.client}: `}
+                  <Link className={styles.historyLink} href={el.url}>
+                    {decodedUrl}
+                  </Link>
+                </p>
+              );
+            })}
           </Box>
           <Box className={styles.clearHistoryBtnWrapper}>
             <button
